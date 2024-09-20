@@ -19,6 +19,8 @@ int main() {
 
   // pay close attention to placement of "" !
   std::cout << /* "*/" /* "/*" */;
+
+  // 1.7 & 1.8 - skip
   
   return 0;
 }
