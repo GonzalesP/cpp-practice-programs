@@ -53,19 +53,54 @@ int main() {
   //   std::cout << c << std::endl;
   // }
 
-  // 1.14 1.15 - skip
+  // 1.14 1.15 1.16 - skip
 
 
 
   // summing a set of numbers with an unknown set size
-  int sum = 0, value = 0;
+  // int sum = 0, value = 0;
 
   // the condition depends on std::cin, which returns true as long as
   // the end-of-file or invalid input is not read
   // EOF is usually CTRL+Z on windows and CTRL+D on Mac/UNIX
-  while (std::cin >> value)
-    sum += value;
+  // while (std::cin >> value)
+  //   sum += value;
   
-  std::cout << "Sum is: " << sum << std::endl;
+  // std::cout << "Sum is: " << sum << std::endl;
+
+
+
+  // count how many consecutive times each distinct value appears
+  // TODO: optimize and fix possible errors?
+  // int currVal = 0, nextVal = 0;
+  // if (std::cin >> currVal) {  // get first val (or terminate if empty input)
+  //   int cnt = 1;
+  //   while (std::cin >> nextVal) {  // compare next values
+  //     if (currVal == nextVal) {  // match -> increase count
+  //       ++cnt;
+  //     }
+  //     else {  // no match, count new value
+  //       std::cout << currVal << " occurs " << cnt << " times." << std::endl;
+  //       currVal = nextVal;  // change currVal to new val
+  //       cnt = 1;
+  //     }
+  //   }
+  //   std::cout << currVal << " occurs " << cnt << " times." << std::endl;
+  // }
+  // note: make sure base cases/possible errors are accounted for
+  // (e.g. empty input is accounted for with if() and final std::cout statement)
+
+
+
+  // Rewrite 1.11 so that the program only executes when the first
+  // input number is smaller than the second
+  int startVal = 0, endVal = 0;
+  if (std::cin >> startVal >> endVal) {
+    while (startVal <= endVal) {
+      std::cout << startVal << std::endl;
+      ++startVal;
+    }
+  }
+
   return 0;
 }
