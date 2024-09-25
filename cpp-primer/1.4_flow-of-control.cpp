@@ -94,11 +94,26 @@ int main() {
 
   // Rewrite 1.11 so that the program only executes when the first
   // input number is smaller than the second
-  int startVal = 0, endVal = 0;
-  if (std::cin >> startVal >> endVal) {
-    while (startVal <= endVal) {
-      std::cout << startVal << std::endl;
-      ++startVal;
+  // int startVal = 0, endVal = 0;
+  // if (std::cin >> startVal >> endVal) {
+  //   while (startVal <= endVal) {
+  //     std::cout << startVal << std::endl;
+  //     ++startVal;
+  //   }
+  // }
+
+
+
+  // Print the factorial of the given integer (nth term)
+  int facTerm = 0, facVal = 1;
+  if (std::cin >> facTerm) {
+    if (facTerm >= 0) {
+      for (int term = 1; term <= facTerm; term++) {
+        facVal *= term;
+      }
+      std::cout << facTerm << "! is equal to " << facVal << std::endl;
+    } else {
+      std::cout << "Invalid input. Please pick a term that is 0+" << std::endl;
     }
   }
 
