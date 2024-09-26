@@ -105,15 +105,53 @@ int main() {
 
 
   // Print the factorial of the given integer (nth term)
-  int facTerm = 0, facVal = 1;
-  if (std::cin >> facTerm) {
-    if (facTerm >= 0) {
-      for (int term = 1; term <= facTerm; term++) {
-        facVal *= term;
+  // int facTerm = 0, facVal = 1;
+  // if (std::cin >> facTerm) {
+  //   if (facTerm >= 0) {
+  //     for (int term = 1; term <= facTerm; term++) {
+  //       facVal *= term;
+  //     }
+  //     std::cout << facTerm << "! is equal to " << facVal << std::endl;
+  //   } else {
+  //     std::cout << "Invalid input. Please pick a term that is 0+" << std::endl;
+  //   }
+  // }
+
+
+
+  // Often, writing inputs into the terminal can be tedious (e.g. writing ISBNs)
+  // So, one alternative is to use input and output files with this format:
+  // $ ./Program < input_file > output_file
+  // input_file is read by Program using the standard input
+  // and the resulting output from Program is saved to output_file
+
+  // nvm, I guess this only works on UNIX. but > still works for output files
+
+  // Write a program that calculates the Nth term of the fibonacci sequence
+  // Then, try using an input and output file to save calculations
+  int fibTerm = 0;
+
+  while (std::cin >> fibTerm) {
+    std::cout << "Term: " << fibTerm << std::endl;
+    int fibValuePrev = 0, fibValue = 1;  // need to reset for each new term!!!!
+
+    if (fibTerm < 0) {
+      std::cout << "The term cannot be less than 0." << std::endl << std::endl;
+    }
+    else if (fibTerm == 0) {
+      std::cout << "Value: 0" << std::endl << std::endl;
+    }
+
+    else {  // need else statement so that other erronous conditions don't exec
+      int termCount = 1;
+      while (termCount < fibTerm) {
+        int temp = fibValue;
+        fibValue += fibValuePrev;
+        fibValuePrev = temp;
+
+        ++termCount;  // don't forget to increment counter in while loop!!!
       }
-      std::cout << facTerm << "! is equal to " << facVal << std::endl;
-    } else {
-      std::cout << "Invalid input. Please pick a term that is 0+" << std::endl;
+      std::cout << "Value: " << fibValue << std::endl << std::endl;
     }
   }
 
