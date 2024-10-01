@@ -1,3 +1,5 @@
+#include <iostream>
+
 int main() {
   // 2.1.1 - Arithmetic Types
   // "types define the data and operations a variable can hold/perform"
@@ -9,7 +11,7 @@ int main() {
   char16_t  c16 = 'a';  // 16+ bits - unicode characters (along with char32_t)
 
   short s = 1;  // 16+ bits
-  int i = 0;  // 16+ bits
+  int in = 0;  // 16+ bits
   long lo1 = 32;  // 32+ bits
   long long lo2 = 64;  // 64+ bits
 
@@ -33,7 +35,6 @@ int main() {
   unsigned long ul = 23;
 
 
-
   // RULES OF THUMB
   // only use unsigned when you know the values cannot be negative
   // int for integer math (short usually too small, long usually same as int)
@@ -44,6 +45,62 @@ int main() {
 
   // use DOUBLE for floating-point computations (float usually too small,
   // long double is usually unnecessarily too precise - run-time cost)
+
+
+
+  // 2.1.2 - Type Conversions
+  // When assigning on arithmetic type to another, what happeneds depends
+  // on the range of the values that the types permit
+
+  // bool: 0 is false, any other value is true
+  // bool b = 42;  // b is true
+  
+  // assigning a bool to an int is 0 or 1 depending on false or true
+  // int i = b;  // 1
+
+  // float-point values are truncated for integers, and .0 is added for fraction
+  // i = 3.14;  // 3
+  // double pi = i;  // 3.0
+
+  // NOTE: precision may be lost if the integer has more bits than the
+  // floating-point can accomodate
+
+
+  // Out of range values for UNSIGNED types will use modulo with their range
+  // e.g. 8 bit unsigned char = -1 will be -1 % 256 -> 255
+
+  // Out of range values for SIGNED types will be UNDEFINED
+  // "program might APPEAR to work, might CRASH, or produce GARBAGE values"
+
+  // Avoid UNDEFINED and IMPLEMENTATION-DEFINED behavior
+  // undefined: may seem to work on one compiler but not others
+  // implementation: NONPORTABLE (e.g. assuming size of int is fixed - it's not)
+
+
+  // be careful of code that implicitly uses type conversion for arithmetic
+  // e.g. an int may be converted to an unsigned type before adding
+  // if the int is negative, it will be = modulo # of bits (aka "WRAP AROUND")
+
+  // REGARDLESS of whether one or both operands are unsigned: "We must make sure
+  // that SUBTRACTION will NOT result in negative, otherwise WRAPAROUND occurs
+
+  // e.g. for (int i = 10; i >= 0; --i) VS. for (unsigned u = 10; u >= 0; u--)
+  // "using unsigned means that the loop WILL NEVER TERMINATE!!" (wraparound)
+
+  // TL;DR: signed values are automatically converted to unsigned, so avoid
+  // mixing them together
+
+  // e.g. a * b, where a = -1 and b = 1.
+  // if both are ints, you get -1. if one is unsigned, it is -1 % # of bits
+
+  unsigned u = 10, u2 = 42;
+  std::cout << u2 - u << std::endl;
+  std::cout << u - u2 << std::endl;
+  int i = 10, i2 = 42;
+  std::cout << i2 - i << std::endl;
+  std::cout << i - i2 << std::endl;
+  std::cout << i - u << std::endl;
+  std::cout << u - i << std::endl;
 
   return 0;
 }
