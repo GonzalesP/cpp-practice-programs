@@ -102,5 +102,26 @@ int main() {
   std::cout << i - u << std::endl;
   std::cout << u - i << std::endl;
 
+
+
+  // 2.1.3 - Literals
+  int decimal = 123;
+  int octal = 024;
+  int hexadecimal = 0x14;  // 0X okay too
+
+  double float1 = 3.14159;  // float literals are indicated with a decimal point
+  double float2 = 3.14159E0;  // or scientific notation (E or e)
+  double float3 = 0.;
+  double float4 = 0e0;
+  double float5 = .001;
+
+  std::cout << float1 << float2 << float3 << float4 << float5 << std::endl;
+
+  char charlit = 'a';  // character literal
+  std::string strlit = "a";  // string literal (different!)
+  // NOTE: a string literal is an ARRAY of CONSTANT chars
+  // also, compilers append a null character to every string literal: '\0'
+  // 'a' is one single character and "a" is an array of two characters: 'a' '\0'
+
   return 0;
 }
