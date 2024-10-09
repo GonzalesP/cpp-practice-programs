@@ -123,5 +123,25 @@ int main() {
   // also, compilers append a null character to every string literal: '\0'
   // 'a' is one single character and "a" is an array of two characters: 'a' '\0'
 
+  // two string literals can be concatenated into a single literal if there is
+  // a whitespace between them
+  std::cout << "this is the first line, "
+               "and this is the second line" << std::endl;
+
+  // escape sequences are characters that have no visible image or have
+  // a special meaning in the language (e.g. "")
+  // you need to use an escape sequence to use them in a string/char:
+  std::cout << "newline \n aaa" << std::endl;
+  std::cout << "horizontal tab \t aaa" << std::endl;
+  std::cout << "alert (bell) \a aaa" << std::endl;
+  std::cout << "vertical tab \v aaa" << std::endl;
+  std::cout << "backspace \b aaa" << std::endl;
+  std::cout << "double quote \"aaa\"" << std::endl;
+  std::cout << "backslash \\ aaa" << std::endl;
+  std::cout << "question mark \? aaa" << std::endl;
+  std::cout << "single quote \'aaa\'" << std::endl;
+  std::cout << "casrriage return \r aaa" << std::endl;
+  std::cout << "formfeed \f aaa" << std::endl;
+
   return 0;
 }
