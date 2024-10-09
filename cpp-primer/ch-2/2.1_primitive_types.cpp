@@ -143,5 +143,18 @@ int main() {
   std::cout << "casrriage return \r aaa" << std::endl;
   std::cout << "formfeed \f aaa" << std::endl;
 
+  // generalized escape sequences
+  std::cout << "\x4d" << std::endl;  // hexadecimal: \x[1+ hex digits]
+  std::cout << "\114" << std::endl;  // octal:  \[1, 2, or 3 octal digits]
+  // "excess characters are separate for octal (not included in escape seq)"
+  std::cout << "\1234" << std::endl;  // \123 and 4
+  
+  // specifying the type of a literal
+
+  // boolean and pointer literals
+  bool bliteral = true;  // or false
+  bool* blptr = nullptr;  // nullptr is a pointer literal
+  blptr = &bliteral;
+
   return 0;
 }
