@@ -1,7 +1,5 @@
 #include <iostream>
 
-
-
 int main() {
   //2.2.1 - Variable Definitions
   // Initialization

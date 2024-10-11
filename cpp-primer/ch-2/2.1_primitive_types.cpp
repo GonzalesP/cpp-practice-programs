@@ -1,5 +1,11 @@
 #include <iostream>
 
+double calculateSphereVolume(double radius) {
+  double pi = 3.141592;
+  // using 4 / 3 becomes 1 (int math will truncate remainder)
+  return 4.0 / 3.0 * pi * radius * radius * radius;
+}
+
 int main() {
   // 2.1.1 - Arithmetic Types
   // "types define the data and operations a variable can hold/perform"
@@ -156,5 +162,17 @@ int main() {
   bool* blptr = nullptr;  // nullptr is a pointer literal
   blptr = &bliteral;
 
+
+
+  double sphereRadius = 0, sphereVolume = 0, pi = 3.141592;
+  std::cout << "Enter the radius of a sphere: ";
+  std::cin >> sphereRadius;
+  if (sphereRadius < 0) {
+    std::cout << "The radius must be >= 0. Exiting." << std::endl;
+    return -1;
+  }
+
+  sphereVolume = calculateSphereVolume(sphereRadius);
+  std::cout << sphereVolume << std::endl;
   return 0;
 }
