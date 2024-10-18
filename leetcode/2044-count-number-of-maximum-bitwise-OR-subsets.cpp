@@ -48,9 +48,17 @@ public:
 };
 
 int main() {
-  Solution s;
-  std::vector<int> nums{1, 2, 3, 4, 5, 6};
-  std::cout << s.countMaxOrSubsets(nums) << std::endl;
+    std::vector<int> nums;
+    int numInput = 0;
+
+    std::cout << "Enter some integers for a vector<int>: " << std::endl;
+    while(std::cin >> numInput) {
+        nums.push_back(numInput);
+    }
+
+    Solution s;
+    std::cout << "Total # of subsets that have the Max Bitwise OR: ";
+    std::cout << s.countMaxOrSubsets(nums) << std::endl;
 
   return 0;
 }
