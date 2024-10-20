@@ -4,12 +4,13 @@
 class Solution {
 public:
     int expReader = 0;  // read expression, start at index 0
-    int andExpr = 1;
 
     bool parseNotExpr(std::string expression) {
         ++expReader;
         ++expReader;
-        return !parseBoolExpr(expression);
+        bool innerExpression = parseBoolExpr(expression);
+        ++expReader;  // you forgot that NOT has TWO parantheses: !(...)
+        return !innerExpression;  // which is a total of THREE char skips!!
     }
 
     bool parseAndExpr(std::string expression) {
@@ -40,7 +41,6 @@ public:
                 return false;
             }
         }
-
         return true;
     }
 
@@ -100,12 +100,17 @@ public:
 // I think a much more efficient processor would use a ASM TABLE/STACK
 
 int main() {
-  Solution s;
-  bool t1 = s.parseBoolExpr("&(&(!(f)),&(f))");
-  std::cout << t1 << std::endl;
+    Solution s;
+    // 1 - true, 0 - false
+    std::cout << s.parseBoolExpr("&(|(f))") << std::endl;
+    s.expReader = 0;  // reset reader to start at beginning of next expression
 
-  bool t2 = s.parseBoolExpr("&(&(f),&(!(f)))");
-  std::cout << t2 << std::endl;
+    std::cout << s.parseBoolExpr("|(f,f,f,t)") << std::endl;
+    s.expReader = 0;
 
-  return 0;
+    std::cout << s.parseBoolExpr("!(&(f,t))") << std::endl;
+    s.expReader = 0;
+    return 0;
 }
+
+// I think a much more efficient processor would use a ASM TABLE/STACK
