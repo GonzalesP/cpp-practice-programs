@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <algorithm>
 
@@ -41,6 +42,27 @@ public:
     return levelSums.at(levelSums.size() - k);
   }
 };
+
+int main() {
+    Solution s;
+    std::vector<long long> NodeValues;
+    
+    long long input = 0;
+    std::cout << "Enter values to create a binary tree." << std::endl;
+    while (std::cin >> input) {
+      NodeValues.push_back(input);
+    }
+
+    TreeNode root;
+    // s.initializeTree(root, values);
+
+    // int k = 0;
+    // std::cout << "Enter a value for k to calculate the tree's kth largest sum" << std::endl;
+    // std::cin >> k;
+    // std::cout << "The kth largest sum of the tree is " << s.kthLargestLevelSum(root, k) << std::endl;
+
+    return 0;
+}
 
 // NOTE: IF FUNCTION TYPE IS LONG LONG, THEN EXPECT SUM TO POSSIBLY NEED ALL THAT SPACE
 // RUNTIME ERROR OCCURS WHEN TRYING TO FIT TOO LARGE OF A NUMBER INTO INT INSTEAD OF LONG LONG
