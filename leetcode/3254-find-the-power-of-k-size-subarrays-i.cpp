@@ -1,5 +1,6 @@
 #include <vector>
 #include <unordered_map>
+#include <iostream>
 
 class Solution {
 public:
@@ -36,3 +37,28 @@ public:
         return powers;
     }
 };
+
+int main() {
+    std::vector<int> nums;
+    int nextNum, k;
+    Solution s;
+
+    std::cout << "Enter a value for k (subarray length): ";
+    std::cin >> k;
+
+    std::cout << "Enter values for vector<int> nums: " << std::endl;
+    while (std::cin >> nextNum) {
+        nums.push_back(nextNum);
+    }
+
+    std::vector<int> result = s.resultsArray(nums, k);
+
+    std::cout << std::endl << "Here is the resulting power array: " << std::endl;
+    std::cout << "{ ";
+    for (int i = 0; i < result.size(); ++i) {
+        std::cout << result.at(i) << " ";
+    }
+    std::cout << "}" << std::endl;
+
+    return 0;
+}
