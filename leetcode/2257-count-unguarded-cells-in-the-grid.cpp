@@ -4,8 +4,10 @@ class Solution {
 public:
     int countUnguarded(int m, int n, std::vector<std::vector<int>>& guards, std::vector<std::vector<int>>& walls) {
         int unguardedCells = 0;
-        int grid[m][n];  // 0 - unguarded, 1 - guard, 2 - wall, 3 - guarded
-
+        // int grid[m][n];  // DOESN'T WORK! only vectors can use dynamic sizes!
+        std::vector<std::vector<int>> grid(m, std::vector<int> (n, 0));
+        
+        // 0 - unguarded, 1 - guard, 2 - wall, 3 - guarded
         for (int g = 0; g < guards.size(); ++g) {
             grid[guards[g][0]][guards[g][1]] = 1;
         }
