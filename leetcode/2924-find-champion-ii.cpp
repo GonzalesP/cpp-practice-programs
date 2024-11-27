@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream>
 
 class Solution {
 public:
@@ -26,3 +27,18 @@ public:
         }
     }
 };
+
+int main() {
+    Solution s;
+
+    int n1 = 3;
+    std::vector<std::vector<int>> edges1 {{0,1}, {1,2}};
+
+    int n2 = 4;
+    std::vector<std::vector<int>> edges2 {{0,2}, {1,3}, {1,2}};
+
+    std::cout << s.findChampion(n1, edges1) << std::endl;
+    std::cout << s.findChampion(n2, edges2) << std::endl;
+
+    return 0;
+}
