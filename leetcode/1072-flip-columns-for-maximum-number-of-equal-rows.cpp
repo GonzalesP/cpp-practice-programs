@@ -46,3 +46,12 @@ public:
         return maxRows;
     }
 };
+
+int main() {
+    Solution s;
+    std::vector<std::vector<int>> testMatrix {{0,0,0},{0,0,1},{1,1,0}};
+
+    std::cout << s.maxEqualRowsAfterFlips(testMatrix) << std::endl;
+
+    return 0;
+}
