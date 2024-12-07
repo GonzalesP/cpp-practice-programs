@@ -19,5 +19,25 @@ public:
     }
 };
 
+int main() {
+    Solution sol;
+    std::string noSpace;
+    std::vector<int> spaceIndices;
+    int index = 0;
+
+    std::cout << "Enter a string to add spaces to: ";
+    std::cin >> noSpace;
+
+    std::cout << "Enter the indices where spaces should be inserted: " << std::endl;
+    while(std::cin >> index) {
+        spaceIndices.push_back(index);
+    }
+
+    std::cout << "Formatted string: " << std::endl;
+    std::cout << sol.addSpaces(noSpace, spaceIndices) << std::endl;
+
+    return 0;
+}
+
 // lesson: concatenating a new stream saves a LOT more memory than
 // copy assignment (especially with really long strings)
