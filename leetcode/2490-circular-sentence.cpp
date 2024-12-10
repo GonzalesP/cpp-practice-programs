@@ -19,3 +19,20 @@ public:
         return true;
     }
 };
+
+int main() {
+    Solution s;
+    std::string testSentence = "leetcode exercises sound delightful";
+    // std::cout << "Enter a sentence to test if it is circular: " << std::endl;
+    // std::cin >> testSentence;
+
+    bool isCircular = s.isCircularSentence(testSentence);
+    if (isCircular) {
+        std::cout << "This sentence IS circular" << std::endl;
+    }
+    else {
+        std::cout << "This sentence IS NOT circular" << std::endl;
+    }
+
+    return 0;
+}
