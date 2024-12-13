@@ -35,3 +35,12 @@ public:
         return strs.at(0).substr(0, prefixLength);
     }
 };
+
+int main() {
+    Solution s;
+    std::vector<std::string> strings = {"flower", "flow", "flight"};
+    std::cout << "The longest common prefix in strings is: "
+              << s.longestCommonPrefix(strings) << std::endl;
+
+    return 0;
+}
