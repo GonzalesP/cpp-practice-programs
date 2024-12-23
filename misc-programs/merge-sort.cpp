@@ -18,6 +18,10 @@ std::vector<int> sortVectorInt(std::vector<int> vec) {
     std::vector<int> leftSet(vec.begin(), middle);
     std::vector<int> rightSet(middle, vec.end());
 
+    // print sets (debug)
+    // printVectorInt(leftSet);
+    // printVectorInt(rightSet);
+
     // recursively continue splitting
     leftSet = sortVectorInt(leftSet);
     rightSet = sortVectorInt(rightSet);
@@ -27,25 +31,23 @@ std::vector<int> sortVectorInt(std::vector<int> vec) {
     int i = 0, j = 0;  // left, right
 
     while (i < leftSet.size() && j < rightSet.size()) {
-        if (leftSet[i] < rightSet[j]) {
-            sortedVec.push_back(vec[i]);
+        if (leftSet[i] <= rightSet[j]) {
+            sortedVec.push_back(leftSet[i]);  // don't use vec[], it's not sorted lol!
             ++i;
         }
         else {
-            sortedVec.push_back(vec[j]);
+            sortedVec.push_back(rightSet[j]);  // leftSet and rightSet are already sorted!!
             ++j;
         }
     }
 
-    if (i < leftSet.size()) {
-        for (int n = i; n < leftSet.size(); ++n) {
-            sortedVec.push_back(leftSet[n]);
-        }
+    // if (i < leftSet.size()) {  // don't need - for loop will terminate anyways if false
+    for (int n = i; n < leftSet.size(); ++n) {
+        sortedVec.push_back(leftSet[n]);
     }
-    if (j < rightSet.size()) {
-        for (int n = j; n < rightSet.size(); ++n) {
-            sortedVec.push_back(rightSet[n]);
-        }
+
+    for (int n = j; n < rightSet.size(); ++n) {
+        sortedVec.push_back(rightSet[n]);
     }
 
     return sortedVec;
