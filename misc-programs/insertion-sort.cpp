@@ -8,6 +8,14 @@ void printVectorInt(std::vector<int>& vec) {
     std::cout << std::endl;
 }
 
+template <typename T>
+void templateVectorPrint(std::vector<T>& v) {
+    for (T item : v) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
+}
+
 // void sortVectorInt(std::vector<int>& vec) {
 //     for (int i = 0; i < vec.size(); ++i) {
 //         int lowestNum = vec[i];
@@ -41,14 +49,35 @@ void betterInsertionSort(std::vector<int>& v) {
     }
 }
 
+template <typename T>
+void templateInsertionSort(std::vector<T>& v) {
+    for (int i = 1; i < v.size(); ++i) {
+        T key = v[i];
+        int j = i - 1;
+        while(j > -1 && v[j] > key) {
+            v[j + 1] = v[j];
+            --j;
+        }
+        v[j + 1] = key;
+    }
+}
+
 int main() {
     std::vector<int> numbers = {1, 5, 12, 64, 82, 19, 20, 51, 18, 3, 92, 7, 8};
+    std::vector<char> letters = {'d', 'f', 'b', 'h', 'c', 'j', 'i', 'g', 'k', 'l', 'a', 'e'};
     std::cout << "numbers (before): " << std::endl;
-    printVectorInt(numbers);
+    // printVectorInt(numbers);
+    templateVectorPrint(numbers);
+    std::cout << "letters (before): " << std::endl;
+    templateVectorPrint(letters);
 
     // sortVectorInt(numbers);
-    betterInsertionSort(numbers);
+    // betterInsertionSort(numbers);
+    templateInsertionSort(numbers);
+    templateInsertionSort(letters);
     std::cout << "numbers (after): " << std::endl;
     printVectorInt(numbers);
+    std::cout << "letters (after): " << std::endl;
+    templateVectorPrint(letters);
     return 0;
 }
