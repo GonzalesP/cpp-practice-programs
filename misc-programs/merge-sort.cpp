@@ -8,6 +8,56 @@ void printVectorInt(std::vector<int>& vec) {
     std::cout << std::endl;
 }
 
+template <typename T>
+void printVectorAny(std::vector<T>& vec) {
+    for (T item : vec) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
+}
+
+// pretty bad at memory efficiency, will fix later
+template <typename T>
+std::vector<T> sortVector(std::vector<T> vec) {
+    if (vec.size() <= 1) {
+        vec;
+    }
+
+    // split vector
+    typename std::vector<T>::iterator middle = vec.begin() + vec.size() / 2;
+    std::vector<T> leftSet(vec.begin(), middle);
+    std::vector<T> rightSet(middle, vec.end());
+
+    // recursively continue splitting (and sorting)
+    leftSet = sortVector(leftSet);
+    rightSet = sortVector(rightSet);
+
+    // merge sets
+    std::vector<T> sortedVec;
+    int i = 0, j = 0;  // indices for left and right sets, respectively
+
+    while (i < leftSet.size() && j < rightSet.size()) {
+        if (leftSet[i] <= rightSet[j]) {
+            sortedVec.push_back(leftSet[i]);
+            ++i;
+        }
+        else {
+            sortedVec.push_back(rightSet[j]);
+            ++j;
+        }
+    }
+
+    for (int n = i; n < leftSet.size(); ++n) {
+        sortedVec.push_back(leftSet[n]);
+    }
+
+    for (int n = j; n < rightSet.size(); ++n) {
+        sortedVec.push_back(rightSet[n]);
+    }
+
+    return sortedVec;
+}
+
 std::vector<int> sortVectorInt(std::vector<int> vec) {
     if (vec.size() <= 1) {
         return vec;
@@ -56,11 +106,22 @@ std::vector<int> sortVectorInt(std::vector<int> vec) {
 int main() {
     std::vector<int> numbers = {1, 5, 12, 64, 82, 19, 20, 51, 18, 3, 92, 7, 8};
     std::cout << "numbers (before): " << std::endl;
-    printVectorInt(numbers);
+    // printVectorInt(numbers);
+    printVectorAny(numbers);
 
-    numbers = sortVectorInt(numbers);
+    std::cout << "letters (before): " << std::endl;
+    std::vector<char> letters = {'j', 'f', 'b', 'h', 'o', 'a', 'e', 'i', 'c', 'p', 'g', 'l', 'm', 'd', 'k', 'n'};
+    printVectorAny(letters);
+
+    // numbers = sortVectorInt(numbers);
+    numbers = sortVector(numbers);
+    letters = sortVector(letters);
 
     std::cout << "numbers (after): " << std::endl;
-    printVectorInt(numbers);
+    // printVectorInt(numbers);
+    printVectorAny(numbers);
+    std::cout << "letters (after): " << std::endl;
+    printVectorAny(letters);
+
     return 0;
 }
