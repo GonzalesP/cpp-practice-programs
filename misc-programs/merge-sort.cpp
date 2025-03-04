@@ -28,6 +28,9 @@ std::vector<T> sortVector(std::vector<T> vec) {
     std::vector<T> leftSet(vec.begin(), middle);
     std::vector<T> rightSet(middle, vec.end());
 
+    printVectorAny(leftSet);
+    printVectorAny(rightSet);
+
     // recursively continue splitting (and sorting)
     leftSet = sortVector(leftSet);
     rightSet = sortVector(rightSet);
