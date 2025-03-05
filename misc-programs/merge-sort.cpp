@@ -16,49 +16,9 @@ void printVectorAny(std::vector<T>& vec) {
     std::cout << std::endl;
 }
 
-// pretty bad at memory efficiency, will fix later
 template <typename T>
 std::vector<T> sortVector(std::vector<T> vec) {
-    if (vec.size() <= 1) {
-        vec;
-    }
-
-    // split vector
-    typename std::vector<T>::iterator middle = vec.begin() + vec.size() / 2;
-    std::vector<T> leftSet(vec.begin(), middle);
-    std::vector<T> rightSet(middle, vec.end());
-
-    printVectorAny(leftSet);
-    printVectorAny(rightSet);
-
-    // recursively continue splitting (and sorting)
-    leftSet = sortVector(leftSet);
-    rightSet = sortVector(rightSet);
-
-    // merge sets
-    std::vector<T> sortedVec;
-    int i = 0, j = 0;  // indices for left and right sets, respectively
-
-    while (i < leftSet.size() && j < rightSet.size()) {
-        if (leftSet[i] <= rightSet[j]) {
-            sortedVec.push_back(leftSet[i]);
-            ++i;
-        }
-        else {
-            sortedVec.push_back(rightSet[j]);
-            ++j;
-        }
-    }
-
-    for (int n = i; n < leftSet.size(); ++n) {
-        sortedVec.push_back(leftSet[n]);
-    }
-
-    for (int n = j; n < rightSet.size(); ++n) {
-        sortedVec.push_back(rightSet[n]);
-    }
-
-    return sortedVec;
+    return vec;
 }
 
 std::vector<int> sortVectorInt(std::vector<int> vec) {
@@ -117,8 +77,6 @@ int main() {
     printVectorAny(letters);
 
     // numbers = sortVectorInt(numbers);
-    numbers = sortVector(numbers);
-    letters = sortVector(letters);
 
     std::cout << "numbers (after): " << std::endl;
     // printVectorInt(numbers);
