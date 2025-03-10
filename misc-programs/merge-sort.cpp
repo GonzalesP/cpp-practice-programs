@@ -32,8 +32,8 @@ std::vector<int> sortVectorInt(std::vector<int> vec) {
     std::vector<int> rightSet(middle, vec.end());
 
     // print sets (debug)
-    // printVectorInt(leftSet);
-    // printVectorInt(rightSet);
+    printVectorInt(leftSet);
+    printVectorInt(rightSet);
 
     // recursively continue splitting
     leftSet = sortVectorInt(leftSet);
