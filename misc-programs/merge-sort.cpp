@@ -76,7 +76,7 @@ int main() {
     std::vector<char> letters = {'j', 'f', 'b', 'h', 'o', 'a', 'e', 'i', 'c', 'p', 'g', 'l', 'm', 'd', 'k', 'n'};
     printVectorAny(letters);
 
-    // numbers = sortVectorInt(numbers);
+    numbers = sortVectorInt(numbers);
 
     std::cout << "numbers (after): " << std::endl;
     // printVectorInt(numbers);
