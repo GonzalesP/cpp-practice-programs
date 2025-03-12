@@ -79,7 +79,7 @@ int main() {
     numbers = sortVectorInt(numbers);
 
     std::cout << "numbers (after): " << std::endl;
-    // printVectorInt(numbers);
+    printVectorInt(numbers);
     printVectorAny(numbers);
     std::cout << "letters (after): " << std::endl;
     printVectorAny(letters);
