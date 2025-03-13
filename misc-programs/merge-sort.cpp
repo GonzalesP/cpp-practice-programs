@@ -18,6 +18,7 @@ void printVectorAny(std::vector<T>& vec) {
 
 template <typename T>
 std::vector<T> sortVector(std::vector<T> vec) {
+    printVectorAny(vec);  // lol
     return vec;
 }
 
