@@ -56,8 +56,17 @@ int main() {
     std::cout << "Enter u, v, a:" << std::endl;
     std::cin >> u >> v >> acc;
 
-    speed = (v * v - u * u) / (2 * acc);
+    speed = (float) (v * v - u * u) / (2 * acc);
     std::cout << "Speed is " << speed << std::endl << std::endl;
+
+    // Simple Interest
+    // SI = Principle Amount * Time * Rate of Interest / 100.0
+
+    // Volume of a Cylinder
+    // volume = 3.14 * radius * radius * height;
+
+    // Euclidean Distance between two points
+    // dist = std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2));
 
     return 0;
 }
