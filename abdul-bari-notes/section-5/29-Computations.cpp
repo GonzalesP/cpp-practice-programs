@@ -44,6 +44,7 @@ int main() {
     std::cout << "Enter the radius:" << std::endl;
     std::cin >> r;
 
+    // note: without f, you have a double literal by default
     circleArea = 3.141593f * r * r;
     std::cout << "The area is " << circleArea << std::endl << std::endl;
 
@@ -67,6 +68,19 @@ int main() {
 
     // Euclidean Distance between two points
     // dist = std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2));
+
+
+
+    // Net Salary
+    float basicSalary, percAllowances, percDeductions, netSalary;
+    std::cout << "NET SALARY" << std::endl;
+    std::cout << "Enter a basic salary, percentage of allowances, and "
+                 "percentage of deductions:" << std::endl;
+    std::cin >> basicSalary >> percAllowances >> percDeductions;
+
+    netSalary = basicSalary + (basicSalary * percAllowances / 100)
+                - (basicSalary * percDeductions / 100);
+    std::cout << "Net salary is " << netSalary << std::endl << std::endl;
 
     return 0;
 }

@@ -1,4 +1,6 @@
 # cpp-practice-programs
-A repo of sample C++ files/programs that reflect important practices/principles using C++.
+A repo of C++ notes and sample files/programs that reflect important practices/principles.
 
-A majority of these programs/notes are taught from C++ Primer (5th ed.) by Stanley B. Lippman, Josee Lajoie, and Barbara E. Moo.
+Abdul Bari notes are taken from studying his Udemy C++ courses.
+C++ Primer (5th ed.) is a textbook by Stanley B. Lippman, Josee Lajoie, and Barbara E. Moo.
+The Leetcode programs are my personal attempts at solving algorithm questions published on leetcode.com (usually daily challenges).

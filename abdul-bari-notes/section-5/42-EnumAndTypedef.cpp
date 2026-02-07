@@ -8,16 +8,18 @@ typedef int rollno;  // "user defined" variables
 
 int main() {
     day day1 = sun;
+    // day1 = 0;  // error: cannot assign 'int' value to 'day' data type!
 
     if (day1 == 0) {
         std::cout << "It's sunday!" << std::endl;
     }
 
-    if (day1 == sun) {
+    if (day1 == sun) {  // this is better for readability
         std::cout << "It's sunday still!" << std::endl;
     }
 
     std::cout << day1 << std::endl;  // prints 0
+    std::cout << tue << std::endl;  // prints 2
 
     
     dept dep1 = eng;  // dep1 = 6 (default behavior is +1 each subsequent enum)
