@@ -1,15 +1,22 @@
 #include <iostream>
-// library provides built in objects or functions
-// these will be attached to the program by the compiler
+#include <string>
 
-// main - starting point of all C++ programs (int return type)
+// based on lessons 21-23
 int main()
 {
-    // built in object - cout (console out) to print text onto monitor
-    // std - standard namespace (has the cout object)
-    // :: - scope resolution
-    // << - insertion operator, gives a string to cout
     std::cout << "Hello, world!" << std::endl;
+
+    int a, b, c;
+    std::cout << "Please enter two numbers:" << std::endl;
+    std::cin >> a >> b;
+    c = a + b;
+    std::cout << "The sum is: " << c << std::endl;
+
+    std::string name;
+    std::cout << "May I know your name?" << std::endl;
+    // std::cin >> name;  // only takes first string (e.g. First)
+    std::getline(std::cin, name);  // takes entire line (e.g. First Last)
+    std::cout << "Welcome, " << name << std::endl;
 
     return 0;
 }
