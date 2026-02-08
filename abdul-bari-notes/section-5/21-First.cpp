@@ -15,6 +15,8 @@ int main()
     std::string name;
     std::cout << "May I know your name?" << std::endl;
     // std::cin >> name;  // only takes first string (e.g. First)
+    // clear the buffer, because line 11 ends with a newline, ending early
+    std::cin.ignore();
     std::getline(std::cin, name);  // takes entire line (e.g. First Last)
     std::cout << "Welcome, " << name << std::endl;
 
