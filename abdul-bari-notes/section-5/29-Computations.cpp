@@ -65,6 +65,15 @@ int main() {
 
     // Volume of a Cylinder
     // volume = 3.14 * radius * radius * height;
+    float cylRad, cylHeight, cylVolume;
+    std::cout << "VOLUME OF A CYLINDER" << std::endl;
+    std::cout << "Enter the radius and height:" << std::endl;
+    std::cin >> cylRad >> cylHeight;
+
+    cylVolume = 3.141593f * cylRad * cylRad * cylHeight;
+    std::cout << "Volume is " << cylVolume << std::endl << std::endl;
+
+
 
     // Euclidean Distance between two points
     // dist = std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2));
