@@ -31,5 +31,34 @@ int main() {
         default:  std::cout << "Invalid day" << std::endl;
     }
 
+    int menuOption;
+    int choice;
+    std::cout << "Menu Options:"  << std::endl;
+    std::cout << "1. Add" << std::endl << "2. Sub" << std::endl
+                << "3. Mul" << std::endl << "4. Div" << std::endl;
+    
+    std::cout << "Enter a choice: " << std::endl;
+    std::cin >> choice;
+
+    int a, b, c;
+    std::cout << "Enter two numbers: " << std::endl;
+    std::cin >> a >> b;
+    switch (choice) {
+        case 1:
+            c = a + b;
+            break;  // don't forget break; !!
+        case 2:
+            c = a - b;
+            break;
+        case 3:
+            c = a * b;
+            break;
+        case 4:
+            c = a / b;  // note: int division
+            break;
+    }
+
+    std::cout << "c = " << c << std::endl;
+
     return 0;
 }
