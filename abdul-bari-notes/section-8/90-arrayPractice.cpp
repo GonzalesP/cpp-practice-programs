@@ -41,7 +41,5 @@ int main() {
         std::cout << "key " << key << " not found in array." << std::endl;
     }
 
-    // 93 - binary search
-
     return 0;
 }
