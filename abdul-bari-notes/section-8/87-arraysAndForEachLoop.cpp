@@ -25,7 +25,7 @@ int main() {
 
     int A5[] = {2, 4, 6, 8, 10, 12};  // automatically makes arr size 6
     std::cout << "int A5[] = {2, 4, 6, 8, 10, 12};" << std::endl;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
         std::cout << A5[i] << std::endl;
     
     // C++ 11 introduced for each loops:
