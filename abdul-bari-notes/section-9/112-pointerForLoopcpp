@@ -1,0 +1,64 @@
+#include <iostream>
+
+int main() {
+    int A[] = {2,4,6,8,10,12};
+    int *p = A;  // point to address of first element of A
+
+    
+    // display all the elements in an array using for loops
+
+    // method 1: A[i]
+    std::cout << "Method 1: A[i]" << std::endl;
+    for (int i = 0; i < 6; i++) {  // A has a length of 6
+        std::cout << A[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // method 2: i[A]  .. lol
+    std::cout << "Method 2: i[A]" << std::endl;
+    for (int i = 0; i < 6; i++) {  // A has a length of 6
+        std::cout << i[A] << " ";
+    }
+    std::cout << std::endl;
+
+    // method 3: *(A+i)  , A is technically a pointer (like *p = A)
+    std::cout << "Method 3: *(A + i)" << std::endl;
+    for (int i = 0; i < 6; i++) {  // A has a length of 6
+        std::cout << *(A + i) << " ";
+    }
+    std::cout << std::endl;
+
+    // without *(), you will get all of the addresses used in A
+    std::cout << "Printing all addresses: A + i, no *()" << std::endl;
+    for (int i = 0; i < 6; i++) {  // A has a length of 6
+        std::cout << "&A[" << i << "]: " << A + i << std::endl;
+    }
+    std::cout << std::endl;
+
+    // method 4: *(p + i) - note: p is basically an alias for A
+    std::cout << "Method 4: *(p + i)" << std::endl;
+    for (int i = 0; i < 6; i++) {  // A has a length of 6
+        std::cout << *(p + i) << " ";
+    }
+    std::cout << std::endl;  // p acts like the name of an array (A)
+
+    // method 5: p[i]
+    std::cout << "Method 5: p[i]" << std::endl;
+    for (int i = 0; i < 6; i++) {  // A has a length of 6
+        std::cout << p[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // method 6: increment p in the same loop
+    std::cout << "Method 6: use p++ in loop" << std::endl;
+    std::cout << "p before: " << p << std::endl;
+    for (int i = 0; i < 6; i++) {
+        std::cout << *p << " ";
+        p++;
+    }
+    std::cout << "p after: " << p << std::endl;  // 6 spots ahead
+    std::cout << std::endl;
+    p = A;  // reset
+
+    return 0;
+}
