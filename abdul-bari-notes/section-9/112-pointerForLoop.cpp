@@ -4,7 +4,7 @@ int main() {
     int A[] = {2,4,6,8,10,12};
     int *p = A;  // point to address of first element of A
 
-    
+
     // display all the elements in an array using for loops
 
     // method 1: A[i]

@@ -28,5 +28,13 @@ int main() {
 
     int d = q - p;  // to save this difference, use an int
 
+    
+    // since [] acts like a pointer, you can also use negative indices
+    // to move the pointer backwards
+    int *j = &A[3];  // pointing at index 3
+    std::cout << "j: " << j << std::endl;
+    std::cout << "*j: " << *j << std::endl;
+    std::cout << "j[-2]: " << j[-2] << std::endl;  // same as *(j-2) = A[1]
+
     return 0;
 }
