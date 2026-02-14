@@ -1,5 +1,8 @@
 #include <iostream>
 
+// note: these are "traditional" strings, supported by C and C++
+// C++ has a built-in class for strings, using the <string> library
+// it's a lot easier to use!
 int main() {
     // method 1 - strings can be created using char arrays/pointers
 
