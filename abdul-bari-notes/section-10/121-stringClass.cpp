@@ -181,6 +181,71 @@ int main() {
     // .find_last_of(char) - find first occurrence from the right
     std::cout << "str.find_last_of('l'): "
               << str.find_last_of('l') << std::endl;  // 9
+    
+
+    // .substr(index) - gives substring starting from index to end (string obj)
+    std::cout << std::endl;
+    str = "Programming";
+    std::cout << "str: " << str << std::endl;  // Programming
+    std::cout << "str.substr(3): " << str.substr(3) << std::endl;  // gramming
+
+    // .substr(index, num) - gives substring with num total characters
+    std::cout << "str.substr(3, 4): " << str.substr(3, 4) << std::endl;  // gram
+
+    // s1.compare(s2) - compares s1 and s2. (-) means s1 comes before s2, 0 is =
+    std::cout << std::endl;
+    std::cout << "DEMO: compare()" << std::endl;
+
+    s1 = "apple";  // a comes before b alphabetically -> s1 < s2
+    s2 = "banana";
+    std::cout << "s1: " << s1 << std::endl;
+    std::cout << "s2: " << s2 << std::endl;
+    std::cout << "s1.compare(s2): " << s1.compare(s2) << std::endl;  // (-)
+
+    // s1.at(index) - get the char at index ; can also use s1[index]
+    std::cout << std::endl;
+    std::cout << "DEMO: at()" << std::endl;
+
+    str = "Greetings";
+    std::cout << "str: " << str << std::endl;
+    std::cout << "str.at(4): " << str.at(4) << std::endl;  // t
+    std::cout << "str[4]: " << str[4] << std::endl;  // t
+    // can also edit strings (e.g., str[4] = 'a'; ... str = "Greeaings")
+
+    // s1.front() - get first char
+    std::cout << std::endl;
+    std::cout << "DEMO: front()" << std::endl;
+
+    std::cout << "str: " << str << std::endl;
+    std::cout << "str.front(): " << str.front() << std::endl;  // G
+
+    // s1.back() - get last char
+    std::cout << std::endl;
+    std::cout << "DEMO: back()" << std::endl;
+
+    std::cout << "str: " << str << std::endl;
+    std::cout << "str.back(): " << str.back() << std::endl;  // s
+
+    // + operator: concatenates two strings (like append())
+    std::cout << std::endl;
+    std::cout << "DEMO: + operator" << std::endl;
+    
+    s1 = "Apple";
+    s2 = "Cider";
+    std::cout << "s1: " << s1 << std::endl;
+    std::cout << "s2: " << s2 << std::endl;
+    std::cout << "s1 + s2: " << s1 + s2 << std::endl;  // AppleCider
+
+    // = operator: copies right side string into left hand string
+    std::cout << std::endl;
+    std::cout << "DEMO: = operator" << std::endl;
+
+    std::cout << "s1: " << s1 << std::endl;
+    std::cout << "s2: " << s2 << std::endl;
+    std::cout << "*s1 = s2...*" << std::endl;
+    s1 = s2;  // s1 is assigned the same contents of s2
+    std::cout << "s1: " << s1 << std::endl;  // Cider
+    std::cout << "s2: " << s2 << std::endl;  // Cider
 
     return 0;
 }
