@@ -34,6 +34,7 @@ int main() {
     // by overloading an operator, you can simplify the syntax needed to perform
     // certain operations (e.g., "adding" two objects together)
     Complex c4 = c1 + c2;
+        // same as c1.operator+(c2);
     std::cout << c4.real << " + " << c4.img << "i" << std::endl;  // 15 + 8i
     return 0;
 }
