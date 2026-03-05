@@ -1,0 +1,4 @@
+1 study the STL for commonly used data structures
+2 study algorithms
+3 write a program to play chess in the console
+4 go to the gym
