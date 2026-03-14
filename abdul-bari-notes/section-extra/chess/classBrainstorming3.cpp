@@ -166,20 +166,21 @@ int main() {
     b1.blackPieces.clear();
 
 
-    // testing - attackedSquares (see if Knight can attack)
-    b1.createPiece(knight, black, {4, 4});
+    // testing - attackedSquares (see if Bishop can attack)
+    b1.createPiece(bishop, white, {4, 2});
+    b1.createPiece(bishop, white, {7, 0});
+    b1.createPiece(rook, white, {3, 3});
 
-    b1.createPiece(knight, white, {3, 6});
-    b1.createPiece(bishop, black, {5, 6});
-    b1.createPiece(pawn, white, {6, 5});
-    b1.createPiece(queen, white, {6, 3});
-    b1.createPiece(king, black, {3, 2});
-    b1.createPiece(rook, white, {2, 3});
+    b1.createPiece(pawn, black, {1, 6});
+    b1.createPiece(queen, black, {2, 4});
+    b1.createPiece(knight, black, {6, 0});
+    b1.createPiece(knight, black, {6, 4});
+    b1.createPiece(rook, black, {7, 5});
 
     std::cout << b1 << std::endl;
 
-    // result should be {3, 6}, {6, 5}, {6, 3}, {2, 3}, (no particular order)
-    std::vector<square> whiteAttacks = b1.getAttackSquares(black);
+    // result should be {6, 4}, {6, 0}, {1, 6}, (no particular order)
+    std::vector<square> whiteAttacks = b1.getAttackSquares(white);
     for (square s : whiteAttacks)
         std::cout << s << ", ";
     std::cout << std::endl;
@@ -601,6 +602,59 @@ std::vector<square> ChessBoard::knightAttackSquares(PiecePtr piece) {
 }
 std::vector<square> ChessBoard::bishopAttackSquares(PiecePtr piece) {
     std::vector<square> attackedSquares;
+    square pos = piece->position;
+
+    // check diagonal squares to see if an opponent piece is targeted
+    square diag;
+
+    // upper left
+    diag = {pos.first - 1, pos.second - 1};
+    while (diag.first >= 0 && diag.second >= 0) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                attackedSquares.push_back({diag.first, diag.second});
+            break;
+        }
+        diag.first--;
+        diag.second--;
+    }
+
+    // upper right
+    diag = {pos.first - 1, pos.second + 1};
+    while (diag.first >= 0 && diag.second <= 7) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                attackedSquares.push_back({diag.first, diag.second});
+            break;
+        }
+        diag.first--;
+        diag.second++;
+    }
+
+    // lower left
+    diag = {pos.first + 1, pos.second - 1};
+    while (diag.first <= 7 && diag.second >= 0) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                attackedSquares.push_back({diag.first, diag.second});
+            break;
+        }
+        diag.first++;
+        diag.second--;
+    }
+
+    // lower right
+    diag = {pos.first + 1, pos.second + 1};
+    while (diag.first <= 7 && diag.second <= 7) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                attackedSquares.push_back({diag.first, diag.second});
+            break;
+        }
+        diag.first++;
+        diag.second++;
+    }
+
     return attackedSquares;
 }
 std::vector<square> ChessBoard::rookAttackSquares(PiecePtr piece) {
