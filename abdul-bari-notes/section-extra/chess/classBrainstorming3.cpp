@@ -105,11 +105,12 @@ public:
     std::vector<Move> blackLegalMoves;
 
     // Constructors
-    ChessBoard();
+    ChessBoard();  // fill board, whitePieces, blackPieces, whiteKing, blackKing, whiteLegalMoves, blackLegalMoves
     ChessBoard(ChessBoard& b);
 
     // Methods
-    void initializeBoard();  // fill board, whitePieces, blackPieces, whiteKing, blackKing, whiteLegalMoves, blackLegalMoves
+    void initializeBoard();
+    void initializePieceVectors();
     void createPiece(pieceType type, playerColor color, square s);
     void movePiece(square start, square end);
     void removePiece(square s);
@@ -152,6 +153,7 @@ public:
 
 
 int main() {
+    // initialize board
     ChessBoard b1;
 
     std::cout << "A" << std::endl;
@@ -166,7 +168,21 @@ int main() {
     std::cout << "C" << std::endl;
     std::cout << b1 << std::endl;
 
-    // remove piece
+    // copy b1
+    ChessBoard b2(b1);
+
+    // update b1 more (remove piece)
+    b1.removePiece({3, 3});
+    std::cout << "D" << std::endl;
+    std::cout << b1 << std::endl;
+
+    b1.movePiece({4, 4}, {3, 3});
+    std::cout << "E" << std::endl;
+    std::cout << b1 << std::endl;
+
+    // check on b2 (copy of b1 before exd5)
+    std::cout << "F" << std::endl;
+    std::cout << b2 << std::endl;
 
     return 0;
 }
@@ -280,45 +296,12 @@ Move::Move(moveType type, square start, square end) {
 
 
 // Board
-ChessBoard::ChessBoard() {
+ChessBoard::ChessBoard() {  // used when creating a brand new board (game first starts)
     // fill board
     initializeBoard();
 
-    // record white pieces - should probably make an initializeWhitePieces() method
-    whitePieces.push_back(board[6][0]);  // a2-h2
-    whitePieces.push_back(board[6][1]);
-    whitePieces.push_back(board[6][2]);
-    whitePieces.push_back(board[6][3]);
-    whitePieces.push_back(board[6][4]);
-    whitePieces.push_back(board[6][5]);
-    whitePieces.push_back(board[6][6]);
-    whitePieces.push_back(board[6][7]);
-    whitePieces.push_back(board[7][0]);  // a1-h1
-    whitePieces.push_back(board[7][1]);
-    whitePieces.push_back(board[7][2]);
-    whitePieces.push_back(board[7][3]);
-    whitePieces.push_back(board[7][4]);
-    whitePieces.push_back(board[7][5]);
-    whitePieces.push_back(board[7][6]);
-    whitePieces.push_back(board[7][7]);
-
-    // record black pieces
-    blackPieces.push_back(board[0][0]);  // a8-h8
-    blackPieces.push_back(board[0][1]);
-    blackPieces.push_back(board[0][2]);
-    blackPieces.push_back(board[0][3]);
-    blackPieces.push_back(board[0][4]);
-    blackPieces.push_back(board[0][5]);
-    blackPieces.push_back(board[0][6]);
-    blackPieces.push_back(board[0][7]);
-    blackPieces.push_back(board[1][0]);  // a7-h7
-    blackPieces.push_back(board[1][1]);
-    blackPieces.push_back(board[1][2]);
-    blackPieces.push_back(board[1][3]);
-    blackPieces.push_back(board[1][4]);
-    blackPieces.push_back(board[1][5]);
-    blackPieces.push_back(board[1][6]);
-    blackPieces.push_back(board[1][7]);
+    // fill whitePieces and blackPieces
+    initializePieceVectors();
 
     // save white king
     whiteKing = board[7][4];  // e1
@@ -333,32 +316,20 @@ ChessBoard::ChessBoard() {
 ChessBoard::ChessBoard(ChessBoard& chessBoard) {
     // make board DEEP copy of b
     board = std::vector<std::vector<PiecePtr>> (8, std::vector<PiecePtr> (8, nullptr));
-    for (int row = 0; row < 8; row++) {
-        for (int col = 0; col < 8; col++) {
-            PiecePtr piece = chessBoard.board[row][col];
-            if (piece != nullptr) {
-                createPiece(piece->type, piece->color, piece->position);  // copy all piece positions
-                switch (piece->color) {
-                    case white:
-                        whitePieces.push_back(board[row][col]);  // record white pieces
-                        break;
-                    case black:
-                        blackPieces.push_back(board[row][col]);  // record black pieces
-                        break;
-                }
-                if (piece->type == king) {
-                    switch (piece->color) {
-                        case white:
-                            whiteKing = board[row][col];  // save white king
-                            break;
-                        case black:
-                            blackKing = board[row][col];  // save black king
-                            break;
-                    }
-                }
-            }
-        }
+
+    // copy all of chessBoard's pieces (on this->board and this->whitePieces+blackPieces)
+    for (PiecePtr piece : chessBoard.whitePieces) {  // white pieces
+        createPiece(piece->type, piece->color, piece->position);
+        whitePieces.push_back(board[piece->position.first][piece->position.second]);
+        if (piece->type == king)  // white king
+            whiteKing = board[piece->position.first][piece->position.second];
     }
+    for (PiecePtr piece : chessBoard.blackPieces) {  // black pieces
+        createPiece(piece->type, piece->color, piece->position);
+        blackPieces.push_back(board[piece->position.first][piece->position.second]);
+        if (piece->type == king)  // black king
+            blackKing = board[piece->position.first][piece->position.second];
+    }  // TODO: find a better way to write this...
 
     // get white legal moves - BASED ON DEEP COPY!
 
@@ -408,6 +379,43 @@ void ChessBoard::initializeBoard() {
     createPiece(knight, white, {7, 6});
     createPiece(rook, white, {7, 7});
 }
+void ChessBoard::initializePieceVectors() {
+    // record white pieces
+    whitePieces.push_back(board[6][0]);  // a2-h2
+    whitePieces.push_back(board[6][1]);
+    whitePieces.push_back(board[6][2]);
+    whitePieces.push_back(board[6][3]);
+    whitePieces.push_back(board[6][4]);
+    whitePieces.push_back(board[6][5]);
+    whitePieces.push_back(board[6][6]);
+    whitePieces.push_back(board[6][7]);
+    whitePieces.push_back(board[7][0]);  // a1-h1
+    whitePieces.push_back(board[7][1]);
+    whitePieces.push_back(board[7][2]);
+    whitePieces.push_back(board[7][3]);
+    whitePieces.push_back(board[7][4]);
+    whitePieces.push_back(board[7][5]);
+    whitePieces.push_back(board[7][6]);
+    whitePieces.push_back(board[7][7]);
+
+    // record black pieces
+    blackPieces.push_back(board[0][0]);  // a8-h8
+    blackPieces.push_back(board[0][1]);
+    blackPieces.push_back(board[0][2]);
+    blackPieces.push_back(board[0][3]);
+    blackPieces.push_back(board[0][4]);
+    blackPieces.push_back(board[0][5]);
+    blackPieces.push_back(board[0][6]);
+    blackPieces.push_back(board[0][7]);
+    blackPieces.push_back(board[1][0]);  // a7-h7
+    blackPieces.push_back(board[1][1]);
+    blackPieces.push_back(board[1][2]);
+    blackPieces.push_back(board[1][3]);
+    blackPieces.push_back(board[1][4]);
+    blackPieces.push_back(board[1][5]);
+    blackPieces.push_back(board[1][6]);
+    blackPieces.push_back(board[1][7]);
+}
 
 void ChessBoard::createPiece(pieceType type, playerColor color, square s) {
     switch (type) {
@@ -439,8 +447,33 @@ void ChessBoard::movePiece(square start, square end) {
     piece->position = end;
 }
 void ChessBoard::removePiece(square s) {
+    PiecePtr piece = board[s.first][s.second];
+
     // remove from board
+    board[s.first][s.second] = nullptr;
+
     // remove from pieces (list)
+    int pieceIndex = 0;
+    switch (piece->color) {
+        case white:
+            for (int p = 0; p < whitePieces.size(); p++) {
+                if (piece == whitePieces[p]) {
+                    pieceIndex = p;
+                    break;
+                }
+            }
+            whitePieces.erase(whitePieces.begin() + pieceIndex);
+            break;
+        case black:
+            for (int p = 0; p < blackPieces.size(); p++) {
+                if (piece == blackPieces[p]) {
+                    pieceIndex = p;
+                    break;
+                }
+            }
+            blackPieces.erase(blackPieces.begin() + pieceIndex);
+            break;
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, ChessBoard& cb) {
