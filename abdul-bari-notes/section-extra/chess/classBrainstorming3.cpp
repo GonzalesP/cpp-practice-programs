@@ -166,22 +166,19 @@ int main() {
     b1.blackPieces.clear();
 
 
-    // testing - attackedSquares (see if Bishop can attack)
-    b1.createPiece(bishop, white, {4, 2});
-    b1.createPiece(bishop, white, {7, 0});
-    b1.createPiece(rook, white, {3, 3});
+    // testing - attackedSquares (see if Rook can attack)
+    b1.createPiece(rook, black, {4, 4});
+    b1.createPiece(knight, black, {4, 2});
 
-    b1.createPiece(pawn, black, {1, 6});
-    b1.createPiece(queen, black, {2, 4});
-    b1.createPiece(knight, black, {6, 0});
-    b1.createPiece(knight, black, {6, 4});
-    b1.createPiece(rook, black, {7, 5});
+    b1.createPiece(pawn, white, {4, 1});
+    b1.createPiece(king, white, {4, 7});
+    b1.createPiece(bishop, white, {7, 4});
 
     std::cout << b1 << std::endl;
 
-    // result should be {6, 4}, {6, 0}, {1, 6}, (no particular order)
-    std::vector<square> whiteAttacks = b1.getAttackSquares(white);
-    for (square s : whiteAttacks)
+    // result should be {7, 4}, {4, 7}, (no particular order)
+    std::vector<square> blackAttacks = b1.getAttackSquares(black);
+    for (square s : blackAttacks)
         std::cout << s << ", ";
     std::cout << std::endl;
 
@@ -659,6 +656,55 @@ std::vector<square> ChessBoard::bishopAttackSquares(PiecePtr piece) {
 }
 std::vector<square> ChessBoard::rookAttackSquares(PiecePtr piece) {
     std::vector<square> attackedSquares;
+    square pos = piece->position;
+
+    // check cardinal squares to see if an opponent piece is targeted
+    square card;
+
+    // up (north)
+    card = {pos.first - 1, pos.second};
+    while (card.first >= 0) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                attackedSquares.push_back({card.first, card.second});
+            break;
+        }
+        card.first--;
+    }
+
+    // down (south)
+    card = {pos.first + 1, pos.second};
+    while (card.first <= 7) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                attackedSquares.push_back({card.first, card.second});
+            break;
+        }
+        card.first++;
+    }
+
+    // left
+    card = {pos.first, pos.second - 1};
+    while (card.second >= 0) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                attackedSquares.push_back({card.first, card.second});
+            break;
+        }
+        card.second--;
+    }
+
+    // right
+    card = {pos.first, pos.second + 1};
+    while (card.second <= 7) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                attackedSquares.push_back({card.first, card.second});
+            break;
+        }
+        card.second++;
+    }
+
     return attackedSquares;
 }
 std::vector<square> ChessBoard::queenAttackSquares(PiecePtr piece) {
