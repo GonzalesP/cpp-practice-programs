@@ -110,7 +110,6 @@ public:
 
     // Methods
     void initializeBoard();
-    void initializePieceVectors();
     void createPiece(pieceType type, playerColor color, square s);
     void movePiece(square start, square end);
     void removePiece(square s);
@@ -152,37 +151,40 @@ public:
 };
 
 
+// square operators
+std::ostream& operator<<(std::ostream& os, square s) {
+    std::cout << "{" << s.first << ", " << s.second << "}";
+    return os;
+}
+bool operator==(square s1, square s2) {
+    return s1.first == s2.first && s1.second == s2.second;
+}
+
+
+
 int main() {
     // initialize board
     ChessBoard b1;
-
-    std::cout << "A" << std::endl;
     std::cout << b1 << std::endl;
 
-    // update b1
-    b1.movePiece({6, 4}, {4, 4});
-    std::cout << "B" << std::endl;
+    // clear board for test case
+    b1.board = std::vector<std::vector<PiecePtr>>(8, std::vector<PiecePtr> (8, nullptr));
+    b1.whitePieces.clear();
+    b1.blackPieces.clear();
+
+
+    // testing - attackedSquares (see if Pawn can attack)
+    b1.createPiece(pawn, white, {4, 4});  // e4
+    b1.createPiece(queen, white, {3, 3});  // d5
+    b1.createPiece(bishop, black, {3, 5});  // f5
     std::cout << b1 << std::endl;
 
-    b1.movePiece({1, 3}, {3, 3});
-    std::cout << "C" << std::endl;
-    std::cout << b1 << std::endl;
+    std::vector<square> whiteAttacks = b1.getAttackSquares(white);
+    for (square s : whiteAttacks)
+        std::cout << s << ", ";
+    std::cout << std::endl;
 
-    // copy b1
-    ChessBoard b2(b1);
-
-    // update b1 more (remove piece)
-    b1.removePiece({3, 3});
-    std::cout << "D" << std::endl;
-    std::cout << b1 << std::endl;
-
-    b1.movePiece({4, 4}, {3, 3});
-    std::cout << "E" << std::endl;
-    std::cout << b1 << std::endl;
-
-    // check on b2 (copy of b1 before exd5)
-    std::cout << "F" << std::endl;
-    std::cout << b2 << std::endl;
+    std::cout << (b1.board[3][3]->position == square{3, 3}) << std::endl;  // 1 (true)
 
     return 0;
 }
@@ -295,13 +297,10 @@ Move::Move(moveType type, square start, square end) {
 }
 
 
-// Board
+// Board methods
 ChessBoard::ChessBoard() {  // used when creating a brand new board (game first starts)
-    // fill board
+    // fill board + whitePieces + blackPieces
     initializeBoard();
-
-    // fill whitePieces and blackPieces
-    initializePieceVectors();
 
     // save white king
     whiteKing = board[7][4];  // e1
@@ -379,63 +378,36 @@ void ChessBoard::initializeBoard() {
     createPiece(knight, white, {7, 6});
     createPiece(rook, white, {7, 7});
 }
-void ChessBoard::initializePieceVectors() {
-    // record white pieces
-    whitePieces.push_back(board[6][0]);  // a2-h2
-    whitePieces.push_back(board[6][1]);
-    whitePieces.push_back(board[6][2]);
-    whitePieces.push_back(board[6][3]);
-    whitePieces.push_back(board[6][4]);
-    whitePieces.push_back(board[6][5]);
-    whitePieces.push_back(board[6][6]);
-    whitePieces.push_back(board[6][7]);
-    whitePieces.push_back(board[7][0]);  // a1-h1
-    whitePieces.push_back(board[7][1]);
-    whitePieces.push_back(board[7][2]);
-    whitePieces.push_back(board[7][3]);
-    whitePieces.push_back(board[7][4]);
-    whitePieces.push_back(board[7][5]);
-    whitePieces.push_back(board[7][6]);
-    whitePieces.push_back(board[7][7]);
-
-    // record black pieces
-    blackPieces.push_back(board[0][0]);  // a8-h8
-    blackPieces.push_back(board[0][1]);
-    blackPieces.push_back(board[0][2]);
-    blackPieces.push_back(board[0][3]);
-    blackPieces.push_back(board[0][4]);
-    blackPieces.push_back(board[0][5]);
-    blackPieces.push_back(board[0][6]);
-    blackPieces.push_back(board[0][7]);
-    blackPieces.push_back(board[1][0]);  // a7-h7
-    blackPieces.push_back(board[1][1]);
-    blackPieces.push_back(board[1][2]);
-    blackPieces.push_back(board[1][3]);
-    blackPieces.push_back(board[1][4]);
-    blackPieces.push_back(board[1][5]);
-    blackPieces.push_back(board[1][6]);
-    blackPieces.push_back(board[1][7]);
-}
 
 void ChessBoard::createPiece(pieceType type, playerColor color, square s) {
+    PiecePtr newPiece;
     switch (type) {
         case pawn:
-            board[s.first][s.second] = std::make_shared<Pawn>(type, color, s);
+            newPiece = std::make_shared<Pawn>(type, color, s);
             break;
         case knight:
-            board[s.first][s.second] = std::make_shared<Knight>(type, color, s);
+            newPiece = std::make_shared<Knight>(type, color, s);
             break;
         case bishop:
-            board[s.first][s.second] = std::make_shared<Bishop>(type, color, s);
+            newPiece = std::make_shared<Bishop>(type, color, s);
             break;
         case rook:
-            board[s.first][s.second] = std::make_shared<Rook>(type, color, s);
+            newPiece = std::make_shared<Rook>(type, color, s);
             break;
         case queen:
-            board[s.first][s.second] = std::make_shared<Queen>(type, color, s);
+            newPiece = std::make_shared<Queen>(type, color, s);
             break;
         case king:
-            board[s.first][s.second] = std::make_shared<King>(type, color, s);
+            newPiece = std::make_shared<King>(type, color, s);
+            break;
+    }
+    board[s.first][s.second] = newPiece;
+    switch (color) {
+        case white:
+            whitePieces.push_back(newPiece);
+            break;
+        case black:
+            blackPieces.push_back(newPiece);
             break;
     }
 }
@@ -475,6 +447,125 @@ void ChessBoard::removePiece(square s) {
             break;
     }
 }
+
+
+std::vector<square> ChessBoard::getAttackSquares(playerColor color) {
+    std::vector<square> attackedSquares;
+    switch (color) {
+        case white:
+            for (PiecePtr piece : whitePieces) {
+                std::vector<square> attacks;
+                switch (piece->type) {
+                    case pawn:
+                        attacks = pawnAttackSquares(piece);
+                        break;
+                    case knight:
+                        attacks = knightAttackSquares(piece);
+                        break;
+                    case bishop:
+                        attacks = bishopAttackSquares(piece);
+                        break;
+                    case rook:
+                        attacks = rookAttackSquares(piece);
+                        break;
+                    case queen:
+                        attacks = queenAttackSquares(piece);
+                        break;
+                    case king:
+                        attacks = kingAttackSquares(piece);
+                        break;
+                }
+                attackedSquares.insert(attackedSquares.end(), attacks.begin(), attacks.end());
+            }
+            break;
+        case black:
+            for (PiecePtr piece : blackPieces) {
+                std::vector<square> attacks;
+                switch (piece->type) {
+                    case pawn:
+                        attacks = pawnAttackSquares(piece);
+                        break;
+                    case knight:
+                        attacks = knightAttackSquares(piece);
+                        break;
+                    case bishop:
+                        attacks = bishopAttackSquares(piece);
+                        break;
+                    case rook:
+                        attacks = rookAttackSquares(piece);
+                        break;
+                    case queen:
+                        attacks = queenAttackSquares(piece);
+                        break;
+                    case king:
+                        attacks = kingAttackSquares(piece);
+                        break;
+                }
+                attackedSquares.insert(attackedSquares.end(), attacks.begin(), attacks.end());
+            }
+            break;
+    }
+    return attackedSquares;
+}
+// getAttackSquares() helper methods
+std::vector<square> ChessBoard::pawnAttackSquares(PiecePtr piece) {
+    std::vector<square> attackedSquares;
+    square pos = piece->position;
+
+    if (pos.second - 1 >= 0) {  // left diagonal
+        PiecePtr leftDiagonal;
+        switch (piece->color) {
+            case white:  // white moves up
+                leftDiagonal = board[pos.first - 1][pos.second - 1];  // upperLeft
+                if (leftDiagonal != nullptr && leftDiagonal->color == black)
+                    attackedSquares.push_back({pos.first - 1, pos.second - 1});
+                break;
+            case black:  // black moves down
+                leftDiagonal = board[pos.first + 1][pos.second - 1];  // lowerLeft
+                if (leftDiagonal != nullptr && leftDiagonal->color == white)
+                    attackedSquares.push_back({pos.first + 1, pos.second - 1});
+                break;
+        }
+    }
+    if (pos.second + 1 <= 7) {  // right diagonal
+        PiecePtr rightDiagonal;
+        switch (piece->color) {
+            case white:
+                rightDiagonal = board[pos.first - 1][pos.second + 1];  // upperRight
+                if (rightDiagonal != nullptr && rightDiagonal->color == black)
+                    attackedSquares.push_back({pos.first - 1, pos.second + 1});
+                break;
+            case black:  // black moves down
+                rightDiagonal = board[pos.first + 1][pos.second + 1];  // lowerRight
+                if (rightDiagonal != nullptr && rightDiagonal->color == white)
+                    attackedSquares.push_back({pos.first + 1, pos.second + 1});
+                break;
+        }
+    }
+    
+    return attackedSquares;
+}
+std::vector<square> ChessBoard::knightAttackSquares(PiecePtr piece) {
+    std::vector<square> attackedSquares;
+    return attackedSquares;
+}
+std::vector<square> ChessBoard::bishopAttackSquares(PiecePtr piece) {
+    std::vector<square> attackedSquares;
+    return attackedSquares;
+}
+std::vector<square> ChessBoard::rookAttackSquares(PiecePtr piece) {
+    std::vector<square> attackedSquares;
+    return attackedSquares;
+}
+std::vector<square> ChessBoard::queenAttackSquares(PiecePtr piece) {
+    std::vector<square> attackedSquares;
+    return attackedSquares;
+}
+std::vector<square> ChessBoard::kingAttackSquares(PiecePtr piece) {
+    std::vector<square> attackedSquares;
+    return attackedSquares;
+}
+
 
 std::ostream& operator<<(std::ostream& os, ChessBoard& cb) {
     for (int row = 0; row < 8; row++) {
