@@ -160,48 +160,25 @@ int main() {
     // initialize board
     ChessBoard b1;
     std::cout << b1;
-    b1.enPassantWindow != nullptr ?
-        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
-        std::cout << "empty window" << std::endl << std::endl;
+ 
 
-    // test updateboard
-    Move m1(position, {6, 4}, {4, 4});  // white pawn to e4  - pawnWindow
-    Move m2(position, {1, 4}, {3, 4});  // black pawn to e5  - pawnWindow
-    Move m3(position, {7, 6}, {5, 5});  // Nf3
-    Move m4(position, {1, 3}, {2, 3});  // black pawn to d6 (move down one square)
-    Move m5(position, {6, 3}, {4, 3});  // white pawn to d4  - pawnWindow
+    std::vector<Move> moves1;
+    // moves.push_back(Move());
+    moves1.push_back(Move(position, {6, 3}, {4, 3}));  // d4
+    moves1.push_back(Move(position, {0, 6}, {2, 5}));  // Nf5
+    moves1.push_back(Move(position, {7, 2}, {4, 5}));  // Bf4
+    moves1.push_back(Move(position, {1, 3}, {3, 3}));  // d5
+    moves1.push_back(Move(position, {6, 4}, {4, 4}));  // e4
+    moves1.push_back(Move(capture, {2, 5}, {4, 4}));  // Nxe4
 
+    for (Move m : moves1) {
+        b1.updateBoard(m);
+        std::cout << b1 << std::endl;
+    }
 
-    b1.updateBoard(m1);
-    std::cout << b1;
-    b1.enPassantWindow != nullptr ?
-        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
-        std::cout << "empty window" << std::endl << std::endl;
-
-    b1.updateBoard(m2);
-    std::cout << b1;
-    b1.enPassantWindow != nullptr ?
-        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
-        std::cout << "empty window" << std::endl << std::endl;
-
-    b1.updateBoard(m3);
-    std::cout << b1;
-    b1.enPassantWindow != nullptr ?
-        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
-        std::cout << "empty window" << std::endl << std::endl;
-
-    b1.updateBoard(m4);
-    std::cout << b1;
-    b1.enPassantWindow != nullptr ?
-        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
-        std::cout << "empty window" << std::endl << std::endl;
-
-    b1.updateBoard(m5);
-    std::cout << b1;
-    b1.enPassantWindow != nullptr ?
-        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
-        std::cout << "empty window" << std::endl << std::endl;
-
+    // b1.enPassantWindow != nullptr ?
+    //     std::cout << b1.enPassantWindow->position << std::endl << std::endl :
+    //     std::cout << "empty window" << std::endl << std::endl;
 
     return 0;
 }
@@ -534,8 +511,31 @@ void ChessBoard::updatePosition(Move m) {  // be sure to check if piece is Rook/
     enPassantWindow = nullptr;
     movePiece(m.start, m.end);
 }
-void ChessBoard::updateCapture(Move m) {  // be sure to check if piece is Rook/King to update castle flag, and enPassantWindow
+void ChessBoard::updateCapture(Move m) {
+    // check if piece is Pawn/King/Rook for hasMoved flag
+    PiecePtr piece = board[m.start.first][m.start.second];
+
+    if (piece->type == pawn) {
+        std::shared_ptr<Pawn> pawnPtr = std::dynamic_pointer_cast<Pawn>(piece);  // turn PiecePtr into PawnPtr
+        if (pawnPtr->hasMoved == false) {
+            pawnPtr->hasMoved = true;
+        }
+    }
+    else if (piece->type == rook) {
+        std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(piece);  // turn PiecePtr into PawnPtr
+        if (rookPtr->hasMoved == false) {
+            rookPtr->hasMoved = true;
+        }
+    }
+    else if (piece->type == king) {
+        std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(piece);  // turn PiecePtr into PawnPtr
+        if (kingPtr->hasMoved == false) {
+            kingPtr->hasMoved = true;
+        }
+    }
+    
     enPassantWindow = nullptr;
+    removePiece(m.end);
     movePiece(m.start, m.end);
 }
 void ChessBoard::updatePromotion(Move m) {
@@ -543,7 +543,8 @@ void ChessBoard::updatePromotion(Move m) {
     movePiece(m.start, m.end);
 }
 void ChessBoard::updateEnPassant(Move m) {  // check enPassantWindow
-    //
+    enPassantWindow = nullptr;
+    movePiece(m.start, m.end);
 }
 void ChessBoard::updateKingsideCastle(Move m) {  // startSquare points to WhiteKing or BlackKing
     enPassantWindow = nullptr;
