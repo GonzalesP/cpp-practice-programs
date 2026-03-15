@@ -159,22 +159,48 @@ bool operator==(square s1, square s2) {
 int main() {
     // initialize board
     ChessBoard b1;
+    std::cout << b1;
+    b1.enPassantWindow != nullptr ?
+        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
+        std::cout << "empty window" << std::endl << std::endl;
 
-    // clear board and lists for test cases
-    b1.board = std::vector<std::vector<PiecePtr>>(8, std::vector<PiecePtr> (8, nullptr));
-    b1.whitePieces.clear();
-    b1.blackPieces.clear();
+    // test updateboard
+    Move m1(position, {6, 4}, {4, 4});  // white pawn to e4  - pawnWindow
+    Move m2(position, {1, 4}, {3, 4});  // black pawn to e5  - pawnWindow
+    Move m3(position, {7, 6}, {5, 5});  // Nf3
+    Move m4(position, {1, 3}, {2, 3});  // black pawn to d6 (move down one square)
+    Move m5(position, {6, 3}, {4, 3});  // white pawn to d4  - pawnWindow
 
 
-    // testing - attackedSquares (see if Rook can attack)
-    b1.createPiece(king, black, {3, 7});
-    b1.blackKing = b1.board[3][7];
+    b1.updateBoard(m1);
+    std::cout << b1;
+    b1.enPassantWindow != nullptr ?
+        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
+        std::cout << "empty window" << std::endl << std::endl;
 
-    b1.createPiece(queen, white, {3, 0});
-    std::cout << b1 << std::endl;
+    b1.updateBoard(m2);
+    std::cout << b1;
+    b1.enPassantWindow != nullptr ?
+        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
+        std::cout << "empty window" << std::endl << std::endl;
 
-    
-    std::cout << "b1.isInCheck(black): " << b1.isInCheck(black) << std::endl;  // 1
+    b1.updateBoard(m3);
+    std::cout << b1;
+    b1.enPassantWindow != nullptr ?
+        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
+        std::cout << "empty window" << std::endl << std::endl;
+
+    b1.updateBoard(m4);
+    std::cout << b1;
+    b1.enPassantWindow != nullptr ?
+        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
+        std::cout << "empty window" << std::endl << std::endl;
+
+    b1.updateBoard(m5);
+    std::cout << b1;
+    b1.enPassantWindow != nullptr ?
+        std::cout << b1.enPassantWindow->position << std::endl << std::endl :
+        std::cout << "empty window" << std::endl << std::endl;
 
 
     return 0;
@@ -440,14 +466,93 @@ void ChessBoard::removePiece(square s) {
 }
 
 
-void updateBoard(Move m) {}
+void ChessBoard::updateBoard(Move m) {
+    switch (m.type) {
+        case position:
+            updatePosition(m);
+            break;
+        case capture:
+            updateCapture(m);
+            break;
+        case promotion:
+            updatePromotion(m);
+            break;
+        case enPassant:
+            updateEnPassant(m);
+            break;
+        case kingsideCastle:
+            updateKingsideCastle(m);
+            break;
+        case queensideCastle:
+            updateQueensideCastle(m);
+            break;
+    }
+}
 // updateBoard() helper methods
-void updatePosition(Move m) {}  // be sure to check if piece is Rook/King to update castle flag, and enPassantWindow
-void updateCapture(Move m) {}  // ^same
-void updatePromotion(Move m) {}
-void updateEnPassant(Move m) {}
-void updateKingsideCastle(Move m) {}  // startSquare points to WhiteKing or BlackKing
-void updateQueensideCastle(Move m) {}
+void ChessBoard::updatePosition(Move m) {  // be sure to check if piece is Rook/King to update castle flag, and enPassantWindow
+    // check if piece is Pawn/King/Rook for hasMoved flag
+    PiecePtr piece = board[m.start.first][m.start.second];
+    
+    if (piece->type == pawn) {
+        std::shared_ptr<Pawn> pawnPtr = std::dynamic_pointer_cast<Pawn>(piece);  // turn PiecePtr into PawnPtr
+        if (pawnPtr->hasMoved == false) {
+            pawnPtr->hasMoved = true;
+
+            // if pawn moves up/down twice, it is in the enPassantWindow
+            switch (pawnPtr->color) {
+                case white:
+                    if (m.end.first == m.start.first - 2)  // pawn moved twice -> enter ep window
+                        enPassantWindow = piece;
+                    else
+                        enPassantWindow = nullptr;  // regular position move (pawn moves up once) -> clear window
+                    break;
+                case black:
+                    if (m.end.first == m.start.first + 2)
+                        enPassantWindow = piece;
+                    else
+                        enPassantWindow = nullptr;
+                    break;
+            }
+
+            movePiece(m.start, m.end);
+            return;  // end early to prevent clearing enPassantWindow prematurely (for pawn)
+        }
+    }
+    else if (piece->type == rook) {
+        std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(piece);  // turn PiecePtr into PawnPtr
+        if (rookPtr->hasMoved == false) {
+            rookPtr->hasMoved = true;
+        }
+    }
+    else if (piece->type == king) {
+        std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(piece);  // turn PiecePtr into PawnPtr
+        if (kingPtr->hasMoved == false) {
+            kingPtr->hasMoved = true;
+        }
+    }
+
+    enPassantWindow = nullptr;
+    movePiece(m.start, m.end);
+}
+void ChessBoard::updateCapture(Move m) {  // be sure to check if piece is Rook/King to update castle flag, and enPassantWindow
+    enPassantWindow = nullptr;
+    movePiece(m.start, m.end);
+}
+void ChessBoard::updatePromotion(Move m) {
+    enPassantWindow = nullptr;
+    movePiece(m.start, m.end);
+}
+void ChessBoard::updateEnPassant(Move m) {  // check enPassantWindow
+    //
+}
+void ChessBoard::updateKingsideCastle(Move m) {  // startSquare points to WhiteKing or BlackKing
+    enPassantWindow = nullptr;
+    movePiece(m.start, m.end);
+}
+void ChessBoard::updateQueensideCastle(Move m) {  // startSquare points to WhiteKing or BlackKing
+    enPassantWindow = nullptr;
+    movePiece(m.start, m.end);
+}
 
 
 std::vector<square> ChessBoard::getAttackSquares(playerColor color) {
