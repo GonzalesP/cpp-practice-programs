@@ -5,7 +5,7 @@
 
 enum playerColor { white, black };
 enum pieceType { pawn, knight, bishop, rook, queen, king };
-enum moveType { position, capture, promotion, enPassant, kingsideCastle, queensideCastle };
+enum moveType { position, capture, enPassant, kingsideCastle, queensideCastle };
 
 class Piece;
 
@@ -99,6 +99,13 @@ public:
     std::vector<Move> blackLegalMoves;
 
     playerColor playerTurn = white;  // indicates whose turn it is
+    bool isCopyBoard = false;  // used in the logic for checking "future board states"
+        // a future board state is created by copying a board's current state and modifying it by one move
+        // isCopyBoard will be used when checking if a promotion move is legal (e.g., if moving a pawn to the 8th rank
+        // puts a King under check, it is illegal, so you would not want to prompt the user for a promotion choice
+        // when checking this board state)
+        // isCopyBoard will be updated to true whenever the copy constructor is called
+            // used when parsing LegalMoves
 
     // Constructors
     ChessBoard();  // fill board, whitePieces, blackPieces, whiteKing, blackKing, whiteLegalMoves, blackLegalMoves
@@ -109,12 +116,17 @@ public:
     void createPiece(pieceType type, playerColor color, square s);
     void movePiece(square start, square end);
     void removePiece(square s);
+    void promotePiece(playerColor color, square s);
 
     void updateBoard(Move m);
     // updateBoard() helper methods
     void updatePosition(Move m);  // be sure to check if piece is Rook/King to update castle flag, and enPassantWindow
     void updateCapture(Move m);  // ^same
-    void updatePromotion(Move m);
+    // void updatePromotion(Move m);
+        // to account for a pawn possibly capturing AND promoting at the same time, the promote process will be included
+        // into the logic of updatePosition() and updateCapture()
+        // furthermore, a new helper function will be used to handle the promotion logic (e.g., taking a piece type)
+        // this helper function is called promotePiece(pieceType type, playerColor color, square s);
     void updateEnPassant(Move m);
     void updateKingsideCastle(Move m);  // startSquare points to WhiteKing or BlackKing
     void updateQueensideCastle(Move m);
@@ -157,16 +169,14 @@ bool operator==(square s1, square s2) {
 }
 
 
-// enPassant works as intended
-// promotion mostly works, except for the edge case that a pawn captures at the same time it promotes
-// kingside and queenside castle works as intended
+
 int main() {
     // testing en passant and promotion
     ChessBoard b1;
     std::cout << b1 << std::endl;
 
     std::vector<Move> moves1;
-    // moves1.push_back(Move());
+    // moves1.push_back(Move(, {, }, {, }));
     moves1.push_back(Move(position, {6, 4}, {4, 4}));  // e4
     moves1.push_back(Move(position, {1, 3}, {3, 3}));  // d5
 
@@ -176,28 +186,48 @@ int main() {
     moves1.push_back(Move(enPassant, {3, 3}, {2, 4}));  //dxe6 e.p.
     moves1.push_back(Move(position, {1, 0}, {2, 0}));  // a6
 
-    moves1.push_back(Move(capture, {2, 4}, {1, 5}));  // exf7
+    moves1.push_back(Move(capture, {2, 4}, {1, 5}));  // exf7 (ignore the King check lol)
     moves1.push_back(Move(position, {1, 1}, {2, 1}));  // b6
 
-    // uh oh. edge case: a pawn could capture and promote at the same time
-    // moveType cannot be both at the same time, so will have to rewrite the logic for promoting a pawn ):
-
-    // for now, test promotion by removing Knight on g1 and then using Move(promotion)
-    b1.removePiece({0, 6});
-    moves1.push_back(Move(promotion, {1, 5}, {0, 6}));  // fxg8Q
+    // new: capture and promote
+    moves1.push_back(Move(capture, {1, 5}, {0, 6}));  // fxg8[Q]
 
     for (Move m : moves1) {
         b1.updateBoard(m);
         std::cout << b1 << std::endl;
     }
 
-    // b1.enPassantWindow != nullptr ?
-    //     std::cout << b1.enPassantWindow->position << std::endl << std::endl :
-    //     std::cout << "empty window" << std::endl << std::endl;
+
+    // position and promote
+    ChessBoard b2;
+    std::cout << b2 << std::endl;
+
+    std::vector<Move> moves2;
+    // moves2.push_back(Move(, {, }, {, }));
+    moves2.push_back(Move(position, {6, 4}, {4, 4}));  // e4
+    moves2.push_back(Move(position, {1, 3}, {3, 3}));  // d5
+
+    moves2.push_back(Move(capture, {4, 4}, {3, 3}));  // exd5
+    moves2.push_back(Move(position, {1, 4}, {3, 4}));  // e5
+
+    moves2.push_back(Move(enPassant, {3, 3}, {2, 4}));  //dxe6 e.p.
+    moves2.push_back(Move(position, {1, 0}, {2, 0}));  // a6
+
+    moves2.push_back(Move(capture, {2, 4}, {1, 5}));  // exf7
+    moves2.push_back(Move(position, {0, 5}, {1, 4}));  // Be7
+
+    // new: position and promote
+    moves2.push_back(Move(position, {1, 5}, {0, 5}));  // f8[Q]
+
+    for (Move m : moves2) {
+        b2.updateBoard(m);
+        std::cout << b2 << std::endl;
+    }
 
 
 
     // testing kingside castle
+    /*
     ChessBoard b2;
     std::cout << b2 << std::endl;
 
@@ -230,10 +260,11 @@ int main() {
     b2.playerTurn = black;
     b2.updateBoard(moves2[7]);
     std::cout << b2 << std::endl;
-
-
+    }
+    */
 
     // testing queenside castle
+    /*
     ChessBoard b3;
     std::cout << b3 << std::endl;
 
@@ -271,6 +302,7 @@ int main() {
     b3.playerTurn = black;
     b3.updateBoard(moves3[9]);
     std::cout << b3 << std::endl;
+    */
 
     return 0;
 }
@@ -399,6 +431,8 @@ ChessBoard::ChessBoard() {  // used when creating a brand new board (game first 
     // get black legal moves
 }
 ChessBoard::ChessBoard(ChessBoard& chessBoard) {
+    isCopyBoard = true;
+
     // make board DEEP copy of b
     board = std::vector<std::vector<PiecePtr>> (8, std::vector<PiecePtr> (8, nullptr));
 
@@ -533,6 +567,42 @@ void ChessBoard::removePiece(square s) {
             break;
     }
 }
+void ChessBoard::promotePiece(playerColor color, square s) {  // s - endSquare (8th rank), indicates where pawn landed (and will be replaced)
+    removePiece(s);  // remove the Pawn
+
+    // get input on what piece to create: N, B, R, Q
+    bool validInput = false;
+    char pieceInput;
+    while (!validInput) {
+        try {
+            std::cout << "Choose a piece type to promote to (N, B, R, Q): ";
+            std::cin >> pieceInput;
+            if (pieceInput != 'N' && pieceInput != 'B' && pieceInput != 'R' && pieceInput != 'Q') {
+                throw 1;
+            }
+            validInput = true;
+        }
+        catch (...) {
+            std::cout << "Invalid input for pawn promotion." << std::endl;
+        }
+    }
+
+    // create the new piece
+    switch (pieceInput) {
+        case 'N':
+            createPiece(knight, color, s);
+            break;
+        case 'B':
+            createPiece(bishop, color, s);
+            break;
+        case 'R':
+            createPiece(rook, color, s);
+            break;
+        case 'Q':
+            createPiece(queen, color, s);
+            break;
+    }
+}
 
 
 void ChessBoard::updateBoard(Move m) {
@@ -543,9 +613,9 @@ void ChessBoard::updateBoard(Move m) {
         case capture:
             updateCapture(m);
             break;
-        case promotion:
-            updatePromotion(m);
-            break;
+        // case promotion:
+        //     updatePromotion(m);
+        //     break;
         case enPassant:
             updateEnPassant(m);
             break;
@@ -602,6 +672,24 @@ void ChessBoard::updatePosition(Move m) {  // be sure to check if piece is Rook/
 
     enPassantWindow = nullptr;
     movePiece(m.start, m.end);
+
+    // check if piece was a pawn and if it landed on 1st/8th rank for promotion (row 7 or 0)
+    // exception: if board is a copy board (i.e., being used to check the validity of Move m, do not call promotion)
+    // promotion should only be called when a Move is executed on the actual game board (not a copy/future state board)
+    if (isCopyBoard == false && std::dynamic_pointer_cast<Pawn>(piece) != nullptr) {
+        switch (piece->color) {
+            // white pawn promotes on 8th rank (row 0)
+            case white:
+                if (piece->position.first == 0)
+                    promotePiece(white, piece->position);
+                break;
+            // black pawn promotes on 1st rank (row 7)
+            case black:
+                if (piece->position.first == 7)
+                    promotePiece(black, piece->position);
+                break;
+        }
+    }
 }
 void ChessBoard::updateCapture(Move m) {
     // check if piece is Pawn/King/Rook for hasMoved flag
@@ -629,51 +717,69 @@ void ChessBoard::updateCapture(Move m) {
     enPassantWindow = nullptr;
     removePiece(m.end);
     movePiece(m.start, m.end);
-}
-void ChessBoard::updatePromotion(Move m) {
-    enPassantWindow = nullptr;
-    removePiece(m.start);  // remove the pawn at m.start (e.g. e7)
-    
-    // get input on what piece to create: N, B, R, Q
-    bool validInput = false;
-    char pieceInput;
-    while (!validInput) {
-        try {
-            std::cout << "Choose a piece type to promote to (N, B, R, Q): ";
-            std::cin >> pieceInput;
-            if (pieceInput != 'N' && pieceInput != 'B' && pieceInput != 'R' && pieceInput != 'Q') {
-                throw 1;
-            }
-            validInput = true;
-        }
-        catch (...) {
-            std::cout << "Invalid input for pawn promotion." << std::endl;
-        }
-    }
 
-    // create the new piece
-    switch (pieceInput) {
-        case 'N':
-            createPiece(knight, playerTurn, m.end);
-            break;
-        case 'B':
-            createPiece(bishop, playerTurn, m.end);
-            break;
-        case 'R':
-            createPiece(rook, playerTurn, m.end);
-            break;
-        case 'Q':
-            createPiece(queen, playerTurn, m.end);
-            break;
+    // check if piece was a pawn and if it landed on 1st/8th rank for promotion (row 7 or 0)
+    // exception: if board is a copy board (i.e., being used to check the validity of Move m, do not call promotion)
+    // promotion should only be called when a Move is executed on the actual game board (not a copy/future state board)
+    if (isCopyBoard == false && std::dynamic_pointer_cast<Pawn>(piece) != nullptr) {
+        switch (piece->color) {
+            // white pawn promotes on 8th rank (row 0)
+            case white:
+                if (piece->position.first == 0)
+                    promotePiece(white, piece->position);
+                break;
+            // black pawn promotes on 1st rank (row 7)
+            case black:
+                if (piece->position.first == 7)
+                    promotePiece(black, piece->position);
+                break;
+        }
     }
-    // Note to self: using the Move class to generalize player inputs
-    // may have been an oversight, because certain information is truncated
-    // (e.g., the Move class does not contain data describing what kind of piece
-    // a player may want to promote to when making a promotion move, nor does it
-    // contain data describing what color the future piece will be - which is why
-    // playerTurn had to be added to ChessBoard)
-    // something to keep in mind when designing future programs ):
 }
+// void ChessBoard::updatePromotion(Move m) {
+//     enPassantWindow = nullptr;
+//     removePiece(m.start);  // remove the pawn at m.start (e.g. e7)
+    
+//     // get input on what piece to create: N, B, R, Q
+//     bool validInput = false;
+//     char pieceInput;
+//     while (!validInput) {
+//         try {
+//             std::cout << "Choose a piece type to promote to (N, B, R, Q): ";
+//             std::cin >> pieceInput;
+//             if (pieceInput != 'N' && pieceInput != 'B' && pieceInput != 'R' && pieceInput != 'Q') {
+//                 throw 1;
+//             }
+//             validInput = true;
+//         }
+//         catch (...) {
+//             std::cout << "Invalid input for pawn promotion." << std::endl;
+//         }
+//     }
+
+//     // create the new piece
+//     switch (pieceInput) {
+//         case 'N':
+//             createPiece(knight, playerTurn, m.end);
+//             break;
+//         case 'B':
+//             createPiece(bishop, playerTurn, m.end);
+//             break;
+//         case 'R':
+//             createPiece(rook, playerTurn, m.end);
+//             break;
+//         case 'Q':
+//             createPiece(queen, playerTurn, m.end);
+//             break;
+//     }
+//     // Note to self: using the Move class to generalize player inputs
+//     // may have been an oversight, because certain information is truncated
+//     // (e.g., the Move class does not contain data describing what kind of piece
+//     // a player may want to promote to when making a promotion move, nor does it
+//     // contain data describing what color the future piece will be - which is why
+//     // playerTurn had to be added to ChessBoard)
+//     // something to keep in mind when designing future programs ):
+// }
 void ChessBoard::updateEnPassant(Move m) {  // check enPassantWindow
     enPassantWindow = nullptr;
     movePiece(m.start, m.end);  // move pawn behind captured pawn
@@ -706,10 +812,8 @@ void ChessBoard::updateKingsideCastle(Move m) {
             rookPtr->hasMoved = true;
             movePiece({7, 4}, {7, 6});  // white king moves two files right
             movePiece({7, 7}, {7, 5});  // rook jumps over white king
-            std::cout << "WhiteKing castle kingside successfully" << std::endl;
             break;
         case black:
-            std::cout << "blackKing->pos: " << blackKing->position << std::endl;
             kingPtr = std::dynamic_pointer_cast<King>(blackKing);
             rookPtr = std::dynamic_pointer_cast<Rook>(board[0][7]);
             kingPtr->hasMoved = true;
