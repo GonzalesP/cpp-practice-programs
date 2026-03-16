@@ -98,6 +98,8 @@ public:
     std::vector<Move> whiteLegalMoves;
     std::vector<Move> blackLegalMoves;
 
+    playerColor playerTurn = white;  // indicates whose turn it is
+
     // Constructors
     ChessBoard();  // fill board, whitePieces, blackPieces, whiteKing, blackKing, whiteLegalMoves, blackLegalMoves
     ChessBoard(ChessBoard& b);
@@ -155,21 +157,34 @@ bool operator==(square s1, square s2) {
 }
 
 
-
+// enPassant works as intended
+// promotion mostly works, except for the edge case that a pawn captures at the same time it promotes
+// kingside and queenside castle works as intended
 int main() {
-    // initialize board
+    // testing en passant and promotion
     ChessBoard b1;
-    std::cout << b1;
- 
+    std::cout << b1 << std::endl;
 
     std::vector<Move> moves1;
-    // moves.push_back(Move());
-    moves1.push_back(Move(position, {6, 3}, {4, 3}));  // d4
-    moves1.push_back(Move(position, {0, 6}, {2, 5}));  // Nf5
-    moves1.push_back(Move(position, {7, 2}, {4, 5}));  // Bf4
-    moves1.push_back(Move(position, {1, 3}, {3, 3}));  // d5
+    // moves1.push_back(Move());
     moves1.push_back(Move(position, {6, 4}, {4, 4}));  // e4
-    moves1.push_back(Move(capture, {2, 5}, {4, 4}));  // Nxe4
+    moves1.push_back(Move(position, {1, 3}, {3, 3}));  // d5
+
+    moves1.push_back(Move(capture, {4, 4}, {3, 3}));  // exd5
+    moves1.push_back(Move(position, {1, 4}, {3, 4}));  // e5
+
+    moves1.push_back(Move(enPassant, {3, 3}, {2, 4}));  //dxe6 e.p.
+    moves1.push_back(Move(position, {1, 0}, {2, 0}));  // a6
+
+    moves1.push_back(Move(capture, {2, 4}, {1, 5}));  // exf7
+    moves1.push_back(Move(position, {1, 1}, {2, 1}));  // b6
+
+    // uh oh. edge case: a pawn could capture and promote at the same time
+    // moveType cannot be both at the same time, so will have to rewrite the logic for promoting a pawn ):
+
+    // for now, test promotion by removing Knight on g1 and then using Move(promotion)
+    b1.removePiece({0, 6});
+    moves1.push_back(Move(promotion, {1, 5}, {0, 6}));  // fxg8Q
 
     for (Move m : moves1) {
         b1.updateBoard(m);
@@ -179,6 +194,83 @@ int main() {
     // b1.enPassantWindow != nullptr ?
     //     std::cout << b1.enPassantWindow->position << std::endl << std::endl :
     //     std::cout << "empty window" << std::endl << std::endl;
+
+
+
+    // testing kingside castle
+    ChessBoard b2;
+    std::cout << b2 << std::endl;
+
+    std::vector<Move> moves2;
+    // moves2.push_back(Move(, {, }, {, }));
+    moves2.push_back(Move(position, {6, 4}, {4, 4}));  // e4
+    moves2.push_back(Move(position, {1, 4}, {3, 4}));  // e5
+
+    moves2.push_back(Move(position, {7, 5}, {6, 4}));  // Be2
+    moves2.push_back(Move(position, {0, 5}, {1, 4}));  // Be7
+
+    moves2.push_back(Move(position, {7, 6}, {5, 5}));  // Nf3
+    moves2.push_back(Move(position, {0, 6}, {2, 5}));  // Nf6
+
+    moves2.push_back(Move(kingsideCastle, {7, 4}, {7, 6}));  // O-O
+    moves2.push_back(Move(kingsideCastle, {0, 4}, {0, 6}));
+
+    b2.updateBoard(moves2[0]);  std::cout << b2 << std::endl;
+    b2.updateBoard(moves2[1]);  std::cout << b2 << std::endl;
+    b2.updateBoard(moves2[2]);  std::cout << b2 << std::endl;
+    b2.updateBoard(moves2[3]);  std::cout << b2 << std::endl;
+    b2.updateBoard(moves2[4]);  std::cout << b2 << std::endl;
+    b2.updateBoard(moves2[5]);  std::cout << b2 << std::endl;
+
+    
+    b2.playerTurn = white;
+    b2.updateBoard(moves2[6]);
+    std::cout << b2 << std::endl;
+
+    b2.playerTurn = black;
+    b2.updateBoard(moves2[7]);
+    std::cout << b2 << std::endl;
+
+
+
+    // testing queenside castle
+    ChessBoard b3;
+    std::cout << b3 << std::endl;
+
+    std::vector<Move> moves3;
+    // moves3.push_back(Move(, {, }, {, }));
+    moves3.push_back(Move(position, {6, 3}, {5, 3}));  // d3
+    moves3.push_back(Move(position, {1, 3}, {2, 3}));  // d6
+
+    moves3.push_back(Move(position, {7, 2}, {5, 4}));  // Be3
+    moves3.push_back(Move(position, {0, 2}, {2, 4}));  // Be6
+
+    moves3.push_back(Move(position, {7, 1}, {5, 2}));  // Nc3
+    moves3.push_back(Move(position, {0, 1}, {2, 2}));  // Nc6
+
+    moves3.push_back(Move(position, {7, 3}, {6, 3}));  // Qd2
+    moves3.push_back(Move(position, {0, 3}, {1, 3}));  // Qd7
+
+    moves3.push_back(Move(queensideCastle, {7, 4}, {7, 2}));  // O-O-O
+    moves3.push_back(Move(queensideCastle, {0, 4}, {0, 2}));  // O-O-O
+
+    b3.updateBoard(moves3[0]);  std::cout << b3 << std::endl;
+    b3.updateBoard(moves3[1]);  std::cout << b3 << std::endl;
+    b3.updateBoard(moves3[2]);  std::cout << b3 << std::endl;
+    b3.updateBoard(moves3[3]);  std::cout << b3 << std::endl;
+    b3.updateBoard(moves3[4]);  std::cout << b3 << std::endl;
+    b3.updateBoard(moves3[5]);  std::cout << b3 << std::endl;
+    b3.updateBoard(moves3[6]);  std::cout << b3 << std::endl;
+    b3.updateBoard(moves3[7]);  std::cout << b3 << std::endl;
+
+
+    b3.playerTurn = white;
+    b3.updateBoard(moves3[8]);
+    std::cout << b3 << std::endl;
+
+    b3.playerTurn = black;
+    b3.updateBoard(moves3[9]);
+    std::cout << b3 << std::endl;
 
     return 0;
 }
@@ -300,7 +392,7 @@ ChessBoard::ChessBoard() {  // used when creating a brand new board (game first 
     whiteKing = board[7][4];  // e1
 
     // save black king
-    blackKing = board[7][3];  // d1
+    blackKing = board[0][4];  // e8
 
     // get white legal moves
 
@@ -540,19 +632,117 @@ void ChessBoard::updateCapture(Move m) {
 }
 void ChessBoard::updatePromotion(Move m) {
     enPassantWindow = nullptr;
-    movePiece(m.start, m.end);
+    removePiece(m.start);  // remove the pawn at m.start (e.g. e7)
+    
+    // get input on what piece to create: N, B, R, Q
+    bool validInput = false;
+    char pieceInput;
+    while (!validInput) {
+        try {
+            std::cout << "Choose a piece type to promote to (N, B, R, Q): ";
+            std::cin >> pieceInput;
+            if (pieceInput != 'N' && pieceInput != 'B' && pieceInput != 'R' && pieceInput != 'Q') {
+                throw 1;
+            }
+            validInput = true;
+        }
+        catch (...) {
+            std::cout << "Invalid input for pawn promotion." << std::endl;
+        }
+    }
+
+    // create the new piece
+    switch (pieceInput) {
+        case 'N':
+            createPiece(knight, playerTurn, m.end);
+            break;
+        case 'B':
+            createPiece(bishop, playerTurn, m.end);
+            break;
+        case 'R':
+            createPiece(rook, playerTurn, m.end);
+            break;
+        case 'Q':
+            createPiece(queen, playerTurn, m.end);
+            break;
+    }
+    // Note to self: using the Move class to generalize player inputs
+    // may have been an oversight, because certain information is truncated
+    // (e.g., the Move class does not contain data describing what kind of piece
+    // a player may want to promote to when making a promotion move, nor does it
+    // contain data describing what color the future piece will be - which is why
+    // playerTurn had to be added to ChessBoard)
+    // something to keep in mind when designing future programs ):
 }
 void ChessBoard::updateEnPassant(Move m) {  // check enPassantWindow
     enPassantWindow = nullptr;
-    movePiece(m.start, m.end);
+    movePiece(m.start, m.end);  // move pawn behind captured pawn
+
+    // captured pawn is in the SAME column (file), 1 rank below/above (depending on color) AFTER pawn moves (m.end)
+    // when White uses enPassant, their pawn lands in the 6th rank (row 2) - i.e., the captured pawn was in row 3
+    // when Black uses enPassant, their pawn lands in the 3rd rank (row 5) - the captured pawn was in row 4
+
+    // remove the captured pawn based on who is using enPassant
+    switch (playerTurn) {
+        case white:  // captured pawn is in row 3, same column as white pawn's destination
+            removePiece({3, m.end.second});
+            break;
+        case black:
+            removePiece({4, m.end.second});
+            break;
+    }
 }
-void ChessBoard::updateKingsideCastle(Move m) {  // startSquare points to WhiteKing or BlackKing
+void ChessBoard::updateKingsideCastle(Move m) {
     enPassantWindow = nullptr;
-    movePiece(m.start, m.end);
+
+    // first, check who is using O-O. then, update the king and kingside rook (hasMoved = true). last, update the board with O-O
+    std::shared_ptr<King> kingPtr;
+    std::shared_ptr<Rook> rookPtr;  // kingside rook
+    switch (playerTurn) {
+        case white:
+            kingPtr = std::dynamic_pointer_cast<King>(whiteKing);
+            rookPtr = std::dynamic_pointer_cast<Rook>(board[7][7]);
+            kingPtr->hasMoved = true;
+            rookPtr->hasMoved = true;
+            movePiece({7, 4}, {7, 6});  // white king moves two files right
+            movePiece({7, 7}, {7, 5});  // rook jumps over white king
+            std::cout << "WhiteKing castle kingside successfully" << std::endl;
+            break;
+        case black:
+            std::cout << "blackKing->pos: " << blackKing->position << std::endl;
+            kingPtr = std::dynamic_pointer_cast<King>(blackKing);
+            rookPtr = std::dynamic_pointer_cast<Rook>(board[0][7]);
+            kingPtr->hasMoved = true;
+            rookPtr->hasMoved = true;
+            movePiece({0, 4}, {0, 6});  // white king moves two files right
+            movePiece({0, 7}, {0, 5});  // rook jumps over white king
+            break;
+    }
 }
 void ChessBoard::updateQueensideCastle(Move m) {  // startSquare points to WhiteKing or BlackKing
     enPassantWindow = nullptr;
-    movePiece(m.start, m.end);
+    
+    // first, check who is using O-O. then, update the king and kingside rook (hasMoved = true). last, update the board with O-O
+    std::shared_ptr<King> kingPtr;
+    std::shared_ptr<Rook> rookPtr;  // kingside rook
+    switch (playerTurn) {
+        case white:
+            kingPtr = std::dynamic_pointer_cast<King>(whiteKing);
+            rookPtr = std::dynamic_pointer_cast<Rook>(board[7][0]);
+            kingPtr->hasMoved = true;
+            rookPtr->hasMoved = true;
+            movePiece({7, 4}, {7, 2});  // white king moves two files right
+            movePiece({7, 0}, {7, 3});  // rook jumps over white king
+            break;
+        case black:
+            kingPtr = std::dynamic_pointer_cast<King>(blackKing);
+            rookPtr = std::dynamic_pointer_cast<Rook>(board[0][0]);
+            kingPtr->hasMoved = true;
+            rookPtr->hasMoved = true;
+            movePiece({0, 4}, {0, 2});  // white king moves two files right
+            movePiece({0, 0}, {0, 3});  // rook jumps over white king
+            break;
+    }
 }
 
 
