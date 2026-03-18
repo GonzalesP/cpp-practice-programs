@@ -165,21 +165,31 @@ public:
 
 
 // square operators
-std::ostream& operator<<(std::ostream& os, square s) {
-    std::cout << "{" << s.first << ", " << s.second << "}";
-    return os;
-}
-bool operator==(square s1, square s2) {
-    return s1.first == s2.first && s1.second == s2.second;
-}
+std::ostream& operator<<(std::ostream& os, square s);
+bool operator==(square s1, square s2);
 
 
 
+
+// TODO: create ChessBoard method for getting user input based on chess board coordinate (e.g. b4e4 - move b4 piece to e4)
+// then, create game loop for facilitating chess game
+// last, if possible, make the chess board look prettier when printed (find libraries for colored text?)
 int main() {
-    // testing en passant and promotion
     ChessBoard b1;
     std::cout << b1 << std::endl;
 
+    // std::string moveInput;
+    // while (white has legal moves and black has legal moves)
+    // switch (playerTurn)
+
+    // white: std::cout << "White's move: " (e.g.b4e4 - move the piece from b4 to e4)
+    // if not in legal moves print error
+    // else, update board, playerTurn = black
+
+    // black: "black's move"
+    // ...
+
+    // print board
     std::vector<Move> moves1;
     // moves1.push_back(Move(, {, }, {, }));
     moves1.push_back(Move(position, {6, 4}, {4, 4}));  // e4
@@ -324,6 +334,18 @@ int main() {
     */
 
     return 0;
+}
+
+
+
+
+// Square methods
+std::ostream& operator<<(std::ostream& os, square s) {
+    std::cout << "{" << s.first << ", " << s.second << "}";
+    return os;
+}
+bool operator==(square s1, square s2) {
+    return s1.first == s2.first && s1.second == s2.second;
 }
 
 
