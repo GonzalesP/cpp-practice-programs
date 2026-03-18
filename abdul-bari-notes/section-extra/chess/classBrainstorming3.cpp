@@ -144,8 +144,10 @@ public:
     std::vector<Move> getKingMoves(PiecePtr piece);
     // more helper methods
     bool enPassantAllowed(PiecePtr piece);
-    bool kingsideCastleAllowed(PiecePtr piece);
-    bool queensideCastleAllowed(PiecePtr piece);
+    bool whiteKingsideCastleAllowed();
+    bool blackKingsideCastleAllowed();
+    bool whiteQueensideCastleAllowed();
+    bool blackQueensideCastleAllowed();
 
     std::vector<square> getAttackSquares(playerColor color);
     // getAttackSquares() helper methods
@@ -195,13 +197,28 @@ int main() {
     // new: capture and promote
     moves1.push_back(Move(capture, {1, 5}, {0, 6}));  // fxg8[Q]
 
-    for (Move m : moves1) {
-        b1.updateBoard(m);
+    for (int m = 0; m < moves1.size(); m++) {
+        if (m % 2 == 0) {  // print white's legal moves before making move
+            b1.updateWhiteLegalMoves();
+            for (Move m : b1.whiteLegalMoves) {
+                std::cout << m << ", ";
+            }
+            std::cout << std::endl;
+        }
+        else {
+            b1.updateBlackLegalMoves();
+            for (Move m : b1.blackLegalMoves) {
+                std::cout << m << ", ";
+            }
+            std::cout << std::endl;
+        }
+        b1.updateBoard(moves1[m]);
         std::cout << b1 << std::endl;
     }
 
 
     // position and promote
+    /*
     ChessBoard b2;
     std::cout << b2 << std::endl;
 
@@ -226,8 +243,7 @@ int main() {
         b2.updateBoard(m);
         std::cout << b2 << std::endl;
     }
-
-
+    */
 
     // testing kingside castle
     /*
@@ -418,7 +434,24 @@ Move::Move(moveType type, square start, square end) {
 }
 
 std::ostream& operator<<(std::ostream& os, Move& m) {
-    os << "{" << m.type << ", " << m.start << ", " << m.end << "}";
+    switch (m.type) {
+        case position:
+            os << "{position, ";
+            break;
+        case capture:
+            os << "{capture, ";
+            break;
+        case enPassant:
+            os << "{enPassant, ";
+            break;
+        case kingsideCastle:
+            os << "{kingsideCastle, ";
+            break;
+        case queensideCastle:
+            os << "{queensideCastle, ";
+            break;
+    }
+    os << m.start << ", " << m.end << "}";
     return os;
 }
 
@@ -435,8 +468,10 @@ ChessBoard::ChessBoard() {  // used when creating a brand new board (game first 
     blackKing = board[0][4];  // e8
 
     // get white legal moves
+    updateWhiteLegalMoves();
 
     // get black legal moves
+    updateBlackLegalMoves();
 }
 ChessBoard::ChessBoard(ChessBoard& chessBoard) {
     isCopyBoard = true;
@@ -459,8 +494,10 @@ ChessBoard::ChessBoard(ChessBoard& chessBoard) {
     }  // TODO: find a better way to write this...
 
     // get white legal moves - BASED ON DEEP COPY!
+    whiteLegalMoves = chessBoard.whiteLegalMoves;
 
     // get black legal moves - BASED ON DEEP COPY!
+    blackLegalMoves = chessBoard.blackLegalMoves;
 }
 
 void ChessBoard::initializeBoard() {
@@ -1047,16 +1084,332 @@ std::vector<Move> ChessBoard::getKnightMoves(PiecePtr piece) {
     return moves;
 }
 std::vector<Move> ChessBoard::getBishopMoves(PiecePtr piece) {
-    //
+    std::vector<Move> moves;
+    square pos = piece->position;
+    square diag;
+
+    // upper left direction
+    diag = {pos.first - 1, pos.second - 1};
+    while (diag.first >= 0 && diag.second >= 0) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, diag));
+            break;
+        }
+        // nullptr -> empty square: may be able to move to it
+        moves.push_back(Move(position, pos, diag));
+        diag.first--;
+        diag.second--;
+    }
+
+    // upper right direction
+    diag = {pos.first - 1, pos.second + 1};
+    while (diag.first >= 0 && diag.second <= 7) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, diag));
+            break;
+        }
+        moves.push_back(Move(position, pos, diag));
+        diag.first--;
+        diag.second++;
+    }
+
+    // lower left direction
+    diag = {pos.first + 1, pos.second - 1};
+    while (diag.first <= 7 && diag.second >= 0) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, diag));
+            break;
+        }
+        moves.push_back(Move(position, pos, diag));
+        diag.first++;
+        diag.second--;
+    }
+
+    // lower right direction
+    diag = {pos.first + 1, pos.second + 1};
+    while (diag.first <= 7 && diag.second <= 7) {
+        if (board[diag.first][diag.second] != nullptr) {
+            if (board[diag.first][diag.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, diag));
+            break;
+        }
+        moves.push_back(Move(position, pos, diag));
+        diag.first++;
+        diag.second++;
+    }
+
+    return moves;
 }
 std::vector<Move> ChessBoard::getRookMoves(PiecePtr piece) {
-    //
+    std::vector<Move> moves;
+    square pos = piece->position;
+    square card;
+
+    // up
+    card = {pos.first - 1, pos.second};
+    while (card.first >= 0) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, card));
+            break;
+        }
+        moves.push_back(Move(position, pos, card));
+        card.first--;
+    }
+
+    // down
+    card = {pos.first + 1, pos.second};
+    while (card.first <= 7) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, card));
+            break;
+        }
+        moves.push_back(Move(position, pos, card));
+        card.first++;
+    }
+
+    // left
+    card = {pos.first, pos.second - 1};
+    while (card.second >= 0) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, card));
+            break;
+        }
+        moves.push_back(Move(position, pos, card));
+        card.second--;
+    }
+
+    // right
+    card = {pos.first, pos.second + 1};
+    while (card.second <= 7) {
+        if (board[card.first][card.second] != nullptr) {
+            if (board[card.first][card.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, card));
+            break;
+        }
+        moves.push_back(Move(position, pos, card));
+        card.second++;
+    }
+
+    return moves;
 }
 std::vector<Move> ChessBoard::getQueenMoves(PiecePtr piece) {
-    //
+    std::vector<Move> moves;
+    square pos = piece->position;
+    square dir;
+
+    // up
+    dir = {pos.first - 1, pos.second};
+    while (dir.first >= 0) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        moves.push_back(Move(position, pos, dir));
+        dir.first--;
+    }
+
+    // down
+    dir = {pos.first + 1, pos.second};
+    while (dir.first <= 7) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        moves.push_back(Move(position, pos, dir));
+        dir.first++;
+    }
+
+    // left
+    dir = {pos.first, pos.second - 1};
+    while (dir.second >= 0) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        moves.push_back(Move(position, pos, dir));
+        dir.second--;
+    }
+    
+    // right
+    dir = {pos.first, pos.second + 1};
+    while (dir.second <= 7) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        moves.push_back(Move(position, pos, dir));
+        dir.second++;
+    }
+
+    // upper left direction
+    dir = {pos.first - 1, pos.second - 1};
+    while (dir.first >= 0 && dir.second >= 0) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        // nullptr -> empty square: may be able to move to it
+        moves.push_back(Move(position, pos, dir));
+        dir.first--;
+        dir.second--;
+    }
+
+    // upper right direction
+    dir = {pos.first - 1, pos.second + 1};
+    while (dir.first >= 0 && dir.second <= 7) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        moves.push_back(Move(position, pos, dir));
+        dir.first--;
+        dir.second++;
+    }
+
+    // lower left direction
+    dir = {pos.first + 1, pos.second - 1};
+    while (dir.first <= 7 && dir.second >= 0) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        moves.push_back(Move(position, pos, dir));
+        dir.first++;
+        dir.second--;
+    }
+
+    // lower right direction
+    dir = {pos.first + 1, pos.second + 1};
+    while (dir.first <= 7 && dir.second <= 7) {
+        if (board[dir.first][dir.second] != nullptr) {
+            if (board[dir.first][dir.second]->color != piece->color)
+                moves.push_back(Move(capture, pos, dir));
+            break;
+        }
+        moves.push_back(Move(position, pos, dir));
+        dir.first++;
+        dir.second++;
+    }
+
+    return moves;
 }
 std::vector<Move> ChessBoard::getKingMoves(PiecePtr piece) {
-    //
+    std::vector<Move> moves;
+    square pos = piece->position;
+
+    // upper three squares
+    if (pos.first - 1 >= 0) {
+        // up
+        if (board[pos.first - 1][pos.second] == nullptr) {
+            moves.push_back(Move(position, pos, {pos.first - 1, pos.second}));
+        }
+        else if (board[pos.first - 1][pos.second]->color != piece->color) {
+            moves.push_back(Move(capture, pos, {pos.first - 1, pos.second}));
+        }
+
+        // upper left
+        if (pos.second - 1 >= 0) {
+            if (board[pos.first - 1][pos.second - 1] == nullptr) {
+                moves.push_back(Move(position, pos, {pos.first - 1, pos.second - 1}));
+            }
+            else if (board[pos.first - 1][pos.second - 1]->color != piece->color) {
+                moves.push_back(Move(capture, pos, {pos.first - 1, pos.second - 1}));
+            }
+        }
+
+        // upper right
+        if (pos.second + 1 <= 7) {
+            if (board[pos.first - 1][pos.second + 1] == nullptr) {
+                moves.push_back(Move(position, pos, {pos.first - 1, pos.second + 1}));
+            }
+            else if (board[pos.first - 1][pos.second + 1]->color != piece->color) {
+                moves.push_back(Move(capture, pos, {pos.first - 1, pos.second + 1}));
+            }
+        }
+    }
+
+    // lower three squares
+    if (pos.first + 1 <= 7) {
+        // down
+        if (board[pos.first + 1][pos.second] == nullptr) {
+            moves.push_back(Move(position, pos, {pos.first + 1, pos.second}));
+        }
+        else if (board[pos.first + 1][pos.second]->color != piece->color) {
+            moves.push_back(Move(capture, pos, {pos.first + 1, pos.second}));
+        }
+
+        // lower left
+        if (pos.second - 1 >= 0) {
+            if (board[pos.first + 1][pos.second - 1] == nullptr) {
+                moves.push_back(Move(position, pos, {pos.first + 1, pos.second - 1}));
+            }
+            else if (board[pos.first + 1][pos.second - 1]->color != piece->color) {
+                moves.push_back(Move(capture, pos, {pos.first + 1, pos.second - 1}));
+            }
+        }
+
+        // lower right
+        if (pos.second + 1 <= 7) {
+            if (board[pos.first + 1][pos.second + 1] == nullptr) {
+                moves.push_back(Move(position, pos, {pos.first + 1, pos.second + 1}));
+            }
+            else if (board[pos.first + 1][pos.second + 1]->color != piece->color) {
+                moves.push_back(Move(capture, pos, {pos.first + 1, pos.second + 1}));
+            }
+        }
+    }
+
+    // left square
+    if (pos.second - 1 >= 0) {
+        if (board[pos.first][pos.second - 1] == nullptr) {
+            moves.push_back(Move(position, pos, {pos.first, pos.second - 1}));
+        }
+        else if (board[pos.first][pos.second - 1]->color != piece->color) {
+            moves.push_back(Move(capture, pos, {pos.first, pos.second - 1}));
+        }
+    }
+
+    // right square
+    if (pos.second + 1 <= 7) {
+        if (board[pos.first][pos.second + 1] == nullptr) {
+            moves.push_back(Move(position, pos, {pos.first, pos.second + 1}));
+        }
+        else if (board[pos.first][pos.second + 1]->color != piece->color) {
+            moves.push_back(Move(capture, pos, {pos.first, pos.second + 1}));
+        }
+    }
+
+    // castling moves
+    switch (piece->color) {
+        case white:
+            if (whiteKingsideCastleAllowed() == true)  // kingside castle
+                moves.push_back(Move(kingsideCastle, pos, {7, 6}));
+            if (whiteQueensideCastleAllowed() == true)
+                moves.push_back(Move(queensideCastle, pos, {7, 2}));
+            break;
+        case black:
+            if (blackKingsideCastleAllowed() == true)
+                moves.push_back(Move(kingsideCastle, pos, {0, 6}));
+            if (blackQueensideCastleAllowed() == true)
+                moves.push_back(Move(queensideCastle, pos, {0, 2}));
+            break;
+    }
+
+
+    return moves;
 }
 
 // more helper methods
@@ -1068,11 +1421,77 @@ bool ChessBoard::enPassantAllowed(PiecePtr piece) {
     }
     return false;
 }
-bool ChessBoard::kingsideCastleAllowed(PiecePtr piece) {
-    //
+bool ChessBoard::whiteKingsideCastleAllowed() {
+    std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(whiteKing);
+    std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(board[7][7]);
+    if (kingPtr->hasMoved == true)
+        return false;
+    else if (rookPtr == nullptr || rookPtr->hasMoved == true)
+        return false;
+    else if (board[7][5] != nullptr || board[7][6] != nullptr)
+        return false;
+    
+    std::vector<square> attackSquares = getAttackSquares(black);
+    for (square s : attackSquares) {
+        if (s == square{7, 4} || s == square{7, 5} || s == square{7, 6})
+            return false;
+    }
+
+    return true;
 }
-bool ChessBoard::queensideCastleAllowed(PiecePtr piece) {
-    //
+bool ChessBoard::blackKingsideCastleAllowed() {
+    std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(blackKing);
+    std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(board[0][7]);
+    if (kingPtr->hasMoved == true)
+        return false;
+    else if (rookPtr == nullptr || rookPtr->hasMoved == true)
+        return false;
+    else if (board[0][5] != nullptr || board[0][6] != nullptr)
+        return false;
+    
+    std::vector<square> attackSquares = getAttackSquares(white);
+    for (square s : attackSquares) {
+        if (s == square{0, 4} || s == square{0, 5} || s == square{0, 6})
+            return false;
+    }
+
+    return true;
+}
+bool ChessBoard::whiteQueensideCastleAllowed() {
+    std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(whiteKing);
+    std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(board[7][0]);
+    if (kingPtr->hasMoved == true)
+        return false;
+    else if (rookPtr == nullptr || rookPtr->hasMoved == true)
+        return false;
+    else if (board[7][1] != nullptr || board[7][2] != nullptr || board[7][3] != nullptr)
+        return false;
+    
+    std::vector<square> attackSquares = getAttackSquares(black);
+    for (square s : attackSquares) {
+        if (s == square{7, 4} || s == square{7, 3} || s == square{7, 2})
+            return false;
+    }
+
+    return true;
+}
+bool ChessBoard::blackQueensideCastleAllowed() {
+    std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(blackKing);
+    std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(board[0][0]);
+    if (kingPtr->hasMoved == true)
+        return false;
+    else if (rookPtr == nullptr || rookPtr->hasMoved == true)
+        return false;
+    else if (board[0][1] != nullptr || board[0][2] != nullptr || board[0][3] != nullptr)
+        return false;
+    
+    std::vector<square> attackSquares = getAttackSquares(white);
+    for (square s : attackSquares) {
+        if (s == square{0, 4} || s == square{0, 3} || s == square{0, 2})
+            return false;
+    }
+
+    return true;
 }
 
 
