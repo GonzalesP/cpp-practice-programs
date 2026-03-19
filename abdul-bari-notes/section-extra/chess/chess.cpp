@@ -14,6 +14,8 @@ typedef int col;
 typedef std::pair<row, col> square;
 typedef std::shared_ptr<Piece> PiecePtr;
 
+typedef std::pair<square, square> moveInput;  // startSquare, endSquare
+
 
 class Piece {
 public:
@@ -135,6 +137,7 @@ public:
 
     void updateWhiteLegalMoves();  // LegalMoves.clear() + for each piece calculate moves + remove illegal moves
     void updateBlackLegalMoves();
+    int moveIndex(moveInput input, playerColor turn);
     // updateLegalMoves() helper methods
     std::vector<Move> getPawnMoves(PiecePtr piece);
     std::vector<Move> getKnightMoves(PiecePtr piece);
@@ -168,6 +171,9 @@ public:
 std::ostream& operator<<(std::ostream& os, square s);
 bool operator==(square s1, square s2);
 
+moveInput stringToMoveInput(std::string input);  // user enters a string, which gets converted into moveInput
+// e.g., "e2e4" (move piece from e2 to e4) translates to {{6,4},{4,4}}
+
 
 
 
@@ -175,56 +181,60 @@ bool operator==(square s1, square s2);
 // then, create game loop for facilitating chess game
 // last, if possible, make the chess board look prettier when printed (find libraries for colored text?)
 int main() {
-    ChessBoard b1;
-    std::cout << b1 << std::endl;
+    ChessBoard game;
 
-    // std::string moveInput;
-    // while (white has legal moves and black has legal moves)
-    // switch (playerTurn)
-
-    // white: std::cout << "White's move: " (e.g.b4e4 - move the piece from b4 to e4)
-    // if not in legal moves print error
-    // else, update board, playerTurn = black
-
-    // black: "black's move"
-    // ...
-
-    // print board
-    std::vector<Move> moves1;
-    // moves1.push_back(Move(, {, }, {, }));
-    moves1.push_back(Move(position, {6, 4}, {4, 4}));  // e4
-    moves1.push_back(Move(position, {1, 3}, {3, 3}));  // d5
-
-    moves1.push_back(Move(capture, {4, 4}, {3, 3}));  // exd5
-    moves1.push_back(Move(position, {1, 4}, {3, 4}));  // e5
-
-    moves1.push_back(Move(enPassant, {3, 3}, {2, 4}));  //dxe6 e.p.
-    moves1.push_back(Move(position, {1, 0}, {2, 0}));  // a6
-
-    moves1.push_back(Move(capture, {2, 4}, {1, 5}));  // exf7 (ignore the King check lol)
-    moves1.push_back(Move(position, {1, 1}, {2, 1}));  // b6
-
-    // new: capture and promote
-    moves1.push_back(Move(capture, {1, 5}, {0, 6}));  // fxg8[Q]
-
-    for (int m = 0; m < moves1.size(); m++) {
-        if (m % 2 == 0) {  // print white's legal moves before making move
-            b1.updateWhiteLegalMoves();
-            for (Move m : b1.whiteLegalMoves) {
-                std::cout << m << ", ";
-            }
-            std::cout << std::endl;
+    // loop variables
+    std::string userInput;
+    moveInput move;
+    int moveIndex;
+    while (game.whiteLegalMoves.size() > 0 && game.blackLegalMoves.size() > 0) {
+        std::cout << game;
+        switch (game.playerTurn) {
+            case white:
+                try {
+                    std::cout << "White's move: ";
+                    std::cin >> userInput;
+                    move = stringToMoveInput(userInput);
+                    moveIndex = game.moveIndex(move, white);
+                    if (moveIndex == -1)
+                        throw 1;
+                    
+                    game.updateBoard(game.whiteLegalMoves[moveIndex]);
+                    game.playerTurn = black;
+                    game.updateBlackLegalMoves();
+                }
+                catch (...) {
+                    std::cout << "Invalid input/move." << std::endl;
+                }
+                break;
+            case black:
+                try {
+                    std::cout << "Black's move: ";
+                    std::cin >> userInput;
+                    move = stringToMoveInput(userInput);
+                    moveIndex = game.moveIndex(move, black);
+                    if (moveIndex == -1)
+                        throw 1;
+                    
+                    game.updateBoard(game.blackLegalMoves[moveIndex]);
+                    game.playerTurn = white;
+                    game.updateWhiteLegalMoves();
+                }
+                catch (...) {
+                    std::cout << "Invalid input/move." << std::endl;
+                }
+                break;
         }
-        else {
-            b1.updateBlackLegalMoves();
-            for (Move m : b1.blackLegalMoves) {
-                std::cout << m << ", ";
-            }
-            std::cout << std::endl;
-        }
-        b1.updateBoard(moves1[m]);
-        std::cout << b1 << std::endl;
+        std::cout << std::endl;
     }
+    std::cout << game;
+
+    if (game.isInCheck(white) == true)
+        std::cout << "Black wins!" << std::endl;
+    else if (game.isInCheck(black) == true)
+        std::cout << "White wins!" << std::endl;
+    else
+        std::cout << "Stalemate!" << std::endl;
 
 
     // position and promote
@@ -346,6 +356,38 @@ std::ostream& operator<<(std::ostream& os, square s) {
 }
 bool operator==(square s1, square s2) {
     return s1.first == s2.first && s1.second == s2.second;
+}
+
+moveInput stringToMoveInput(std::string input) {
+    // invalid strings
+    if (input.size() != 4)
+        throw 1;
+    else if (input[3] - '0' < 1 || input[3] - '0' > 8)  // rank needs to be 1-8
+        throw 1;
+    else if (input[1] - '0' < 1 || input[1] - '0' > 8)
+        throw 1;
+    else if (input[2] < 65 || (input[2] > 72 && input[2] < 97) || input[2] > 104)  // file needs to be A-H or a-h
+        throw 1;
+    else if (input[0] < 65 || (input[0] > 72 && input[0] < 97) || input[0] > 104)  // file needs to be A-H or a-h
+        throw 1;
+    
+    square start;
+    square end;
+    if (input[0] <= 72) {  // start square has capital letter for file
+        start = {8 - (input[1] - '0'), input[0] - 65};
+    }
+    else {
+        start = {8 - (input[1] - '0'), input[0] - 97};
+    }
+
+    if (input[2] <= 72) {  // end square has capital letter for file
+        end = {8 - (input[3] - '0'), input[2] - 65};
+    }
+    else {
+        end = {8 - (input[3] - '0'), input[2] - 97};
+    }
+
+    return {start, end};
 }
 
 
@@ -990,6 +1032,27 @@ void ChessBoard::updateBlackLegalMoves() {
             blackLegalMoves.erase(blackLegalMoves.begin() + move);
         }
     }
+}
+// return the index where the given moveInput appears in the player's legal moves
+// if it is not in legal moves, return -1 (index not found)
+int ChessBoard::moveIndex(moveInput input, playerColor turn) {
+    switch (turn) {
+        case white:
+            for (int m = 0; m < whiteLegalMoves.size(); m++) {
+                Move move = whiteLegalMoves[m];
+                if (input == moveInput{move.start, move.end})
+                    return m;
+            }
+            break;
+        case black:
+            for (int m = 0; m < blackLegalMoves.size(); m++) {
+                Move move = blackLegalMoves[m];
+                if (input == moveInput{move.start, move.end})
+                    return m;
+            }
+            break;
+    }
+    return -1;
 }
 // updateLegalMoves() helper methods
 std::vector<Move> ChessBoard::getPawnMoves(PiecePtr piece) {
