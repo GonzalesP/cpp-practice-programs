@@ -41,8 +41,8 @@ int main() {
 
     int x5 = 10, x6 = 15;
     swapByReference(x5, x6);
-    std::cout << "x5: " << x5 << std::endl;
-    std::cout << "x6: " << x6 << std::endl;
+    std::cout << "x5: " << x5 << std::endl;  // 15
+    std::cout << "x6: " << x6 << std::endl;  // 10
 
     return 0;
 }
