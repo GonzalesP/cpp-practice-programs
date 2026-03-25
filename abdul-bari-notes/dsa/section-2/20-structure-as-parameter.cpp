@@ -29,11 +29,16 @@ struct Test {
 // although you cannot pass an array by value,
 // a struct that HAS an array CAN be passed by value (the array will be copied)
 void fun(struct Test t1) {
+    std::cout << "fun()" << std::endl;
     t1.A[0] = 10;  // this will not change the actual parameter's array
     t1.A[1] = 9;
     t1.A[2] = 8;
     t1.A[3] = 7;
     t1.A[4] = 6;
+
+    for (int x : t1.A)
+        std::cout << x << " ";
+    std::cout << std::endl;
 }
 
 int main() {
@@ -49,6 +54,7 @@ int main() {
     struct Test t = {{2, 4, 6, 8, 10}, 5};
     fun(t);
 
+    std::cout << "main t:" << std::endl;
     for (int x : t.A)
         std::cout << x << " ";
     std::cout << std::endl;
