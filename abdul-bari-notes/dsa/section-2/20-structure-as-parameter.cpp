@@ -41,6 +41,13 @@ void fun(struct Test t1) {
     std::cout << std::endl;
 }
 
+void fun2(struct Test& t1) {
+    std::cout << "fun2()" << std::endl;
+    
+    for (int i = 0; i < t1.n; i++)
+        t1.A[i] = i + 1;  // 1 2 3 4 5 ...
+}
+
 int main() {
     struct Rectangle r = {10, 5};
     std::cout << "area(r): " << area(r) << std::endl;
