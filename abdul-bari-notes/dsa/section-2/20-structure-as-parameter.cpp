@@ -48,6 +48,13 @@ void fun2(struct Test& t1) {
         t1.A[i] = i + 1;  // 1 2 3 4 5 ...
 }
 
+void fun3(struct Test* t1) {
+    std::cout << "fun3()" << std::endl;
+
+    for (int i = 0; i < t1->n; i++)
+        t1->A[i] = 0 - i - 1;
+}
+
 int main() {
     struct Rectangle r = {10, 5};
     std::cout << "area(r): " << area(r) << std::endl;
