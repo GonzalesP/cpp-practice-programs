@@ -78,5 +78,10 @@ int main() {
         std::cout << x << " ";
     std::cout << std::endl;
 
+    fun3(&t);
+    for (int x : t.A)
+        std::cout << x << " ";
+    std::cout << std::endl;
+
     return 0;
 }
