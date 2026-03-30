@@ -65,6 +65,7 @@ int main() {
     std::cout << "area(r) after update: " << area(r) << std::endl;
 
 
+    // passing a structure by value
     struct Test t = {{2, 4, 6, 8, 10}, 5};
     fun(t);
 
@@ -73,11 +74,13 @@ int main() {
         std::cout << x << " ";
     std::cout << std::endl;
 
+    // passing a structure by reference
     fun2(t);
     for (int x : t.A)
         std::cout << x << " ";
     std::cout << std::endl;
 
+    // passing a structure by address
     fun3(&t);
     for (int x : t.A)
         std::cout << x << " ";
