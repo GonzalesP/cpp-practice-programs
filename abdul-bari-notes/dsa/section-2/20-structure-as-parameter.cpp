@@ -5,6 +5,13 @@ struct Rectangle {
     int breadth;
 };
 
+struct Test {
+    int A[5];
+    int n;
+};
+
+// RECTANGLE FUNCTIONS
+
 // pass by value
 int area(struct Rectangle r1) {
     return r1.length * r1.breadth;
@@ -21,10 +28,8 @@ void changeBreadth(struct Rectangle* r1, int b) {
 }
 
 
-struct Test {
-    int A[5];
-    int n;
-};
+
+// TEST FUNCTIONS
 
 // although you cannot pass an array by value,
 // a struct that HAS an array CAN be passed by value (the array will be copied)
@@ -55,6 +60,9 @@ void fun3(struct Test* t1) {
         t1->A[i] = 0 - i - 1;  // -1 -2 -3 -4 -5 ...
 }
 
+
+
+// MAIN
 int main() {
     struct Rectangle r = {10, 5};
     std::cout << "area(r): " << area(r) << std::endl;
