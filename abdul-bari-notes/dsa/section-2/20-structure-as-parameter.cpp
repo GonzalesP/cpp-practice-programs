@@ -67,6 +67,7 @@ int main() {
     struct Rectangle r = {10, 5};
     std::cout << "area(r): " << area(r) << std::endl;
 
+    // change the length and breadth of the rectangle r
     changeLength(r, 8);
     changeBreadth(&r, 8);
 
