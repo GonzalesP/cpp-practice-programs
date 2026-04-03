@@ -68,7 +68,7 @@ int main() {
     std::cout << "area(r): " << area(r) << std::endl;
 
     // change the length and breadth of the rectangle r
-    changeLength(r, 8);
+    changeLength(r, 8);  // pass by reference
     changeBreadth(&r, 8);
 
     std::cout << "area(r) after update: " << area(r) << std::endl;
