@@ -69,7 +69,7 @@ int main() {
 
     // change the length and breadth of the rectangle r
     changeLength(r, 8);  // pass by reference
-    changeBreadth(&r, 8);
+    changeBreadth(&r, 8);  // pass by address
 
     std::cout << "area(r) after update: " << area(r) << std::endl;
 
