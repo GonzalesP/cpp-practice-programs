@@ -64,6 +64,7 @@ void fun3(struct Test* t1) {
 
 // MAIN
 int main() {
+    // Rectangle methods
     struct Rectangle r = {10, 5};
     std::cout << "area(r): " << area(r) << std::endl;
 
@@ -73,6 +74,8 @@ int main() {
 
     std::cout << "area(r) after update: " << area(r) << std::endl;
 
+
+    // Test methods
 
     // passing a structure by value
     struct Test t = {{2, 4, 6, 8, 10}, 5};
