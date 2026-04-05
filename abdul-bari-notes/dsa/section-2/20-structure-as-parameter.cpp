@@ -98,5 +98,23 @@ int main() {
         std::cout << x << " ";
     std::cout << std::endl;
 
+
+    // using Test methods on a dynamically allocated Test object
+    Test* t2 = new Test {{1, 3, 5, 7, 9}, 5};
+
+    fun(*t2);  // pass *t2 (the object that t2 points to) by value
+
+    fun2(*t2);  // pass *t2 by reference
+    for (int x : t2->A)
+        std::cout << x << " ";
+    std::cout << std::endl;
+
+    fun3(t2);
+    for (int x : t2->A)
+        std::cout << x << " ";
+    std::cout << std::endl;
+
+    delete t2;
+
     return 0;
 }
