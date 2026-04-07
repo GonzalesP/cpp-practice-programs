@@ -114,6 +114,7 @@ int main() {
         std::cout << x << " ";
     std::cout << std::endl;
 
+    // make sure to delete dynamically allocated objects
     delete t2;
 
     return 0;
