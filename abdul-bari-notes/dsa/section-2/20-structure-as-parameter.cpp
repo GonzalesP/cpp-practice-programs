@@ -104,6 +104,11 @@ int main() {
 
     fun(*t2);  // pass *t2 (the object that t2 points to) by value
 
+    std::cout << "main t2:" << std::endl;
+    for (int x : t2->A)
+        std::cout << x << " ";
+    std::cout << std::endl;
+
     fun2(*t2);  // pass *t2 by reference
     for (int x : t2->A)
         std::cout << x << " ";
