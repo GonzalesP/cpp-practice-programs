@@ -30,6 +30,9 @@ void changeBreadth(struct Rectangle* r1, int b) {
     r1->breadth = b;
 }
 
+// struct variables (value or reference) use .
+// pointers use ->
+
 
 
 // TEST FUNCTIONS
