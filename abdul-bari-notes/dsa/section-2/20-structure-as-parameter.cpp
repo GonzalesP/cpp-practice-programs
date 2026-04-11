@@ -52,6 +52,8 @@ void fun(struct Test t1) {
     std::cout << std::endl;
 }
 
+
+// to change an actual structure parameter's array, you must pass by reference or address
 void fun2(struct Test& t1) {
     std::cout << "fun2()" << std::endl;
     
