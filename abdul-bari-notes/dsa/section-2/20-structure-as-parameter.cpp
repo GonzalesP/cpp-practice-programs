@@ -64,7 +64,7 @@ void fun2(struct Test& t1) {
 void fun3(struct Test* t1) {
     std::cout << "fun3()" << std::endl;
 
-    for (int i = 0; i < t1->n; i++)
+    for (int i = 0; i < t1->n; i++)  // use -> for pointers
         t1->A[i] = 0 - i - 1;  // -1 -2 -3 -4 -5 ...
 }
 
