@@ -3,6 +3,7 @@
 #include <utility>
 #include <vector>
 
+// enum variables to keep track of object types/flag logic
 enum playerColor { white, black };
 enum pieceType { pawn, knight, bishop, rook, queen, king };
 enum moveType { position, capture, enPassant, kingsideCastle, queensideCastle };
