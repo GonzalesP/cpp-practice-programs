@@ -8,7 +8,7 @@ enum playerColor { white, black };
 enum pieceType { pawn, knight, bishop, rook, queen, king };
 enum moveType { position, capture, enPassant, kingsideCastle, queensideCastle };
 
-class Piece;
+class Piece;  // read class info below
 
 typedef int row;
 typedef int col;
@@ -18,6 +18,7 @@ typedef std::shared_ptr<Piece> PiecePtr;
 typedef std::pair<square, square> moveInput;  // startSquare, endSquare
 
 
+// an abstract class that represents a chess piece
 class Piece {
 public:
     pieceType type;
