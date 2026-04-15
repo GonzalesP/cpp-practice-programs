@@ -10,6 +10,7 @@ enum moveType { position, capture, enPassant, kingsideCastle, queensideCastle };
 
 class Piece;  // read class info below
 
+// type defs for readability: handling squares on a chess board and smart pointers to pieces
 typedef int row;
 typedef int col;
 typedef std::pair<row, col> square;
