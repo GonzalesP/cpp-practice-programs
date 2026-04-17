@@ -13,8 +13,10 @@ class Piece;  // read class info below
 // type defs for readability: handling squares on a chess board and smart pointers to pieces
 typedef int row;
 typedef int col;
-typedef std::pair<row, col> square;
+typedef std::pair<row, col> square;  // each square on the chessboard is represented by a row (0-7) and col (0-7)
 typedef std::shared_ptr<Piece> PiecePtr;
+// row 0 represents rank 8, row 1 represents rank 7 ... row 7 represents rank 1
+// col 0 represents file a, col 1 represents file b ... col 7 represents file h
 
 typedef std::pair<square, square> moveInput;  // startSquare, endSquare
 
