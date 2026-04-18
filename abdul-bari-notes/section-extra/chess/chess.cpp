@@ -21,7 +21,7 @@ typedef std::shared_ptr<Piece> PiecePtr;
 typedef std::pair<square, square> moveInput;  // startSquare, endSquare
 
 
-// an abstract class that represents a chess piece
+// an abstract class that represents a chess piece - a base class
 class Piece {
 public:
     pieceType type;
@@ -37,6 +37,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, PiecePtr p);
 };
 
+// derived classes from Piece - one for each kind of chess piece
 class Pawn : public Piece {
 public:
     bool hasMoved = false;
