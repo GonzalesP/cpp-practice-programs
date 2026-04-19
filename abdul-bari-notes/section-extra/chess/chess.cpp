@@ -24,23 +24,24 @@ typedef std::pair<square, square> moveInput;  // startSquare, endSquare
 // an abstract class that represents a chess piece - a base class
 class Piece {
 public:
-    pieceType type;
-    playerColor color;
-    square position;
+    pieceType type;  // enum variable used for switch case logic (determine how to calculate a piece's list of moves)
+    playerColor color;  // which player the piece belongs to
+    square position;  // what coordinate the piece is in
 
     // Constructors
     Piece(pieceType type, playerColor color, square s);
     Piece(pieceType type, playerColor color, row row, col col);
 
     // Methods
-    virtual void print(std::ostream& os) = 0;
+    virtual void print(std::ostream& os) = 0;  // overloaded - each piece prints itself differently
     friend std::ostream& operator<<(std::ostream& os, PiecePtr p);
+        // e.g., a white pawn is P, a black pawn is p, a white bishop is B, a black bishop is b
 };
 
 // derived classes from Piece - one for each kind of chess piece
 class Pawn : public Piece {
 public:
-    bool hasMoved = false;
+    bool hasMoved = false;  // flag used to determine if a pawn can move up two spaces or not
 
     Pawn(pieceType type, playerColor color, square s);
     Pawn(pieceType type, playerColor color, row row, col col);
