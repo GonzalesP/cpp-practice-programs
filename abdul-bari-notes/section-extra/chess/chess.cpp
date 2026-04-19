@@ -61,7 +61,7 @@ public:
 };
 class Rook : public Piece {
 public:
-    bool hasMoved = false;
+    bool hasMoved = false;  // flag used to determine if castling is possible with this rook
 
     Rook(pieceType type, playerColor color, square s);
     Rook(pieceType type, playerColor color, row row, col col);
