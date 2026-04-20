@@ -75,7 +75,7 @@ public:
 };
 class King : public Piece {
 public:
-    bool hasMoved = false;
+    bool hasMoved = false;  // flag used to determine if castling is possible
 
     King(pieceType type, playerColor color, square s);
     King(pieceType type, playerColor color, row row, col col);
