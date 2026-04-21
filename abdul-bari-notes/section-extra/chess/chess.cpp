@@ -82,7 +82,9 @@ public:
     void print(std::ostream& os);
 };
 
-
+// class representing a player's move
+// instead of algebraic notation, this program relies on the chess board's coordinates
+// the move type describes what kind of move is being executed
 class Move {
 public:
     moveType type;
