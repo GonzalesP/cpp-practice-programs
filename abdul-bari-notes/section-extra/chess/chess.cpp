@@ -98,6 +98,7 @@ public:
 };
 
 
+// class representing the game's chess board and all of its members/functions
 class ChessBoard {
 public:
     std::vector<std::vector<PiecePtr>> board;
