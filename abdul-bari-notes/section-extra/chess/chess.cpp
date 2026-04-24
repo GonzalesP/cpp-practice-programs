@@ -105,7 +105,7 @@ public:
     // each element either points to a derived Piece object (e.g., pawn, knight, etc.)
     // OR is a nullptr (indicating an empty square on the chessboard)
 
-    std::vector<PiecePtr> whitePieces;
+    std::vector<PiecePtr> whitePieces;  // list of player White's chess pieces (reduces lookup algorithms)
     std::vector<PiecePtr> blackPieces;
     PiecePtr whiteKing;
     PiecePtr blackKing;
