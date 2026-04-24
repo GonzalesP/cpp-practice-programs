@@ -101,7 +101,9 @@ public:
 // class representing the game's chess board and all of its members/functions
 class ChessBoard {
 public:
-    std::vector<std::vector<PiecePtr>> board;
+    std::vector<std::vector<PiecePtr>> board;  // 8x8 2D vector representing a chessboard
+    // each element either points to a derived Piece object (e.g., pawn, knight, etc.)
+    // OR is a nullptr (indicating an empty square on the chessboard)
 
     std::vector<PiecePtr> whitePieces;
     std::vector<PiecePtr> blackPieces;
