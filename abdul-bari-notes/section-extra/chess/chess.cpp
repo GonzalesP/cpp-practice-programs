@@ -107,7 +107,7 @@ public:
 
     std::vector<PiecePtr> whitePieces;  // list of player White's chess pieces (reduces lookup algorithms)
     std::vector<PiecePtr> blackPieces;  // list of player Black's chess pieces
-    PiecePtr whiteKing;
+    PiecePtr whiteKing;  // White's king piece (keep track of king pieces to more efficiently calculate checks/mate)
     PiecePtr blackKing;
     PiecePtr enPassantWindow = nullptr;
 
