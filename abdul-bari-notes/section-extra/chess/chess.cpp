@@ -110,6 +110,20 @@ public:
     PiecePtr whiteKing;  // White's king piece (keep track of king pieces to more efficiently calculate checks/mate)
     PiecePtr blackKing;  // Black's king piece
     PiecePtr enPassantWindow = nullptr;
+        // when a pawn moves forward two spaces, it may be captured via en passant if an opposing pawn is adjacent to it
+        // enPassantWindow points to a pawn if the pawn moves forward two spaces (in its first move)
+        // otherwise, if no such move was made (i.e., there was not a pawn that moved two spaces forward), the window is nullptr
+    
+    // example sequence #1
+    // white moves a pawn from g2 to g4 (two spaces)
+    // enPassantWindow points to the pawn that landed on g4
+    // if black has a pawn on f4 or h4, they may be able to capture via en passant
+
+    // example sequence #2
+    // white moves a pawn from c2 to c4
+    // enPassantWindow points to the pawn that landed on c4
+    // black castles kingside (does not move a pawn forward two spaces)
+    // enPassantWindow becomes nullptr (because no pawn can be captured by white via en passant)
 
     std::vector<Move> whiteLegalMoves;
     std::vector<Move> blackLegalMoves;
