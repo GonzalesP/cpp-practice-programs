@@ -129,7 +129,7 @@ public:
     // for example, when white makes their first move at the start, they should have 20 legal moves.
     // (their 8 pawns can move up once or twice, and the two knights each have two squares to jump to)
     std::vector<Move> whiteLegalMoves;  // list of white's legal moves
-    std::vector<Move> blackLegalMoves;
+    std::vector<Move> blackLegalMoves;  // list of black's legal moves
 
     playerColor playerTurn = white;  // indicates whose turn it is
     bool isCopyBoard = false;  // used in the logic for checking "future board states"
