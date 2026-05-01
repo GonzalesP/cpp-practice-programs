@@ -128,7 +128,7 @@ public:
     // each turn, the chess board will generate a list of the current player's legal moves.
     // for example, when white makes their first move at the start, they should have 20 legal moves.
     // (their 8 pawns can move up once or twice, and the two knights each have two squares to jump to)
-    std::vector<Move> whiteLegalMoves;
+    std::vector<Move> whiteLegalMoves;  // list of white's legal moves
     std::vector<Move> blackLegalMoves;
 
     playerColor playerTurn = white;  // indicates whose turn it is
