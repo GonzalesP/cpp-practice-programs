@@ -146,7 +146,7 @@ public:
         // if the copy board's updated state results in an illegal game state, that possible move is not recognized as a legal move
 
     // Methods
-    void initializeBoard();
+    void initializeBoard();  // creates all starting chess board pieces (for both black and white)
     void createPiece(pieceType type, playerColor color, square s);
     void movePiece(square start, square end);
     void removePiece(square s);
