@@ -142,7 +142,8 @@ public:
 
     // Constructors
     ChessBoard();  // fill board, whitePieces, blackPieces, whiteKing, blackKing, whiteLegalMoves, blackLegalMoves
-    ChessBoard(ChessBoard& b);
+    ChessBoard(ChessBoard& b);  // used to create a copy of the chess board's current state, which is then updated with a possible move
+        // if the copy board's updated state results in an illegal game state, that possible move is not recognized as a legal move
 
     // Methods
     void initializeBoard();
