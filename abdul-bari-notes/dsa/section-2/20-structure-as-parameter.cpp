@@ -34,6 +34,19 @@ void changeBreadth(struct Rectangle* r1, int b) {
 // pointers use ->
 
 
+// structures can also be dynamically allocated in separate functions
+struct Rectangle* createRectangle(int l, int b) {
+    struct Rectangle* newRect;
+    newRect = new struct Rectangle;
+    // newRect = (struct Rectangle *) malloc(sizeof(struct Rectangle));
+
+    newRect->length = l;
+    newRect->breadth = b;
+
+    return newRect;  // Rectangle created in heap, address given to pointer
+}
+
+
 
 // TEST FUNCTIONS
 
@@ -82,6 +95,11 @@ int main() {
 
     std::cout << "area(r) after update: " << area(r) << std::endl;
 
+    // create new Rectangle by calling outside function
+    struct Rectangle* r2 = createRectangle(2, 2);
+
+    std::cout << "area(*r2): " << area(*r2) << std::endl;
+
 
     // Test methods
 
@@ -128,6 +146,7 @@ int main() {
     std::cout << std::endl;
 
     // make sure to delete dynamically allocated objects
+    delete r2;
     delete t2;
 
     return 0;
