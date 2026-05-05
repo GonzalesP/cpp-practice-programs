@@ -147,7 +147,7 @@ public:
 
     // Methods
     void initializeBoard();  // creates all starting chess board pieces (for both black and white)
-    void createPiece(pieceType type, playerColor color, square s);
+    void createPiece(pieceType type, playerColor color, square s);  // creates a new chess piece (placed on the board, inserted into the player's list of pieces, etc.)
     void movePiece(square start, square end);
     void removePiece(square s);
     void promotePiece(playerColor color, square s);
