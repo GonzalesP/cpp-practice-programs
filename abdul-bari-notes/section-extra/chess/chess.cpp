@@ -149,7 +149,7 @@ public:
     void initializeBoard();  // creates all starting chess board pieces (for both black and white)
     void createPiece(pieceType type, playerColor color, square s);  // creates a new chess piece (placed on the board, inserted into the player's list of pieces, etc.)
     void movePiece(square start, square end);  // updates a chess piece's position on the chess board and related data members
-    void removePiece(square s);
+    void removePiece(square s);  // deletes all instances of the piece object (removed from the board, list of pieces, etc.)
     void promotePiece(playerColor color, square s);
 
     void updateBoard(Move m);
