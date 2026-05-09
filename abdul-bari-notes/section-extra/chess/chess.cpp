@@ -152,7 +152,8 @@ public:
     void removePiece(square s);  // deletes all instances of the piece object (removed from the board, list of pieces, etc.)
     void promotePiece(playerColor color, square s);  // called when a pawn reaches the furthest rank from their starting position
 
-    void updateBoard(Move m);
+    void updateBoard(Move m);  // updates the board (2D array of pieces) using the given Move m (e.g., move pieces/remove/etc.)
+
     // updateBoard() helper methods
     void updatePosition(Move m);  // be sure to check if piece is Rook/King to update castle flag, and enPassantWindow
     void updateCapture(Move m);  // ^same
