@@ -157,12 +157,12 @@ public:
     // updateBoard() helper methods
     void updatePosition(Move m);  // moves a piece according to the Move m (piece moved from starting square to ending square)
     void updateCapture(Move m);  // removes a piece from a destination square, then moves the capturing piece to the same destination
-    // void updatePromotion(Move m);
-        // to account for a pawn possibly capturing AND promoting at the same time, the promote process will be included
+    // void updatePromotion(Move m);  - old function
+        // to account for a pawn possibly capturing AND promoting at the same time, the promote process will be moved
         // into the logic of updatePosition() and updateCapture()
         // furthermore, a new helper function will be used to handle the promotion logic (e.g., taking a piece type)
         // this helper function is called promotePiece(pieceType type, playerColor color, square s);
-    void updateEnPassant(Move m);
+    void updateEnPassant(Move m);  // performs an en passant update to the board (one pawn is removed, another moves behind it)
     void updateKingsideCastle(Move m);  // startSquare points to WhiteKing or BlackKing
     void updateQueensideCastle(Move m);
 
