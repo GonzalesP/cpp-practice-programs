@@ -163,8 +163,8 @@ public:
         // furthermore, a new helper function will be used to handle the promotion logic (e.g., taking a piece type)
         // this helper function is called promotePiece(pieceType type, playerColor color, square s);
     void updateEnPassant(Move m);  // performs an en passant update to the board (one pawn is removed, another moves behind it)
-    void updateKingsideCastle(Move m);  // startSquare points to WhiteKing or BlackKing
-    void updateQueensideCastle(Move m);
+    void updateKingsideCastle(Move m);  // performs a Kingside castle - startSquare points to WhiteKing or BlackKing
+    void updateQueensideCastle(Move m);  // performs a Queenside castle
 
     void updateWhiteLegalMoves();  // LegalMoves.clear() + for each piece calculate moves + remove illegal moves
     void updateBlackLegalMoves();
