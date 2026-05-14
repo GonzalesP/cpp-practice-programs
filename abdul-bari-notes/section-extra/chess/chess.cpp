@@ -166,7 +166,7 @@ public:
     void updateKingsideCastle(Move m);  // performs a Kingside castle - startSquare points to WhiteKing or BlackKing
     void updateQueensideCastle(Move m);  // performs a Queenside castle
 
-    void updateWhiteLegalMoves();  // LegalMoves.clear() + for each piece calculate moves + remove illegal moves
+    void updateWhiteLegalMoves();  // before White's turn begins, this method calculates all of the possible AND legal moves white can make
     void updateBlackLegalMoves();
     int moveIndex(moveInput input, playerColor turn);
     // updateLegalMoves() helper methods
