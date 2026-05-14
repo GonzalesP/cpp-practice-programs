@@ -167,7 +167,7 @@ public:
     void updateQueensideCastle(Move m);  // performs a Queenside castle
 
     void updateWhiteLegalMoves();  // before White's turn begins, this method calculates all of the possible AND legal moves white can make
-    void updateBlackLegalMoves();
+    void updateBlackLegalMoves();  // calculate all of Black's legal moves
     int moveIndex(moveInput input, playerColor turn);
     // updateLegalMoves() helper methods
     std::vector<Move> getPawnMoves(PiecePtr piece);
