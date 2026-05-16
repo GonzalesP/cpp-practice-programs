@@ -172,7 +172,7 @@ public:
         // if the move does not exist in their list of legal moves, moveIndex returns -1
         
     // updateLegalMoves() helper methods
-    std::vector<Move> getPawnMoves(PiecePtr piece);
+    std::vector<Move> getPawnMoves(PiecePtr piece);  // piece is a Pawn object - generate all possible moves (move forward once/twice, en passant, etc.)
     std::vector<Move> getKnightMoves(PiecePtr piece);
     std::vector<Move> getBishopMoves(PiecePtr piece);
     std::vector<Move> getRookMoves(PiecePtr piece);
