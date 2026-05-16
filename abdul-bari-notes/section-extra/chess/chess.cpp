@@ -168,7 +168,9 @@ public:
 
     void updateWhiteLegalMoves();  // before White's turn begins, this method calculates all of the possible AND legal moves white can make
     void updateBlackLegalMoves();  // calculate all of Black's legal moves
-    int moveIndex(moveInput input, playerColor turn);
+    int moveIndex(moveInput input, playerColor turn);  // moveIndex finds the index of a given move (if it exists in the player's list of lega moves)
+        // if the move does not exist in their list of legal moves, moveIndex returns -1
+        
     // updateLegalMoves() helper methods
     std::vector<Move> getPawnMoves(PiecePtr piece);
     std::vector<Move> getKnightMoves(PiecePtr piece);
