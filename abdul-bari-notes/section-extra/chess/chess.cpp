@@ -176,7 +176,7 @@ public:
     std::vector<Move> getKnightMoves(PiecePtr piece);  // piece is a Knight - generate all possible moves (account for out of bounds squares)
     std::vector<Move> getBishopMoves(PiecePtr piece);  // piece is a Bishop
     std::vector<Move> getRookMoves(PiecePtr piece);  // piece is a Rook
-    std::vector<Move> getQueenMoves(PiecePtr piece);
+    std::vector<Move> getQueenMoves(PiecePtr piece);  // piece is a Queen
     std::vector<Move> getKingMoves(PiecePtr piece);
     // more helper methods
     bool enPassantAllowed(PiecePtr piece);
