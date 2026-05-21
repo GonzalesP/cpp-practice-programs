@@ -177,7 +177,7 @@ public:
     std::vector<Move> getBishopMoves(PiecePtr piece);  // piece is a Bishop
     std::vector<Move> getRookMoves(PiecePtr piece);  // piece is a Rook
     std::vector<Move> getQueenMoves(PiecePtr piece);  // piece is a Queen
-    std::vector<Move> getKingMoves(PiecePtr piece);
+    std::vector<Move> getKingMoves(PiecePtr piece);  // piece is a King
     // more helper methods
     bool enPassantAllowed(PiecePtr piece);
     bool whiteKingsideCastleAllowed();
