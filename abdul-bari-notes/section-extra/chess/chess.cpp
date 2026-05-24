@@ -180,7 +180,7 @@ public:
     std::vector<Move> getKingMoves(PiecePtr piece);  // piece is a King
     // more helper methods
     bool enPassantAllowed(PiecePtr piece);  // piece is a Pawn - check if it meets the conditions of using en passant
-    bool whiteKingsideCastleAllowed();
+    bool whiteKingsideCastleAllowed();  // check if White is allowed to castle kingside (White king hasn't moved, not in check, etc.)
     bool blackKingsideCastleAllowed();
     bool whiteQueensideCastleAllowed();
     bool blackQueensideCastleAllowed();
