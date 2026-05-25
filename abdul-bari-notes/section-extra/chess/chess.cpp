@@ -181,7 +181,7 @@ public:
     // more helper methods
     bool enPassantAllowed(PiecePtr piece);  // piece is a Pawn - check if it meets the conditions of using en passant
     bool whiteKingsideCastleAllowed();  // check if White is allowed to castle kingside (White king hasn't moved, not in check, etc.)
-    bool blackKingsideCastleAllowed();
+    bool blackKingsideCastleAllowed();  // check if Black is allowed to castle kingside
     bool whiteQueensideCastleAllowed();
     bool blackQueensideCastleAllowed();
 
