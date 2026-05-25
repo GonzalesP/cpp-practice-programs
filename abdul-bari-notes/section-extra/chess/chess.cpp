@@ -182,7 +182,7 @@ public:
     bool enPassantAllowed(PiecePtr piece);  // piece is a Pawn - check if it meets the conditions of using en passant
     bool whiteKingsideCastleAllowed();  // check if White is allowed to castle kingside (White king hasn't moved, not in check, etc.)
     bool blackKingsideCastleAllowed();  // check if Black is allowed to castle kingside
-    bool whiteQueensideCastleAllowed();
+    bool whiteQueensideCastleAllowed();  // check if White is allowed to castle queenside
     bool blackQueensideCastleAllowed();
 
     std::vector<square> getAttackSquares(playerColor color);
