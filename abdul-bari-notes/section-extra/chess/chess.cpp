@@ -185,7 +185,7 @@ public:
     bool whiteQueensideCastleAllowed();  // check if White is allowed to castle queenside
     bool blackQueensideCastleAllowed();  // check if Black is allowed to castle queenside
 
-    std::vector<square> getAttackSquares(playerColor color);
+    std::vector<square> getAttackSquares(playerColor color);  // goes through all of the player's pieces and gets all of the squares in their vision
     // getAttackSquares() helper methods
     std::vector<square> pawnAttackSquares(PiecePtr piece);
     std::vector<square> knightAttackSquares(PiecePtr piece);
