@@ -188,7 +188,7 @@ public:
     std::vector<square> getAttackSquares(playerColor color);  // goes through all of the player's pieces and gets all of the squares in their vision
     // getAttackSquares() helper methods
     std::vector<square> pawnAttackSquares(PiecePtr piece);  // pawn pieces will use this method to calculate their attack squares
-    std::vector<square> knightAttackSquares(PiecePtr piece);
+    std::vector<square> knightAttackSquares(PiecePtr piece);  // calculates the attack squares of a knight
     std::vector<square> bishopAttackSquares(PiecePtr piece);
     std::vector<square> rookAttackSquares(PiecePtr piece);
     std::vector<square> queenAttackSquares(PiecePtr piece);
