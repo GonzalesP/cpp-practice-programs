@@ -190,7 +190,7 @@ public:
     std::vector<square> pawnAttackSquares(PiecePtr piece);  // pawn pieces will use this method to calculate their attack squares
     std::vector<square> knightAttackSquares(PiecePtr piece);  // calculates the attack squares of a knight
     std::vector<square> bishopAttackSquares(PiecePtr piece);  // calculates the attack squares of a bishop
-    std::vector<square> rookAttackSquares(PiecePtr piece);
+    std::vector<square> rookAttackSquares(PiecePtr piece);  // calculates the attack squares of a rook
     std::vector<square> queenAttackSquares(PiecePtr piece);
     std::vector<square> kingAttackSquares(PiecePtr piece);
 
