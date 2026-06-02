@@ -192,7 +192,7 @@ public:
     std::vector<square> bishopAttackSquares(PiecePtr piece);  // calculates the attack squares of a bishop
     std::vector<square> rookAttackSquares(PiecePtr piece);  // calculates the attack squares of a rook
     std::vector<square> queenAttackSquares(PiecePtr piece);  // calculates the attack squares of a queen
-    std::vector<square> kingAttackSquares(PiecePtr piece);
+    std::vector<square> kingAttackSquares(PiecePtr piece);  // calculates the attack squares of a king
 
     bool isInCheck(playerColor color);
 
