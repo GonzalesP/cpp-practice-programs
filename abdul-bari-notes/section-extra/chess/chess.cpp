@@ -196,7 +196,7 @@ public:
 
     bool isInCheck(playerColor color);  // calculates if the given player is under check
 
-    friend std::ostream& operator<<(std::ostream& os, ChessBoard& cb);
+    friend std::ostream& operator<<(std::ostream& os, ChessBoard& cb);  // used to print the chessboard as an 8x8 grid with chess pieces
 };
 
 
