@@ -202,7 +202,7 @@ public:
 
 // square operators
 std::ostream& operator<<(std::ostream& os, square s);  // used to print a square as a coordinate {row, col}
-bool operator==(square s1, square s2);
+bool operator==(square s1, square s2);  // used to compare two squares (see if they are the same coordinate)
 
 moveInput stringToMoveInput(std::string input);  // user enters a string, which gets converted into moveInput
 // e.g., "e2e4" (move piece from e2 to e4) translates to {{6,4},{4,4}}
