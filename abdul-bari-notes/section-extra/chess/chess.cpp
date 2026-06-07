@@ -210,9 +210,7 @@ moveInput stringToMoveInput(std::string input);  // user enters a string, which 
 
 
 
-// TODO: create ChessBoard method for getting user input based on chess board coordinate (e.g. b4e4 - move b4 piece to e4)
-// then, create game loop for facilitating chess game
-// last, if possible, make the chess board look prettier when printed (find libraries for colored text?)
+
 int main() {
     ChessBoard game;
 
