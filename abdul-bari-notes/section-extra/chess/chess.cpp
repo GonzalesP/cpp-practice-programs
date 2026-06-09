@@ -212,7 +212,7 @@ moveInput stringToMoveInput(std::string input);  // user enters a string, which 
 
 
 int main() {
-    ChessBoard game;
+    ChessBoard game;  // main instance of the chess board (the ongoing game)
 
     // loop variables
     std::string userInput;
