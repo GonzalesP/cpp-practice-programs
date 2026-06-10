@@ -215,7 +215,7 @@ int main() {
     ChessBoard game;  // main instance of the chess board (the ongoing game)
 
     // loop variables
-    std::string userInput;
+    std::string userInput;  // user enters two coordinates: a starting and ending square (e.g. e2e4 - pawn from e2 to e4)
     moveInput move;
     int moveIndex;
     while (game.whiteLegalMoves.size() > 0 && game.blackLegalMoves.size() > 0) {
