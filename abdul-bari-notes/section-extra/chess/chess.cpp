@@ -217,7 +217,7 @@ int main() {
     // loop variables
     std::string userInput;  // user enters two coordinates: a starting and ending square (e.g. e2e4 - pawn from e2 to e4)
     moveInput move;  // contains the user's input in std::pair form (e.g. e2e4 -> {{6,4},{4,4}})
-    int moveIndex;
+    int moveIndex;  // the index of the move a player chooses from their list of legal moves (-1 if the move is not in the list)
     while (game.whiteLegalMoves.size() > 0 && game.blackLegalMoves.size() > 0) {
         std::cout << game;
         switch (game.playerTurn) {
