@@ -220,7 +220,7 @@ int main() {
     int moveIndex;  // the index of the move a player chooses from their list of legal moves (-1 if the move is not in the list)
     while (game.whiteLegalMoves.size() > 0 && game.blackLegalMoves.size() > 0) {  // while both players still have legal moves, continue the game
         std::cout << game;  // print out the chess board's current state (8x8 grid with pieces represented as letters)
-        switch (game.playerTurn) {
+        switch (game.playerTurn) {  // depending on whose move it is, get their move input and update the chess board (if the move is legal)
             case white:
                 try {
                     std::cout << "White's move: ";
