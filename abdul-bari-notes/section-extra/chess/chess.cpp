@@ -221,7 +221,7 @@ int main() {
     while (game.whiteLegalMoves.size() > 0 && game.blackLegalMoves.size() > 0) {  // while both players still have legal moves, continue the game
         std::cout << game;  // print out the chess board's current state (8x8 grid with pieces represented as letters)
         switch (game.playerTurn) {  // depending on whose move it is, get their move input and update the chess board (if the move is legal)
-            case white:
+            case white:  // if it's white's turn, get their move input and try to update the chess board
                 try {
                     std::cout << "White's move: ";
                     std::cin >> userInput;
