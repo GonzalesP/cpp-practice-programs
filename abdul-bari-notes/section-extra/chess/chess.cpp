@@ -224,7 +224,7 @@ int main() {
             case white:  // if it's white's turn, get their move input and try to update the chess board
                 try {
                     std::cout << "White's move: ";
-                    std::cin >> userInput;
+                    std::cin >> userInput;  // get White's move input
                     move = stringToMoveInput(userInput);
                     moveIndex = game.moveIndex(move, white);
                     if (moveIndex == -1)
