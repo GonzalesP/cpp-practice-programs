@@ -225,7 +225,7 @@ int main() {
                 try {
                     std::cout << "White's move: ";
                     std::cin >> userInput;  // get White's move input
-                    move = stringToMoveInput(userInput);
+                    move = stringToMoveInput(userInput);  // convert White's string input into a MoveInput data type
                     moveIndex = game.moveIndex(move, white);
                     if (moveIndex == -1)
                         throw 1;
