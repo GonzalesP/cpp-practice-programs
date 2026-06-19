@@ -227,7 +227,7 @@ int main() {
                     std::cin >> userInput;  // get White's move input
                     move = stringToMoveInput(userInput);  // convert White's string input into a MoveInput data type
                     moveIndex = game.moveIndex(move, white);  // look through White's list of moves, find the index of the move input within the list
-                    if (moveIndex == -1)
+                    if (moveIndex == -1)  // if the move input is not found in White's list of legal moves (index is -1), throw an exception
                         throw 1;
                     
                     game.updateBoard(game.whiteLegalMoves[moveIndex]);
