@@ -231,7 +231,7 @@ int main() {
                         throw 1;  // throw an exception
                     
                     game.updateBoard(game.whiteLegalMoves[moveIndex]);  // given a valid index in the list of legal moves, use White's given move input to update the board
-                    game.playerTurn = black;
+                    game.playerTurn = black;  // after updating the board with White's move, it will be Black's turn next move
                     game.updateBlackLegalMoves();
                 }
                 catch (...) {
