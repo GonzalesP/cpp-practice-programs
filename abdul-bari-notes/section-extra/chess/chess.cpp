@@ -230,7 +230,7 @@ int main() {
                     if (moveIndex == -1)  // if the move input is not found in White's list of legal moves (index is -1), throw an exception
                         throw 1;  // throw an exception
                     
-                    game.updateBoard(game.whiteLegalMoves[moveIndex]);
+                    game.updateBoard(game.whiteLegalMoves[moveIndex]);  // given a valid index in the list of legal moves, use White's given move input to update the board
                     game.playerTurn = black;
                     game.updateBlackLegalMoves();
                 }
