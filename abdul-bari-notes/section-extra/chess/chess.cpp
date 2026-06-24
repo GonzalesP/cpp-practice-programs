@@ -232,7 +232,7 @@ int main() {
                     
                     game.updateBoard(game.whiteLegalMoves[moveIndex]);  // given a valid index in the list of legal moves, use White's given move input to update the board
                     game.playerTurn = black;  // after updating the board with White's move, it will be Black's turn next move
-                    game.updateBlackLegalMoves();
+                    game.updateBlackLegalMoves();  // calculate Black's new list of legal moves after White's turn ends (an empty list results in checkmate/stalemate)
                 }
                 catch (...) {
                     std::cout << "Invalid input/move." << std::endl;
