@@ -235,7 +235,7 @@ int main() {
                     game.updateBlackLegalMoves();  // calculate Black's new list of legal moves after White's turn ends (an empty list results in checkmate/stalemate)
                 }
                 catch (...) {  // caught when White gives a MoveInput that is not in their list of legal moves
-                    std::cout << "Invalid input/move." << std::endl;
+                    std::cout << "Invalid input/move." << std::endl;  // let White know that their input was invalid
                 }
                 break;
             case black:
