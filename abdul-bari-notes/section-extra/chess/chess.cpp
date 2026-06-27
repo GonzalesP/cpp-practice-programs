@@ -238,7 +238,7 @@ int main() {
                     std::cout << "Invalid input/move." << std::endl;  // let White know that their input was invalid
                 }
                 break;  // end of logic for parsing White's turn
-            case black:
+            case black:  // if it's black's turn, get their move input and try to update the chess board
                 try {
                     std::cout << "Black's move: ";
                     std::cin >> userInput;
