@@ -237,7 +237,7 @@ int main() {
                 catch (...) {  // caught when White gives a MoveInput that is not in their list of legal moves
                     std::cout << "Invalid input/move." << std::endl;  // let White know that their input was invalid
                 }
-                break;
+                break;  // end of logic for parsing White's turn
             case black:
                 try {
                     std::cout << "Black's move: ";
