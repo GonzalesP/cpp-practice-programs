@@ -242,7 +242,7 @@ int main() {
                 try {
                     std::cout << "Black's move: ";
                     std::cin >> userInput;  // get Black's move input
-                    move = stringToMoveInput(userInput);
+                    move = stringToMoveInput(userInput);  // convert Black's string input into a MoveInput data type
                     moveIndex = game.moveIndex(move, black);
                     if (moveIndex == -1)
                         throw 1;
