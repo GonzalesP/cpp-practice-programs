@@ -243,7 +243,7 @@ int main() {
                     std::cout << "Black's move: ";
                     std::cin >> userInput;  // get Black's move input
                     move = stringToMoveInput(userInput);  // convert Black's string input into a MoveInput data type
-                    moveIndex = game.moveIndex(move, black);
+                    moveIndex = game.moveIndex(move, black);  // look through Black's list of moves, find the index of the move input within the list
                     if (moveIndex == -1)
                         throw 1;
                     
