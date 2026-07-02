@@ -245,7 +245,7 @@ int main() {
                     move = stringToMoveInput(userInput);  // convert Black's string input into a MoveInput data type
                     moveIndex = game.moveIndex(move, black);  // look through Black's list of moves, find the index of the move input within the list
                     if (moveIndex == -1)  // if the move input is not found in Black's list of legal moves (index is -1), throw an exception
-                        throw 1;
+                        throw 1;  // throw an exception
                     
                     game.updateBoard(game.blackLegalMoves[moveIndex]);
                     game.playerTurn = white;
