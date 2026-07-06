@@ -252,7 +252,7 @@ int main() {
                     game.updateWhiteLegalMoves();
                 }
                 catch (...) {  // caught when Black gives a MoveInput that is not in their list of legal moves
-                    std::cout << "Invalid input/move." << std::endl;
+                    std::cout << "Invalid input/move." << std::endl;  // let Black know that their input was invalid
                 }
                 break;
         }
