@@ -251,7 +251,7 @@ int main() {
                     game.playerTurn = white;  // after updating the board with Black's move, it will be White's turn next move
                     game.updateWhiteLegalMoves();
                 }
-                catch (...) {
+                catch (...) {  // caught when Black gives a MoveInput that is not in their list of legal moves
                     std::cout << "Invalid input/move." << std::endl;
                 }
                 break;
