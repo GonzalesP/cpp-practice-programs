@@ -258,7 +258,7 @@ int main() {
         }
         std::cout << std::endl;
     }
-    std::cout << game;  // after a successful move has been made, print the board to show the updated game state
+    std::cout << game;  // when the game ends, print the final board state
 
     if (game.isInCheck(white) == true)
         std::cout << "Black wins!" << std::endl;
