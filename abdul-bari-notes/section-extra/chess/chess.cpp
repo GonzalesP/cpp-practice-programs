@@ -261,7 +261,7 @@ int main() {
     std::cout << game;  // when the game ends, print the final board state
 
     if (game.isInCheck(white) == true)  // if White is in check and has no more moves (because the game ended), they lose
-        std::cout << "Black wins!" << std::endl;
+        std::cout << "Black wins!" << std::endl;  // announce that Black wins the game
     else if (game.isInCheck(black) == true)
         std::cout << "White wins!" << std::endl;
     else
