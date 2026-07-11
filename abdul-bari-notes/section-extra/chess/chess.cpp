@@ -262,7 +262,7 @@ int main() {
 
     if (game.isInCheck(white) == true)  // if White is in check and has no more moves (because the game ended), they lose
         std::cout << "Black wins!" << std::endl;  // announce that Black wins the game
-    else if (game.isInCheck(black) == true)
+    else if (game.isInCheck(black) == true)  // if Black is in check and has no more moves, they lose
         std::cout << "White wins!" << std::endl;
     else
         std::cout << "Stalemate!" << std::endl;
