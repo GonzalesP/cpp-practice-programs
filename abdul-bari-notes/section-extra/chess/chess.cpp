@@ -383,7 +383,7 @@ int main() {
 // Square methods
 std::ostream& operator<<(std::ostream& os, square s) {  // used to print a square's coordinate in the console
     std::cout << "{" << s.first << ", " << s.second << "}";  // e.g. {0, 0}
-    return os;
+    return os;  // free the ostream after using it (<<)
 }
 bool operator==(square s1, square s2) {
     return s1.first == s2.first && s1.second == s2.second;
