@@ -386,7 +386,7 @@ std::ostream& operator<<(std::ostream& os, square s) {  // used to print a squar
     return os;  // free the ostream after using it (<<)
 }
 bool operator==(square s1, square s2) {  // used to compare squares (same coordinates returns true)
-    return s1.first == s2.first && s1.second == s2.second;
+    return s1.first == s2.first && s1.second == s2.second;  // squares are equal when their first and second coordinates match
 }
 
 moveInput stringToMoveInput(std::string input) {
