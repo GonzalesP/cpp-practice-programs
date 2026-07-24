@@ -392,7 +392,7 @@ bool operator==(square s1, square s2) {  // used to compare squares (same coordi
 moveInput stringToMoveInput(std::string input) {  // used to convert user input (string form) into a moveInput data structure
     // check for invalid strings
     if (input.size() != 4)  // each move needs 4 characters: 2 for the starting square, 2 for the ending square
-        throw 1;
+        throw 1;  // throw an exception if there are not exactly four characters
     else if (input[3] - '0' < 1 || input[3] - '0' > 8)  // rank needs to be 1-8
         throw 1;
     else if (input[1] - '0' < 1 || input[1] - '0' > 8)
