@@ -378,7 +378,6 @@ int main() {
 }  // end of main
 
 
-a
 
 // Square methods
 std::ostream& operator<<(std::ostream& os, square s) {  // used to print a square's coordinate in the console
