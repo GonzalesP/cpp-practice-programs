@@ -395,7 +395,7 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
     else if (input[3] - '0' < 1 || input[3] - '0' > 8)  // destination square's rank needs to be 1-8
         throw 1;  // throw an exception if the destination square's rank is invalid
     else if (input[1] - '0' < 1 || input[1] - '0' > 8)  // starting square's rank needs to be 1-8
-        throw 1;
+        throw 1;  // throw an exception if the starting square's rank is invalid
     else if (input[2] < 65 || (input[2] > 72 && input[2] < 97) || input[2] > 104)  // file needs to be A-H or a-h
         throw 1;
     else if (input[0] < 65 || (input[0] > 72 && input[0] < 97) || input[0] > 104)  // file needs to be A-H or a-h
