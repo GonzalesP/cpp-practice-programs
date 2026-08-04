@@ -403,7 +403,7 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
     
     // convert the input (string) into square data types
     square start;  // first part of the string input
-    square end;
+    square end;  // second part of the string input
     if (input[0] <= 72) {  // start square has capital letter for file
         start = {8 - (input[1] - '0'), input[0] - 65};
     }
