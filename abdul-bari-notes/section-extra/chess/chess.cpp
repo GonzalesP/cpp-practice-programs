@@ -405,10 +405,10 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
     square start;  // first part of the string input
     square end;  // second part of the string input
     if (input[0] <= 72) {  // start square has capital letter for file
-        start = {8 - (input[1] - '0'), input[0] - 65};  // e.g., a1 is converted into {0,7}
+        start = {8 - (input[1] - '0'), input[0] - 65};  // e.g., A1 is converted into {0,7}
     }
     else {  // start square has lowercase letter for file
-        start = {8 - (input[1] - '0'), input[0] - 97};
+        start = {8 - (input[1] - '0'), input[0] - 97};  // e.g., a1 is converted into {0,7}
     }
 
     if (input[2] <= 72) {  // end square has capital letter for file
