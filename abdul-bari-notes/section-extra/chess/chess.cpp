@@ -414,7 +414,7 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
     if (input[2] <= 72) {  // end square has capital letter for file
         end = {8 - (input[3] - '0'), input[2] - 65};  // e.g., A1 is converted into {0,7}
     }
-    else {
+    else {  // end square has lowercase letter for file
         end = {8 - (input[3] - '0'), input[2] - 97};
     }
 
