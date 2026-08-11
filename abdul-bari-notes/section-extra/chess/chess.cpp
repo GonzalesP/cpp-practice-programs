@@ -418,7 +418,7 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
         end = {8 - (input[3] - '0'), input[2] - 97};  // e.g., a1 is converted into {0,7}
     }
 
-    return {start, end};
+    return {start, end};  // return the user's input in a new data type
 }
 
 
