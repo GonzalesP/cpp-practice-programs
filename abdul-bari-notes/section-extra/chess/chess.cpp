@@ -423,7 +423,7 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
 
 
 // Piece methods
-Piece::Piece(pieceType type, playerColor color, square s) {
+Piece::Piece(pieceType type, playerColor color, square s) {  // constructor for piece objects
     this->type = type;
     this->color = color;
     this->position = s;
