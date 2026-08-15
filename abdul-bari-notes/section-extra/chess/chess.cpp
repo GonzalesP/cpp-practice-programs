@@ -426,7 +426,7 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
 Piece::Piece(pieceType type, playerColor color, square s) {  // constructor for piece objects
     this->type = type;  // take in type parameter
     this->color = color;  // take in color parameter
-    this->position = s;
+    this->position = s;  // take in position parameter
 }
 Piece::Piece(pieceType type, playerColor color, row row, col col) : Piece(type, color, {row, col}) {}
 
