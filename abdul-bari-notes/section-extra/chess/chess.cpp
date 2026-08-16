@@ -421,6 +421,8 @@ moveInput stringToMoveInput(std::string input) {  // used to convert user input 
     return {start, end};  // return the user's input in a new data type
 }
 
+// end of Square methods
+
 
 // Piece methods
 Piece::Piece(pieceType type, playerColor color, square s) {  // constructor for piece objects
