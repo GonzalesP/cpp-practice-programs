@@ -431,6 +431,7 @@ Piece::Piece(pieceType type, playerColor color, square s) {  // constructor for 
     this->position = s;  // take in position parameter
 }
 Piece::Piece(pieceType type, playerColor color, row row, col col) : Piece(type, color, {row, col}) {}
+// second constructor, in case code enters row + col instead of {row, col} (square)
 
 std::ostream& operator<<(std::ostream& os, PiecePtr p) {
     p->print(os);
