@@ -434,7 +434,7 @@ Piece::Piece(pieceType type, playerColor color, row row, col col) : Piece(type, 
 // second constructor, in case code enters row + col instead of {row, col} (square)
 
 std::ostream& operator<<(std::ostream& os, PiecePtr p) {  // print a piece
-    p->print(os);
+    p->print(os);  // call the print function of the piece (should return a letter resembling the piece)
     return os;
 }
 
