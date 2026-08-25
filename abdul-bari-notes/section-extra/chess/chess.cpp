@@ -445,7 +445,7 @@ std::ostream& operator<<(std::ostream& os, PiecePtr p) {  // print a piece
 Pawn::Pawn(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Pawn objcts (inherts Piece)
 Pawn::Pawn(pieceType type, playerColor color, row row, col col) : Pawn(type, color, {row, col}) {}  // second constructor for Pawns (non-square input)
 
-void Pawn::print(std::ostream& os) {
+void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercase, black is lowercase)
     switch(color) {
         case white:
             os << "P";
