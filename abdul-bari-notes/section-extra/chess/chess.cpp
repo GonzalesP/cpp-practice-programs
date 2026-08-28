@@ -448,7 +448,7 @@ Pawn::Pawn(pieceType type, playerColor color, row row, col col) : Pawn(type, col
 void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercase, black is lowercase)
     switch(color) {  // determine whether to print in caps or lowercase
         case white:  // if the piece is white, it will be a capital P
-            os << "P";
+            os << "P";  // print capital P
             break;
         case black:
             os << "p";
