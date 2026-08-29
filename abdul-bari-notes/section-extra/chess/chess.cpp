@@ -449,7 +449,7 @@ void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercas
     switch(color) {  // determine whether to print in caps or lowercase
         case white:  // if the piece is white, it will be a capital P
             os << "P";  // print capital P
-            break;
+            break;  // end logic for white pawns
         case black:
             os << "p";
             break;
