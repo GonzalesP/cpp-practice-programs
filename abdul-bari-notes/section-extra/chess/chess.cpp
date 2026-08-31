@@ -451,7 +451,7 @@ void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercas
             os << "P";  // print capital P
             break;  // end logic for white pawns
         case black:  // if the piece is black, it will be a lowercase p
-            os << "p";
+            os << "p";  // print lowercase p
             break;
     }
 }
