@@ -453,7 +453,7 @@ void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercas
         case black:  // if the piece is black, it will be a lowercase p
             os << "p";  // print lowercase p
             break;  // end logic for black pawns
-    }
+    }  // end logic of switch statement
 }
 
 Knight::Knight(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
