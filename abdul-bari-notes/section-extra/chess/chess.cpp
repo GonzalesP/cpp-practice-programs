@@ -442,7 +442,7 @@ std::ostream& operator<<(std::ostream& os, PiecePtr p) {  // print a piece
 
 
 // Pawn methods
-Pawn::Pawn(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Pawn objcts (inherts Piece)
+Pawn::Pawn(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Pawn objcts (inherits Piece)
 Pawn::Pawn(pieceType type, playerColor color, row row, col col) : Pawn(type, color, {row, col}) {}  // second constructor for Pawns (non-square input)
 
 void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercase, black is lowercase)
@@ -457,7 +457,7 @@ void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercas
 }  // end of Pawn print method
 
 // Knight methods
-Knight::Knight(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
+Knight::Knight(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Knight objects (inherits Piece)
 Knight::Knight(pieceType type, playerColor color, row row, col col) : Knight(type, color, {row, col}) {}
 
 void Knight::print(std::ostream& os) {
