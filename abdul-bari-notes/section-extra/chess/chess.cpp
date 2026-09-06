@@ -458,7 +458,7 @@ void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercas
 
 // Knight methods
 Knight::Knight(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Knight objects (inherits Piece)
-Knight::Knight(pieceType type, playerColor color, row row, col col) : Knight(type, color, {row, col}) {}
+Knight::Knight(pieceType type, playerColor color, row row, col col) : Knight(type, color, {row, col}) {}  // second constructor for Knights
 
 void Knight::print(std::ostream& os) {
     switch(color) {
