@@ -461,7 +461,7 @@ Knight::Knight(pieceType type, playerColor color, square s) : Piece(type, color,
 Knight::Knight(pieceType type, playerColor color, row row, col col) : Knight(type, color, {row, col}) {}  // second constructor for Knights
 
 void Knight::print(std::ostream& os) {  // method to print Knight (white uppercase, black lowercase)
-    switch(color) {
+    switch(color) {  // determine whether to print in caps or lowercase
         case white:
             os << "N";
             break;
