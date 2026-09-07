@@ -460,7 +460,7 @@ void Pawn::print(std::ostream& os) {  // method to print Pawn (white is uppercas
 Knight::Knight(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Knight objects (inherits Piece)
 Knight::Knight(pieceType type, playerColor color, row row, col col) : Knight(type, color, {row, col}) {}  // second constructor for Knights
 
-void Knight::print(std::ostream& os) {
+void Knight::print(std::ostream& os) {  // method to print Knight (white uppercase, black lowercase)
     switch(color) {
         case white:
             os << "N";
