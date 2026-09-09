@@ -462,7 +462,7 @@ Knight::Knight(pieceType type, playerColor color, row row, col col) : Knight(typ
 
 void Knight::print(std::ostream& os) {  // method to print Knight (white uppercase, black lowercase)
     switch(color) {  // determine whether to print in caps or lowercase
-        case white:
+        case white:  // if the piece is white, it will be a capital N
             os << "N";
             break;
         case black:
