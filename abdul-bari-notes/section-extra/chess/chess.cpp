@@ -465,7 +465,7 @@ void Knight::print(std::ostream& os) {  // method to print Knight (white upperca
         case white:  // if the piece is white, it will be a capital N
             os << "N";  // print capital N
             break;  // end logic for white knights
-        case black:
+        case black:  // if the piece is black, it will be a lowercase n
             os << "n";
             break;
     }
