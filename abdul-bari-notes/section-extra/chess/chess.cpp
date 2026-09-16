@@ -469,7 +469,7 @@ void Knight::print(std::ostream& os) {  // method to print Knight (white upperca
             os << "n";  // print lowercase n
             break;  // end logic for black knights
     }  // end logic of switch statement
-}
+}  // end of Knight print method
 
 Bishop::Bishop(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
 Bishop::Bishop(pieceType type, playerColor color, row row, col col) : Bishop(type, color, {row, col}) {}
