@@ -471,7 +471,7 @@ void Knight::print(std::ostream& os) {  // method to print Knight (white upperca
     }  // end logic of switch statement
 }  // end of Knight print method
 
-Bishop::Bishop(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
+Bishop::Bishop(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Bishop objects (inherits Piece)
 Bishop::Bishop(pieceType type, playerColor color, row row, col col) : Bishop(type, color, {row, col}) {}
 
 void Bishop::print(std::ostream& os) {
