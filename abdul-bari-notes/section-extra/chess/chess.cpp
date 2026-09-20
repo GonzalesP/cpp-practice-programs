@@ -475,7 +475,7 @@ Bishop::Bishop(pieceType type, playerColor color, square s) : Piece(type, color,
 Bishop::Bishop(pieceType type, playerColor color, row row, col col) : Bishop(type, color, {row, col}) {}  // second constructor for Bishops
 
 void Bishop::print(std::ostream& os) {  // method to print Bishop (white uppercase, black lowercase)
-    switch(color) {
+    switch(color) {  // determine whether to print in caps or lowercase
         case white:
             os << "B";
             break;
