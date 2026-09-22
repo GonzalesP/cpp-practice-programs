@@ -477,7 +477,7 @@ Bishop::Bishop(pieceType type, playerColor color, row row, col col) : Bishop(typ
 void Bishop::print(std::ostream& os) {  // method to print Bishop (white uppercase, black lowercase)
     switch(color) {  // determine whether to print in caps or lowercase
         case white:  // if the piece is white, it will be a capital B
-            os << "B";
+            os << "B";  // print capital B
             break;
         case black:
             os << "b";
