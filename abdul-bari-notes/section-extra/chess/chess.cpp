@@ -479,7 +479,7 @@ void Bishop::print(std::ostream& os) {  // method to print Bishop (white upperca
         case white:  // if the piece is white, it will be a capital B
             os << "B";  // print capital B
             break;  // end logic for white bishops
-        case black:
+        case black:  // if the piece is black, it will be a lowercase b
             os << "b";
             break;
     }
