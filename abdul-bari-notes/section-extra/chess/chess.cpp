@@ -482,7 +482,7 @@ void Bishop::print(std::ostream& os) {  // method to print Bishop (white upperca
         case black:  // if the piece is black, it will be a lowercase b
             os << "b";  // print lowercase b
             break;  // end logic for black bishops
-    }
+    }  // end logic of switch statement
 }
 
 Rook::Rook(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
