@@ -485,7 +485,7 @@ void Bishop::print(std::ostream& os) {  // method to print Bishop (white upperca
     }  // end logic of switch statement
 }  // end of Bishop print method
 
-Rook::Rook(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
+Rook::Rook(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Rook objects (inherits Piece)
 Rook::Rook(pieceType type, playerColor color, row row, col col) : Rook(type, color, {row, col}) {}
 
 void Rook::print(std::ostream& os) {
