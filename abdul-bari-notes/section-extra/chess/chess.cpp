@@ -489,7 +489,7 @@ Rook::Rook(pieceType type, playerColor color, square s) : Piece(type, color, s) 
 Rook::Rook(pieceType type, playerColor color, row row, col col) : Rook(type, color, {row, col}) {}  // second constructor for Rooks
 
 void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, black lowercase)
-    switch(color) {
+    switch(color) {  // determine whether to print in caps or lowercase
         case white:
             os << "R";
             break;
