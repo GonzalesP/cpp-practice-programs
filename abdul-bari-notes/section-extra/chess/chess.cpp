@@ -488,7 +488,7 @@ void Bishop::print(std::ostream& os) {  // method to print Bishop (white upperca
 Rook::Rook(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Rook objects (inherits Piece)
 Rook::Rook(pieceType type, playerColor color, row row, col col) : Rook(type, color, {row, col}) {}  // second constructor for Rooks
 
-void Rook::print(std::ostream& os) {
+void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, black lowercase)
     switch(color) {
         case white:
             os << "R";
