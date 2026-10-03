@@ -491,7 +491,7 @@ Rook::Rook(pieceType type, playerColor color, row row, col col) : Rook(type, col
 void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, black lowercase)
     switch(color) {  // determine whether to print in caps or lowercase
         case white:  // if the piece is white, it will be a capital R
-            os << "R";
+            os << "R";  // print capital R
             break;
         case black:
             os << "r";
