@@ -492,7 +492,7 @@ void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, 
     switch(color) {  // determine whether to print in caps or lowercase
         case white:  // if the piece is white, it will be a capital R
             os << "R";  // print capital R
-            break;
+            break;  // end logic forn white rooks
         case black:
             os << "r";
             break;
