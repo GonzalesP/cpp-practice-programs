@@ -494,7 +494,7 @@ void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, 
             os << "R";  // print capital R
             break;  // end logic forn white rooks
         case black:  // if the piece is black, it will be a lowercase r
-            os << "r";
+            os << "r";  // print lowercase r
             break;
     }
 }
