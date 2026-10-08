@@ -496,7 +496,7 @@ void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, 
         case black:  // if the piece is black, it will be a lowercase r
             os << "r";  // print lowercase r
             break;  // end logic for black rooks
-    }
+    }  // end logic of switch statement
 }
 
 Queen::Queen(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
