@@ -499,7 +499,7 @@ void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, 
     }  // end logic of switch statement
 }  // end of Rook print method
 
-Queen::Queen(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
+Queen::Queen(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Queen objects (inherits Piece)
 Queen::Queen(pieceType type, playerColor color, row row, col col) : Queen(type, color, {row, col}) {}
 
 void Queen::print(std::ostream& os) {
