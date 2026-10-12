@@ -502,7 +502,7 @@ void Rook::print(std::ostream& os) {  // method to print Rook (white uppercase, 
 Queen::Queen(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for Queen objects (inherits Piece)
 Queen::Queen(pieceType type, playerColor color, row row, col col) : Queen(type, color, {row, col}) {}  // second constructor for Queens
 
-void Queen::print(std::ostream& os) {
+void Queen::print(std::ostream& os) {  // method to print Queen (white uppercase, black lowercase)
     switch(color) {
         case white:
             os << "Q";
