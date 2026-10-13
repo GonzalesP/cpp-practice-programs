@@ -503,7 +503,7 @@ Queen::Queen(pieceType type, playerColor color, square s) : Piece(type, color, s
 Queen::Queen(pieceType type, playerColor color, row row, col col) : Queen(type, color, {row, col}) {}  // second constructor for Queens
 
 void Queen::print(std::ostream& os) {  // method to print Queen (white uppercase, black lowercase)
-    switch(color) {
+    switch(color) {  // determine whether to print in caps or lowercase
         case white:
             os << "Q";
             break;
