@@ -505,7 +505,7 @@ Queen::Queen(pieceType type, playerColor color, row row, col col) : Queen(type, 
 void Queen::print(std::ostream& os) {  // method to print Queen (white uppercase, black lowercase)
     switch(color) {  // determine whether to print in caps or lowercase
         case white:  // if the piece is white, it will be a capital Q
-            os << "Q";
+            os << "Q";  // print capital Q
             break;
         case black:
             os << "q";
