@@ -508,7 +508,7 @@ void Queen::print(std::ostream& os) {  // method to print Queen (white uppercase
             os << "Q";  // print capital Q
             break;  // end logic for white queens
         case black:  // if the piece is black, it will be a lowercase q
-            os << "q";
+            os << "q";  // print lowercase q
             break;
     }
 }
