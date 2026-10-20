@@ -510,7 +510,7 @@ void Queen::print(std::ostream& os) {  // method to print Queen (white uppercase
         case black:  // if the piece is black, it will be a lowercase q
             os << "q";  // print lowercase q
             break;  // end logic for black queens
-    }
+    }  // end logic of switch statement
 }
 
 King::King(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
