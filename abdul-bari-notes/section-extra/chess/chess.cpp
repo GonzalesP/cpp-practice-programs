@@ -513,7 +513,7 @@ void Queen::print(std::ostream& os) {  // method to print Queen (white uppercase
     }  // end logic of switch statement
 }  // end of Queen print method
 
-King::King(pieceType type, playerColor color, square s) : Piece(type, color, s) {}
+King::King(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for King objects (inherits Piece)
 King::King(pieceType type, playerColor color, row row, col col) : King(type, color, {row, col}) {}
 
 void King::print(std::ostream& os) {
