@@ -514,7 +514,7 @@ void Queen::print(std::ostream& os) {  // method to print Queen (white uppercase
 }  // end of Queen print method
 
 King::King(pieceType type, playerColor color, square s) : Piece(type, color, s) {}  // constructor for King objects (inherits Piece)
-King::King(pieceType type, playerColor color, row row, col col) : King(type, color, {row, col}) {}
+King::King(pieceType type, playerColor color, row row, col col) : King(type, color, {row, col}) {}  // second constructor for Kings
 
 void King::print(std::ostream& os) {
     switch(color) {
