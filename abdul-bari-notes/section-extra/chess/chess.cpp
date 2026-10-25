@@ -517,7 +517,7 @@ King::King(pieceType type, playerColor color, square s) : Piece(type, color, s) 
 King::King(pieceType type, playerColor color, row row, col col) : King(type, color, {row, col}) {}  // second constructor for Kings
 
 void King::print(std::ostream& os) {  // method to print King (white uppercase, black lowercase)
-    switch(color) {
+    switch(color) {  // determine whether to print in caps or lowercase
         case white:
             os << "K";
             break;
