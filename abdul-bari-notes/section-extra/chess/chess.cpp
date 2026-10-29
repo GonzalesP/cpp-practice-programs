@@ -522,7 +522,7 @@ void King::print(std::ostream& os) {  // method to print King (white uppercase, 
             os << "K";  // print capital K
             break;  // end logic for white kings
         case black:  // if the piece is black, it will be a lowercase k
-            os << "k";
+            os << "k";  // print lowercase k
             break;
     }
 }
