@@ -525,7 +525,7 @@ void King::print(std::ostream& os) {  // method to print King (white uppercase, 
             os << "k";  // print lowercase k
             break;  // end logic for black kings
     }  // end logic of switch statement
-}
+}  // end of King print method
 
 
 // Move methods
