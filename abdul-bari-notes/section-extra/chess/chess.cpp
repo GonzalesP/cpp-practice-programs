@@ -524,7 +524,7 @@ void King::print(std::ostream& os) {  // method to print King (white uppercase, 
         case black:  // if the piece is black, it will be a lowercase k
             os << "k";  // print lowercase k
             break;  // end logic for black kings
-    }
+    }  // end logic of switch statement
 }
 
 
