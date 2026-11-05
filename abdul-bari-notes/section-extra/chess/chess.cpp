@@ -531,7 +531,7 @@ void King::print(std::ostream& os) {  // method to print King (white uppercase, 
 // Move methods
 Move::Move(moveType type, square start, square end) {  // constructor for move objects
     this->type = type;  // take in type parameter
-    this->start = start;
+    this->start = start;  // take in start parameter
     this->end = end;
 }
 
