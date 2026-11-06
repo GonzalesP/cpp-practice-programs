@@ -535,7 +535,7 @@ Move::Move(moveType type, square start, square end) {  // constructor for move o
     this->end = end;  // take in end parameter
 }
 
-std::ostream& operator<<(std::ostream& os, Move& m) {
+std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
     switch (m.type) {
         case position:
             os << "{position, ";
