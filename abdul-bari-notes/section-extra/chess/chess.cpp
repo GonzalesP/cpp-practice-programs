@@ -539,7 +539,7 @@ std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
     switch (m.type) {  // print type of move using switch statement
         case position:  // if the move is a position move, print 'position'
             os << "{position, ";  // print 'position' for the move type
-            break;
+            break;  // end logic for position moves
         case capture:
             os << "{capture, ";
             break;
