@@ -540,7 +540,7 @@ std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
         case position:  // if the move is a position move, print 'position'
             os << "{position, ";  // print 'position' for the move type
             break;  // end logic for position moves
-        case capture:
+        case capture:  // if the move is a capture move, print 'capture'
             os << "{capture, ";
             break;
         case enPassant:
