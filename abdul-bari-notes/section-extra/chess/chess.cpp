@@ -545,7 +545,7 @@ std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
             break;  // end logic for capture moves
         case enPassant:  // if the move is an en passant, print 'en passant'
             os << "{enPassant, ";  // print 'enPassant' for the move type
-            break;
+            break;  // end logic for en passant moves
         case kingsideCastle:
             os << "{kingsideCastle, ";
             break;
