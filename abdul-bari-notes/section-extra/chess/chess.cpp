@@ -550,7 +550,7 @@ std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
             os << "{kingsideCastle, ";  // print 'kingsideCastle' for the move type
             break;  // end logic for kingside castle moves
         case queensideCastle:  // if the move is a queenside castle, print 'queenside castle'
-            os << "{queensideCastle, ";
+            os << "{queensideCastle, ";  // print 'queensideCastle' for the move type
             break;
     }
     os << m.start << ", " << m.end << "}";
