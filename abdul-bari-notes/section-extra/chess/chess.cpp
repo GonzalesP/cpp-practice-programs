@@ -554,7 +554,7 @@ std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
             break;  // end logic for queenside castle moves
     }  // end logic of switch statement
     os << m.start << ", " << m.end << "}";  // print move coordinates
-    return os;
+    return os;  // return the ostream for reuse
 }
 
 
