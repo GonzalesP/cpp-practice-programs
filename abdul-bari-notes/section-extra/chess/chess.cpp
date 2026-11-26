@@ -555,7 +555,7 @@ std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
     }  // end logic of switch statement
     os << m.start << ", " << m.end << "}";  // print move coordinates
     return os;  // return the ostream for reuse
-}
+}  // end of printing method for Moves
 
 
 // Board methods
