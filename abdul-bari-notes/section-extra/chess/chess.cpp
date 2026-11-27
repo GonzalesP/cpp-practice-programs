@@ -559,7 +559,7 @@ std::ostream& operator<<(std::ostream& os, Move& m) {  // method to print Moves
 
 
 // Board methods
-ChessBoard::ChessBoard() {  // used when creating a brand new board (game first starts)
+ChessBoard::ChessBoard() {  // constructor for ChessBoard - used when creating a brand new board (game first starts)
     // fill board + whitePieces + blackPieces
     initializeBoard();
 
